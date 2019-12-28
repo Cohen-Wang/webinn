@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+
+        <script>
+
+            function * show () {
+                yield 'hello';
+                yield 'world';
+                return 'ending';
+            }
+
+            let a = show();
+
+            console.log(a.next());
+            console.log(a.next());
+            console.log(a.next());
+
+
+            async function show2 () {
+                return await 'hello';
+            }
+
+            show2().then(res => {
+                console.log(res);
+            });
+
+
+            async function getJSON () {
+                return await
+            }
+
+
+
+
+        </script>
+    </body>
+</html>

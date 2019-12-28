@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>openShow</title>
+        <style>
+            * {margin: 0; padding: 0}
+            html {height: 100%;}
+            body {height: 100%; overflow: hidden;}
+        </style>
+    </head>
+    <body>
+        <audio autoplay>
+            <source src="open-show.mp3" type="audio/mp3">
+        </audio>
+
+        <canvas id="canvas" style="width: 100%; height: 100%; background-color: #0f0f0f"></canvas>
+
+
+        <script src="openShow.js"></script>
+        <script>
+            /**
+             * 用于显示的canvas
+             */
+            let can = document.getElementById("canvas");
+            let ctx = can.getContext("2d");
+            can.width = can.clientWidth;
+            can.height = can.clientHeight;
+
+
+            /**
+             * 获取一张图片的信息
+             * @param options
+             *      oImg
+             *      width
+             *      height
+             */
+            function _getImageData (options) {
+                let oImg = options.oImg;
+                let width = options.width || 400;
+                let height = options.height;// 没有默认值
+                // 创建canvas，虚拟的，不用显示的
+                let can = document.createElement('canvas');
+                let ctx = can.getContext('2d');
+                can.width = width;
+                can.height = height || can.width * oImg.naturalHeight / oImg.naturalWidth;
+                //
+                ctx.drawImage(oImg, 0, 0, oImg.naturalWidth, oImg.naturalHeight, 0, 0, can.width, can.height);
+                // 获取结果
+                return ctx.getImageData(0, 0, can.width, can.height);
+            }
+
+
+            let oImg = new Image();
+            oImg.src = 'tiefan.png';
+            oImg.onload = function () {
+                let options = {
+                    oImg: this,
+                    width: 350,
+                };
+                let imageData = _getImageData(options);
+                //
+                let width = imageData.width;
+                let height = imageData.height;
+                start(imageData, width, height);
+            };
+
+
+
+
+
+
+
+            function start (imageData, width, height) {
+                let startX = (can.width - width) / 2;// 图形位置的X
+                let startY = (can.height - height) / 2;// 图形位置的Y
+                /**
+                 * 创建 镭射线
+                 */
+                let rays = [];
+                for (var i = 0; i < imageData.data.length; i += 4) {
+                    let num     = i / 4;// 每4个值，代表一个像素
+                    let opacity = imageData.data[i + 3];
+                    //
+                    if (opacity >= 200) {// 透明度判断
+                        let x = num % width + startX;
+                        let y = ~~(num / width) + startY;
+
+                        if (x % 2 && y % 2) {
+                            rays.push(new cyber.Ray( x, y, width, height));
+                        }
+                    }
+                }
+
+                /**
+                 * 重新 写字的 canvas
+                 */
+                let bufferCan = document.createElement("canvas");
+                let bufferCtx = bufferCan.getContext("2d");
+                bufferCan.width = width;
+                bufferCan.height = height;
+
+
+
+                //
+                let showHeight = startY;
+                //
+                let rayColor1 = "#abcdef";
+                let rayColor2 = "#1278de";
+                let gradient = ctx.createRadialGradient(can.width / 2, can.height / 2, 0, can.width / 2, can.height / 2, width);
+                gradient.addColorStop(0, rayColor1);
+                gradient.addColorStop(1, rayColor2);
+
+                // 执行
+                (function v () {
+                    showHeight += 6;
+                    showHeight = Math.min(showHeight, height + startY);
+                    // 清空
+                    ctx.clearRect(0, 0, can.width, can.height);
+                    // 画图
+                    ctx.drawImage(bufferCan, 0, 0, showHeight, bufferCan.height, startX, startY, showHeight, bufferCan.height);// 画的是文字
+                    // 画镭射线
+                    ctx.save();
+                    ctx.strokeStyle = gradient;
+                    ctx.globalAlpha = .2;// 镭射线的颜色
+                    ctx.globalCompositeOperation = "lighter";
+                    ctx.beginPath();
+                    for (let i = 0; i < rays.length; i++) {
+                        if (rays[i].y < showHeight) {
+                            if (rays[i].h >= 0) {
+                                rays[i].render(ctx);
+                                rays[i].update();
+                            } else {
+                                bufferCtx.fillStyle = '#abcdef';
+                                bufferCtx.fillRect(rays[i].x - startX, rays[i].y - startY, 1, 1);
+                            }
+                        }
+                    }
+                    ctx.stroke();
+                    ctx.restore();
+                    //
+                    window.requestAnimationFrame(v);
+                }());
+            }
+
+        </script>
+    </body>
+</html>

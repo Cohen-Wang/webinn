@@ -1,0 +1,55 @@
+
+plug_4002.png
+size: 256,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+black
+  rotate: false
+  xy: 90, 7
+  size: 24, 13
+  orig: 24, 13
+  offset: 0, 0
+  index: -1
+botlight
+  rotate: false
+  xy: 118, 24
+  size: 17, 18
+  orig: 17, 18
+  offset: 0, 0
+  index: -1
+frontlight01
+  rotate: false
+  xy: 95, 22
+  size: 21, 40
+  orig: 21, 40
+  offset: 0, 0
+  index: -1
+frontlight02
+  rotate: false
+  xy: 67, 22
+  size: 26, 40
+  orig: 26, 40
+  offset: 0, 0
+  index: -1
+item
+  rotate: false
+  xy: 0, 6
+  size: 65, 56
+  orig: 65, 56
+  offset: 0, 0
+  index: -1
+switch
+  rotate: true
+  xy: 67, 0
+  size: 20, 21
+  orig: 20, 21
+  offset: 0, 0
+  index: -1
+toplight
+  rotate: false
+  xy: 118, 44
+  size: 30, 18
+  orig: 30, 18
+  offset: 0, 0
+  index: -1

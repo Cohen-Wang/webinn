@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="../../../res/images/logo/logo_16x16.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="../../../res/images/logo/logo_16x16.png" type="image/x-icon"/>
+        <title>threeDimensionalRotate</title>
+        <style>
+            *{margin:0;padding: 0}
+            html{height:100%}
+            body{height:100%;min-height:900px;overflow: hidden;}
+        </style>
+    </head>
+    <body id="body">
+
+
+
+
+
+        <script src="https://cdn.bootcss.com/stats.js/16/Stats.js"></script>
+        <script>
+            /*************************************
+             * Author : Cohen_Wang
+             * Date : 2018 - 10 - 29
+             */
+
+            (function (namespace) {
+
+                let __extend = function (_child, _super) {
+                    for (let p in _super.prototype) {
+                        if (_super.prototype.hasOwnProperty(p)) {
+                            _child.prototype[p] = _super.prototype[p];
+                        }
+                    }
+                };
+
+                let Canvas = (function () {
+                    // 构造
+                    function Canvas (id) {
+                        this.id = id;
+                        this.createCanvas();
+                    }
+                    // 创建canvas
+                    Canvas.prototype.createCanvas = function () {
+                        this.oContainer = document.getElementById(this.id);
+
+                        this.can = document.createElement('canvas');
+                        this.ctx = this.can.getContext('2d');
+
+                        this.can.width = this.oContainer.offsetWidth;
+                        this.can.height = this.oContainer.offsetHeight;
+
+                        this.oContainer.appendChild(this.can);
+                    };
+                    return Canvas;
+                }) ();
+
+
+                let Point = (function () {
+                    function Point (x, y, z) {
+                        this.x = x;
+                        this.y = y;
+                        this.z = z;
+                    }
+                    return Point;
+                }) ();
+
+
+                let threeDimensionalRotate = (function () {
+                    // 构造
+                    function threeDimensionalRotate (id) {
+                        Canvas.call(this, id);
+                        // 变量
+                        this.num = 50;
+
+                        this.center = new Point(this.can.width/2, this.can.height/2, 0);
+                        // let points = [];
+                        this.xCount = 20; // x 方向的点数
+                        this.zCount = 20; // z 方向的点数
+                        this.step = this.can.width / this.xCount; // x 方向点之间的间隔
+                        this.circlePointCount = 12;
+                        this.angelStep = Math.PI * 2 / this.circlePointCount;
+                        this.radius = 8;// 圆的半径
+
+                        this.points = this.createPoints();
+                        // 定时器
+                        this.start();
+                    }
+                    // 继承
+                    __extend(threeDimensionalRotate, Canvas);
+                    //
+                    threeDimensionalRotate.prototype.createPoints = function () {
+                        let points = [];
+                        for (let i = -(this.xCount - 1) / 2; i <= (this.xCount - 1) / 2; i++) {
+                            for (let j = -(this.zCount - 1) / 2; j <= (this.zCount - 1) / 2; j++) {
+                                let x = i;
+                                let z = j;
+                                let y = 0;
+
+                                points.push(
+                                    new Point((x + this.xCount/2) * this.step, this.can.height + 1, z * this.step)
+                                );
+                            }
+                        }
+                        return points;
+                    };
+                    //
+                    threeDimensionalRotate.prototype.update = function (angelOffset) {
+                        points = [];
+                        for (let i = -this.radius; i <= this.radius; i++) {
+                            let y = i;
+                            for (let j = 0; j < this.circlePointCount; j++) {
+                                let xzRadius = Math.sqrt(this.radius * this.radius - y * y);
+                                let xzAngel = j * this.angelStep + angelOffset;
+                                let x = xzRadius * Math.cos(xzAngel);
+                                let z = xzRadius * Math.sin(xzAngel);
+                                // console.log(x,y,z);
+                                points.push(
+                                    new Point(
+                                        x * this.step + this.can.width/2,
+                                        y * this.step + this.can.height/2,
+                                        z * this.step - this.can.width/2
+                                    )
+                                );
+                            }
+                        }
+                    };
+                    // 根据 perspective和z获取三维坐标对应二维坐标的xy缩放值
+                    threeDimensionalRotate.prototype.getScaleByZ = function (z, p = 600) {
+                        return  (z > p) ? Infinity : p / (-z + p);
+                    };
+                    //
+                    threeDimensionalRotate.prototype.draw = function () {
+                        let rectWidth = 10;
+                        for (let i = 0; i < points.length; i++) {
+                            let scale = this.getScaleByZ(points[i].z);
+                            let drawX = this.center.x + (points[i].x - this.center.x) * scale;
+                            let drawY = this.center.y + (points[i].y - this.center.y) * scale;
+                            let drawWidth = rectWidth * scale;
+                            // 画
+                            this.drawRect(drawX, drawY, drawWidth, drawWidth);
+                        }
+                    };
+                    //
+                    threeDimensionalRotate.prototype.drawRect = function (x, y, w, h, color) {
+                        color = color || '#abcdef';
+                        this.ctx.beginPath();
+                        this.ctx.fillStyle = color;
+                        this.ctx.fillRect(x, y, w, h);
+                        this.ctx.closePath();
+                    };
+                    // 开始
+                    threeDimensionalRotate.prototype.start = function () {
+                        let angelOffset = 0;
+                        let _this = this;
+                        go();
+                        function go () {
+                            _this.update(angelOffset += 0.002);
+                            _this.ctx.clearRect(0, 0, _this.can.width, _this.can.height);
+                            _this.draw();
+
+                            window.requestAnimationFrame(go);
+                        }
+                    };
+                    return threeDimensionalRotate;
+                }) ();
+                namespace.threeDimensionalRotate = threeDimensionalRotate;
+
+            }) (window.cyber || (cyber = Object.create(null)));
+
+        </script>
+
+
+
+        <script>
+
+            let a = new cyber.threeDimensionalRotate('body');
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,31 @@
+{
+    "men" : [
+        {
+            "height" : "203cm",
+            "age" : 40
+        },
+        {
+            "height" : "211cm",
+            "age" : 45
+        },
+        {
+            "height" : "163cm",
+            "age" : 32
+        }
+
+    ],
+    "women" : [
+        {
+            "height" : "183cm",
+            "age" : 33
+        },
+        {
+            "height" : "183cm",
+            "age" : 33
+        },
+        {
+            "height" : "183cm",
+            "age" : 33
+        }
+    ]
+}

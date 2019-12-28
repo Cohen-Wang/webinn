@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>bootstrap-datetimepicker</title>
+        <link rel="stylesheet" href="../css/lib/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/lib/bootstrap-datetimepicker.css">
+    </head>
+    <body>
+
+        <!--导航 S-->
+        <div class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <strong><a href="javascript:void(0);" class="navbar-brand"> Cyber </a></strong>
+                </div>
+            </div>
+        </div>
+        <!--导航 E-->
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div>
+                        <input size="16" type="text" value="" class="form_datetime">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <script type="text/javascript" src="../js/lib/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="../js/lib/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../js/lib/moment.min.js"></script>
+        <script type="text/javascript" src="../js/lib/bootstrap-datetimepicker.min.js"></script>
+
+        <script type="text/javascript">
+            //日期插件
+            $(".form_datetime").datetimepicker({
+                format: 'yyyy-mm-dd hh:ii',//显示格式
+                //todayHighlight: 1,//今天高亮
+                //minView: "month",//设置只显示到月份
+                //startView:2,
+                //forceParse: 0,
+                //: 1,
+                //autoclose: 1//选择后自动关闭
+            });
+        </script>
+    </body>
+</html>

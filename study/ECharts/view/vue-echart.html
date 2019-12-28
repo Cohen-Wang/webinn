@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" href="../../../css/lib/bootstrap.min.css">
+        <style>
+            body{
+                padding-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="box">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-default btn-block btn-lg">点击</button>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="pox" style="height: 400px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="../../../js/lib/vue.min.js"></script>
+        <script src="../../../js/lib/echarts.min.js"></script>
+        <script>
+            let vm = new Vue({
+                el : '#box',
+                methods : {
+                    getRetention : function () {
+                        let myChart = echarts.init(document.getElementById('pox'));
+                        let option = {
+                            xAxis: {
+                                type: 'category',
+                                position: 'bottom',// 放在什么位置，默认：'bottom'
+                                offset: 0,
+                                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                            },
+                            yAxis: {
+                                type: 'value',
+                            },
+                            series: [{
+                                name:'最高气温',
+                                type: 'line',
+                                color : ['green'],
+                                data: [820, 932, 901, 934, 1290, 1330, 1320],
+                            }]
+                        };
+                        myChart.setOption(option);
+                    },
+                },
+
+                // TODO mounted 是关键
+                mounted : function () {
+                    this.getRetention();
+
+                    //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
+                    window.addEventListener('resize',function() {myChart.resize()});
+                }
+            });
+
+        </script>
+    </body>
+</html>

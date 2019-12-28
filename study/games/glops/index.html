@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>消消乐</title>
+
+        <style>
+            *{margin:0;padding: 0}
+        </style>
+    </head>
+    <body>
+
+        <canvas id="canvas" style="background-color: aliceblue;">您的浏览器不致残canvas！</canvas>
+
+        <script src="./js/lib/underscore-min.js"></script>
+        <script src="./js/app/Game.class.js"></script>
+        <script src="./js/app/Block.class.js"></script>
+        <script>
+
+            let game = new Game({
+                id : "canvas",
+                config : "./config/glops.config.json",
+            });
+
+        </script>
+    </body>
+</html>

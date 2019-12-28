@@ -1,0 +1,76 @@
+
+plug_4011.png
+size: 256,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+buff01
+  rotate: false
+  xy: 116, 13
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+buff02
+  rotate: true
+  xy: 116, 45
+  size: 14, 63
+  orig: 14, 63
+  offset: 0, 0
+  index: -1
+idle_light
+  rotate: false
+  xy: 78, 14
+  size: 36, 45
+  orig: 36, 45
+  offset: 0, 0
+  index: -1
+item
+  rotate: false
+  xy: 0, 1
+  size: 76, 58
+  orig: 76, 58
+  offset: 0, 0
+  index: -1
+light01
+  rotate: false
+  xy: 78, 0
+  size: 14, 12
+  orig: 14, 12
+  offset: 0, 0
+  index: -1
+light02
+  rotate: false
+  xy: 94, 0
+  size: 14, 12
+  orig: 14, 12
+  offset: 0, 0
+  index: -1
+light03
+  rotate: false
+  xy: 232, 46
+  size: 14, 13
+  orig: 14, 13
+  offset: 0, 0
+  index: -1
+plus
+  rotate: true
+  xy: 207, 39
+  size: 20, 23
+  orig: 20, 23
+  offset: 0, 0
+  index: -1
+plus_light
+  rotate: false
+  xy: 148, 13
+  size: 26, 30
+  orig: 26, 30
+  offset: 0, 0
+  index: -1
+toplight
+  rotate: false
+  xy: 181, 41
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1

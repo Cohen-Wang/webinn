@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>观察者模式</title>
+    </head>
+    <body>
+
+        <script>
+
+            /**
+             * 观察者模式要素
+             * 1.消息的发布者
+             * 2.可以让别人订阅你的消息
+             * 3.可以发布消息
+             */
+            let lk = {
+                // 1.1 用户群体
+                targetActions: [],
+                // 1.2 添加用户
+                addUsers: function (target, action) {
+                    let obj = {
+                        target: target,
+                        action: action,
+                    };
+                    this.targetActions.push(obj);
+                },
+
+                publicMsg: function () {
+                    for (let i = 0, len = this.targetActions.length; i < len; i++) {
+                        let obj = this.targetActions[i];
+                        let target = obj.target;
+                        let action = obj.action;
+                        //
+                        action.call(target, '明天周末了');
+                    }
+                },
+            };
+
+
+            function show (str) {
+                console.log('已推送', this.name, str);
+            }
+
+            let stu1 = {name: 'cohen'};
+            let stu2 = {name: 'james'};
+
+            lk.addUsers(stu1, show);
+            lk.addUsers(stu2, show);
+
+            // 开始广播
+            lk.publicMsg();
+
+
+        </script>
+    </body>
+</html>

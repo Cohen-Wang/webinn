@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+
+        <form id="myForm" action="" method="post">
+            <input type="text" name="name" value="cohen">名字
+            <input type="password" name="psw" value="qqqqqqqq">密码
+            <input type="file" name="pic">上传图片
+            <input type="submit" value="提交">
+        </form>
+
+        <script>
+
+            //方法示例
+            // 获取页面已有的一个form表单
+            var form = document.getElementById("myForm");
+            // 用表单来初始化
+            var formData = new FormData(form);
+            console.log(formData);
+
+            // 我们可以根据name来访问表单中的字段
+            var name = formData.get("name"); // 获取名字
+            var psw = formData.get("psw"); // 获取密码
+            console.log(name, psw);
+
+            // 当然也可以在此基础上，添加其他数据
+            /**
+             * append
+             * 通过append(key, value)来添加数据，如果指定的key不存在则会新增一条数据，如果key存在，则添加到数据的末尾
+             */
+            // 如果存在的属性
+            formData.append("token","新添加的token");
+            let token = formData.get("token");
+            console.log(token);
+
+            /**
+             * getAll
+             */
+            formData.append("age","1");
+            formData.append("age","2");
+            formData.append("age","3");
+            let age = formData.getAll("age");
+            console.log(age);
+
+            /**
+             * set
+             * 设置修改数据
+             * set(key, value)来设置修改数据，如果指定的key不存在则会新增一条，如果存在，则会修改对应的value值
+             */
+            formData.append("school", "西华师范大学");
+            formData.set("school", "西华师范大学2");
+            let school = formData.getAll("school"); // ["1"]
+            console.log(school);
+
+            /**
+             * has
+             */
+            console.log(formData.has("name"));
+            console.log(formData.has("major"));
+
+            /**
+             * delete
+             * 删除数据
+             */
+            formData.append("k1", "v1");
+            formData.append("k1", "v2");
+            formData.append("k1", "v1");
+            formData.delete("k1");
+
+            console.log(formData.getAll("k2")); // []
+
+
+        </script>
+    </body>
+</html>

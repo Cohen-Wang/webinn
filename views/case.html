@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]><script>window.location.href="../error/error.html"</script><![endif]-->
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+	<meta name="keywords"content="我的博客"> 
+	<meta name="description"content="haorooms博客,html的meta总结，meta是html语言head区的一个辅助性标签。"> 
+	<link rel="shortcut icon" href="../images/logo.png" type="image/x-icon">
+	<link rel="icon" href="../images/logo.png" type="image/x-icon">
+	<title>WEB客栈-summary</title>
+	
+	<link rel="stylesheet" type="text/css" href="../css/animate.css">
+	<link rel="stylesheet" type="text/css" href="../css/lib/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/lib/bootstrap-theme.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+</head>
+
+<body>
+	﻿<nav class="navbar navbar-default navbar-static-top">
+		<div class="container">
+			<div class="navbar-header">
+				<strong>
+					<a href="index.html" class="navbar-brand"><img src="../images/nav_logo.png" class="img-responsive"/></a>
+				</strong>
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<div class="collapse navbar-collapse" id="navbar-collapse">
+				<ul class="nav navbar-nav navbar-left">
+					<li><a href="index.html"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+					<li class="dropdown">
+			          	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+			          		<span class="glyphicon glyphicon-menu-hamburger"></span> 知识 <span class="caret"></span>
+			          	</a>
+			          	<ul class="dropdown-menu">
+			            	<li><a href="javascript:void(0)" onclick="window.open('summary.html?content=html','_self')">HTML</a></li>
+			            	<li><a href="javascript:void(0)" onclick="window.open('summary.html?content=css','_self')">CSS</a></li>
+			          	</ul>
+			       	</li>
+					<li class="active"><a href="case.html" ><span class="glyphicon glyphicon-briefcase"></span> 案例 </a></li>
+			        <li class="dropdown">
+			          	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+			          		<span class="glyphicon glyphicon-gift"></span> 游戏 <span class="caret"></span>
+			          	</a>
+			          	<ul class="dropdown-menu">
+			            	<li><a href="javascript:void(0)" onclick="window.open('game.html?content=GluttonousSnake','_self')"> 贪吃蛇</a></li>
+			          	</ul>
+			        </li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+		          	<li id="login-a"><a href="#loading" data-toggle="modal" data-target="#login-modal">登录 </a></li>
+		          	<li id="member"><a href="javascript:void(0)" onclick="window.open('self.html?user=cohen','_self')"> </a></li>
+					<li id="reg-a"><a href="register.html">注册</a></li>
+					<li id="logout"><a href="javascript:void(0)">退出</a></li>
+		      	</ul>
+			</div>
+		</div>
+	</nav>
+	
+	<!--jumbotron S-->
+	<div class="jumbotron">
+		<div class="container">
+			<h1 class="jumbotron-title">客栈</h1>
+			<p class="jumbotron-text">--前端人员的天堂--</p>
+		</div>
+	</div>
+	<!--jumbotron E-->
+	
+	<div class="container">
+		<div class="row">
+			<form action="" class="form-horizontal">
+				<div class="form-group">
+			        <div class="col-md-6 col-md-offset-3">
+			            <input type="text" id="username" name="username" class="form-control" placeholder="搜索" />
+			        </div>
+				</div>
+			</form>
+			<hr />
+			
+			<ol class="breadcrumb">
+				<li><a href="index.html">首页</a></li>
+				<li class="active">案例</li>
+			</ol>
+			
+			<!--caseShow-S-->
+			<div class="col-sm-12" style="padding: 0;margin-bottom: 50px;">
+				<div class="pull-left btn-group" role="group" aria-label="...">
+					<button class="btn btn-primary active">人气 <span class="glyphicon glyphicon-sort"></span></button>
+					<button class="btn btn-primary">时间 </button>
+					<button class="btn btn-primary">难度 </button>
+				</div>
+				<div class="pull-right btn-group " role="group" aria-label="...">
+					<button class="btn btn-primary btn-popver active" data-toggle="popover" data-content="网格模式（大）" ><span class="glyphicon glyphicon-th-large"></span></button>
+					<button class="btn btn-primary btn-popver" data-toggle="popover" data-content="网格模式（小）" ><span class="glyphicon glyphicon-th"></span></button>
+					<button class="btn btn-primary btn-popver" data-toggle="popover" data-content="列表模式" ><span class="glyphicon glyphicon-th-list"></span></button>
+				</div>
+			</div>
+			<hr />
+			
+			<button id="caseUpload-btn" class="btn btn-primary" >上传文件</button>
+			<hr />
+			
+			<div id="caseShow" class="row">
+				<div class="caseShowBody" v-for="(item,index) in data">
+			    	<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="thumbnail">
+							<div class="thumbnailImg">
+								<a :href="'caseShow.html?name='+item.casefile">
+									<img :src="item.caseimage" alt="主题" />
+								</a>
+							</div>
+							<div class="caption">
+								<a :href="'caseShow.html?name='+item.casefile">
+									<h5><span class="caseShow-span">精品 </span>{{item.title}}</h5>
+								</a>
+								<div class="clearfix">
+									<p class="pull-left"  v-text="item.date"></p>
+									<p class="pull-right">
+										<a href="#"><span class="badge"><span class="glyphicon glyphicon-thumbs-up"></span>{{item.caselike}}</span></a>
+										&nbsp;&nbsp;&nbsp;
+										<a href="#"><span class="badge"><span class="glyphicon glyphicon-thumbs-down"></span>{{item.casedislike}}</span></a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			    <!--<div id="app" class="text-center">
+			        <page></page>
+			    </div>-->
+				    
+				<!--<template id="page">
+				    <ul class="pagination pagination-lg" >
+				        <li v-show="current != 1" @click="current-- && goto(current)" ><a href="javascript:void(0)">上一页</a></li>
+				        <li v-for="index in pages" @click="goto(index)" :class="{'active':current == index}" :key="index">
+				          	<a href="javascript:void(0)" >{{index}}</a>
+				        </li>
+				        <li v-show="allpage != current && allpage != 0 " @click="current++ && goto(current++)"><a href="javascript:void(0)" >下一页</a></li>
+				    </ul>
+				</template>-->
+			</div>
+		</div>
+		<!--caseShow-E-->
+		
+		
+	</div><!--container-->
+	
+	<!--logout-S-->
+	<div id="logout-modal" class="modal">
+		<div class="modal-dialog modal-sm"  style="margin:200px auto;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">是否退出登录？</h4>
+				</div>
+				<div class="modal-body text-right">
+					<button id="logout-confirm" class="btn btn-danger">确认</button>
+					<button id="logout-cancel" class="btn btn-primary">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--logout-E-->
+	<!--loading-S-->
+	<div id="loading" class="modal">
+		<div class="modal-dialog modal-sm"  style="margin:200px auto;">
+			<div class="modal-content">
+				<div class="modal-body">
+					<img src="../images/loading.gif" width="16" height="16" /><span id="load-text">提交中，请稍后 ...</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--loading-E-->
+	<!--登录框 S-->
+	<div id="login-modal" class="modal">
+		<div class="modal-dialog modal-sm"  style="margin:200px auto;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal"><span>&times;</span></button>
+					<h4 class="modal-title">登录</h4>
+				</div>
+				<div class="modal-body">
+					<form id="loginForm" action=""  method="post">
+						<div class="form-group">
+							<label for="">用户名：</label>
+							<div class="feedback">
+								<input id="loginUser" class="form-control" autofocus="autofocus" type="text" name="loginUser" placeholder="用户名 / 邮箱 / 电话" maxlength="20"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="">密码：</label>
+							<div class="feedback">
+								<input id="loginPassword" class="form-control" type="password" name="loginPassword" placeholder="密码" maxlength="20" />
+							</div>
+						</div>
+						<div class="checkbox">
+					        <label for="expire">
+					          	<input type="checkbox" name="" id="expire" value=""/> 七天之内自动登录
+					        </label>
+					   	</div>
+					   	<div class="form-group">
+					        <label for="expire"></label>
+					        <button type="submit" id="logSubmit" class="btn btn-primary btn-block" />提交</button>
+					   	</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--登录框 E-->
+	<!--上传文件 S-->
+	<div id="caseUpload-modal" class="modal">
+		<div class="modal-dialog modal-md"  style="margin:200px auto;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal"><span>&times;</span></button>
+					<h4 class="modal-title">案例上传</h4>
+				</div>
+				<div class="modal-body">
+					<form id="caseUpload-Form" action=" "  method="post">
+						<div class="form-group">
+							<label for="">案例名称：</label>
+							<div class="feedback">
+								<input id="title" class="form-control" autofocus="autofocus" type="text" name="title" placeholder="请输入案例描述，不得超过30字" maxlength="30"/>
+							</div>
+						</div>
+						<div class="form-group">
+		                    <label for="" class="control-label">封面图片：</label>
+	                        <div class="feedback">
+	                        	<div class="input-group">
+		                            <input id="caseImgCover" class="form-control" readonly type="text" placeholder="请添加封面图片，大小不得超过100kb">
+		                            <label class="input-group-btn">
+			                            <input id="caseImage" type="file" name="caseImage" style="position:absolute;">
+			                            <span class="btn btn-default span1">选择图片</span>
+		                            </label>
+		                        </div>
+	                        </div>
+		             	</div>
+		             	<div class="form-group">
+		                    <label for="" class="control-label">上传文件：</label>
+	                        <div class="feedback">
+	                        	<div class="input-group">
+		                            <input id="caseFileCover" class="form-control" readonly type="text" placeholder="请上传html文件，大小不得超过50kb">
+		                            <label class="input-group-btn">
+			                            <input id="caseFile" type="file" name="caseFile" style="position:absolute;">
+			                            <span class="btn btn-default span1">选择文件</span>
+		                            </label>
+		                        </div>
+	                        </div>
+		             	</div>
+						
+					   	<div class="form-group">
+					        <label for="expire"></label>
+					        <button type="submit" id="caseUpload-Submit" class="btn btn-primary btn-block" />提交</button>
+					   	</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--上传文件 E-->
+	<!--backTop-S-->
+	<div class="backTop"><span class="glyphicon glyphicon-open"></span></div>
+	<!--backTop-E-->
+	
+	<footer class="footer">
+	    <div class="container">
+	        <div class="row">
+	        	<p><a href="javascript:;">企业培训</a> | <a href="javascript:;">合作事宜</a> | <a href="javascript:;">版权投诉</a></p>
+	        	<p class="copyright"> 中 IPC  备1234567. &copy; 2010-2016 016,Cohen_Wang in Chengdu,China. Powerd by Bootstrap.</p>
+	        </div>
+	    </div>
+	</footer>
+	
+	<script type="text/javascript" src="../js/lib/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/lib/jquery.validate.js"></script>
+	<script type="text/javascript" src="../js/lib/jquery.form.js"></script>
+	<script type="text/javascript" src="../js/lib/jquery.cookie.js"></script>
+	<script type="text/javascript" src="../js/lib/lazyload.min.js"></script>
+	<script type="text/javascript" src="../js/lib/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../js/lib/vue.min.js"></script>
+	<script type="text/javascript" src="../js/lib/vue-resource.min.js"></script>
+	
+	<script type="text/javascript" src="../js/dist/common.js"></script>
+	<script type="text/javascript" src="../js/dist/case.js"></script>
+	
+	<script type="text/javascript" src="../data/caseShow_data.js"></script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>单例模式</title>
+    </head>
+    <body>
+
+        <script>
+
+            /**
+             * 非单例模式
+             */
+            if (!true) {
+                function Tool () {}
+
+                let t1 = new Tool();
+                let t2 = new Tool();
+                let t3 = new Tool();
+
+                console.log(t1 === t2);// false 原因：内存空间不一样
+                console.log(t1 === t3);// false 原因：内存空间不一样
+            }
+
+            /**
+             * 【全局变量】的单例模式
+             * 缺点：全局可以访问，所以可以被修改
+             */
+            if (!true) {
+                let instance = null;
+
+                function Tool (name, age) {
+                    if (instance) {
+                        return instance;
+                    }
+
+                    instance = this;
+
+                    this.name = name;
+                    this.age = age;
+                }
+
+                let t1 = new Tool('cohen', 23);
+                let t2 = new Tool('james', 33);
+                let t3 = new Tool('kobe', 43);
+
+                console.log(t1.name);// cohen 第一次赋值cohen
+
+                // 思考，假如重新赋值instance
+                // instance = {};
+
+                console.log(t2.name);// cohen 第二次，根本不会走到赋值这一步
+                console.log(t3.name);// cohen 第三次，根本不会走到赋值这一步
+
+                console.log(t1 === t2);
+                console.log(t1 === t3);
+            }
+
+            /**
+             * 【即时函数】的单例模式
+             */
+            if (!true) {
+                (function () {
+                    let instance = null;
+
+                    function Tool (name, age) {
+                        if (instance) {
+                            return instance;
+                        }
+
+                        instance = this;
+
+                        this.name = name;
+                        this.age = age;
+                    }
+
+                    // 暴露
+                    window.Tool = Tool;
+                }) ();
+
+                let t1 = new Tool('cohen', 23);
+                let t2 = new Tool('james', 33);
+                let t3 = new Tool('kobe', 43);
+
+                console.log(t1.name);
+                console.log(t2.name);
+                console.log(t3.name);
+
+                console.log(t1 === t2);
+                console.log(t1 === t3);
+            }
+
+            /**
+             * 【闭包 - 惰性函数】的单例模式
+             */
+            if (true) {
+                function Tool (name, age) {
+
+                    let instance = this;// ❤❤❤❤
+                    let oldPrototype = Tool.prototype;
+
+                    this.name = name;
+                    this.age = age;
+
+
+                    // function Tool () {
+                    //     return instance;
+                    // }
+
+                    /**
+                     * 惰性函数（函数只会被执行一次，后面直接调用）
+                     * 注意：必须用函数表达式，否则函数提升。
+                     */
+                    Tool = function () {
+                        return instance;
+                    };
+                    Tool.prototype = oldPrototype;
+                    instance = new Tool();
+                    instance.constructor = Tool;
+
+                    return instance;
+                }
+
+                let t1 = new Tool('cohen', 23);
+                let t2 = new Tool('james', 33);
+                let t3 = new Tool('kobe', 43);
+
+                console.log(t1.name);
+                console.log(t2.name);
+                console.log(t3.name);
+
+                console.log(t1 === t2);
+                console.log(t1 === t3);
+            }
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="../../../res/images/logo/logo_16x16.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="../../../res/images/logo/logo_16x16.png" type="image/x-icon"/>
+        <title>gobang</title>
+        <style>
+            *{margin:0;padding: 0}
+            html{height:100%}
+            body{height:100%;min-height:900px;overflow: hidden;}
+        </style>
+    </head>
+    <body id="body">
+
+
+
+
+
+        <script src="https://cdn.bootcss.com/stats.js/16/Stats.js"></script>
+        <script>
+            /*************************************
+             * Author : Cohen_Wang
+             * Date : 2018 - 08 - 27
+             */
+
+            (function (namespace) {
+
+                let __extend = function (_child, _super) {
+                    for (let p in _super.prototype) {
+                        if (_super.prototype.hasOwnProperty(p)) {
+                            _child.prototype[p] = _super.prototype[p];
+                        }
+                    }
+                };
+
+                let Canvas = (function () {
+                    // 构造
+                    function Canvas (id) {
+                        this.id = id;
+                        this.createCanvas();
+                    }
+                    // 创建canvas
+                    Canvas.prototype.createCanvas = function () {
+                        this.oContainer = document.getElementById(this.id);
+
+                        this.can = document.createElement('canvas');
+                        this.ctx = this.can.getContext('2d');
+
+                        this.can.width = this.oContainer.offsetWidth;
+                        this.can.height = this.oContainer.offsetHeight;
+
+                        this.oContainer.appendChild(this.can);
+                    };
+                    return Canvas;
+                }) ();
+
+
+
+                let Gobang = (function () {
+                    // 构造
+                    function Gobang (id, num) {
+                        Canvas.call(this, id);
+
+                        this.num = num || 25;// 定义棋盘多少条数
+                        this.chessSize = 12;// 棋子大小
+                        var x = y = 0;// 获取下棋的坐标
+                        var isRed = true;// ==true的该下红棋  否则下黑棋
+                        var color = "#000";// 棋子的颜色
+
+
+                        //棋子数组   二维数组
+                        //保存所下的棋子  0：未下；1：下红棋；2：下黑棋
+                        this.chessData = new Array(23);
+                        for (var i = 0; i < 23; i++) {
+
+                            this.chessData[i] = new Array(23);
+
+                            for (var j = 0; j < 23; j++) {
+                                this.chessData[i][j] = 0;
+                            }
+                        }
+
+
+                        this.drawChessboard();
+
+                        this.bindEvent();
+                    }
+                    // 继承
+                    __extend(Gobang, Canvas);
+                    // 绘制棋盘
+                    Gobang.prototype.drawChessboard = function () {
+                        //所下棋子在棋子数组  的位置
+                        var i, j;
+                        //绘制棋盘
+                        for (var i = 0; i < 23; i++) {
+                            this.ctx.moveTo(10, 10 + i * this.num);
+                            this.ctx.lineTo(560, 10 + i * this.num);
+                            this.ctx.moveTo(10 + i * this.num, 10);
+                            this.ctx.lineTo(10 + i * this.num, 560);
+                            this.ctx.stroke();// 画
+                        }
+                    };
+                    // 画棋子
+                    Gobang.prototype.drawChess = function (x, y) {
+                        ctx.beginPath();
+                        ctx.fillStyle = color;
+                        ctx.arc(x, y, this.chessSize, 0, Math.PI * 2, true);// 画棋子
+                        ctx.fill();
+                        ctx.closePath();
+                        if (color === "#000") {
+                            color = "#f00";
+                            chessData[i][j] = 2;// 黑棋
+                        } else {
+                            color = "#000";
+                            chessData[i][j] = 1;// 红棋
+                        }
+                    };
+                    // 绑定事件
+                    Gobang.prototype.bindEvent = function () {
+                        this.can.addEventListener("click", function (event) {
+                            let oEvent = event || window.event;
+                            console.log(oEvent);
+                            // 获取下棋的坐标
+                            i = Math.round((oEvent.x - 10) / 25);
+                            j = Math.round((oEvent.y - 10) / 25);// 边界不能下
+                            // 判断该位置x，y是否可以下棋
+                            let x = i * 25 + 10;
+                            let y = j * 25 + 10;
+                            // 判断该位置ij是否有棋子
+                            if (this.chessData[i][j] === 0) {
+                                addChess(x,y);// 下棋
+                            } else {
+                                alert("不好意思！你来晚了，已经被对方捷足先登了");
+                            }
+                        });
+                    };
+                    return Gobang;
+                }) ();
+
+                namespace.Gobang = Gobang;
+
+            }) (window.cyber || (cyber = Object.create(null)));
+
+        </script>
+
+
+
+        <script>
+
+            let a = new cyber.Gobang('body');
+
+        </script>
+    </body>
+</html>

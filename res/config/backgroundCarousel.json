@@ -1,0 +1,8 @@
+{
+	"images" : [
+		{"name" : "background_0" , "url" : "./res/images/background_0.jpg"},
+		{"name" : "background_1" , "url" : "./res/images/background_1.jpg"},
+		{"name" : "background_2" , "url" : "./res/images/background_2.jpg"},
+		{"name" : "background_3" , "url" : "./res/images/background_3.jpg"}
+	]
+}

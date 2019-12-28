@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Array.some</title>
+    </head>
+    <body>
+
+        <script>
+
+            /**
+             * array.some(function(currentValue, index, arr), thisValue)
+             *
+             * some() 方法用于检测数组中的元素是否满足指定条件（函数提供）
+             * 如果有一个元素满足条件，则表达式返回true , 剩余的元素不会再执行检测。
+             *
+             * 返回： boolean
+             * 注意： 不会改变原数组
+             */
+
+            let arr = [1, 2, 3, 4, 5];
+            let result = arr.some(function (currentValue, index, arr) {
+                console.log(currentValue, index, arr);
+                return currentValue >= 3;// 当3满足，则不会继续执行；
+            });
+            console.log(result);
+
+        </script>
+    </body>
+</html>

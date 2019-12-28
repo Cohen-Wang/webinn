@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+
+
+        <script>
+
+            /**
+             * 兼容性
+             */
+            if (true) {
+                // Only works in Chrome and FireFox, does not work in IE:
+                Object.setPrototypeOf = Object.setPrototypeOf || function(obj, proto) {
+                    obj.__proto__ = proto;
+                    return obj;
+                }
+            }
+
+            if (true) {
+                let obj = Object.create(null);
+
+                Object.setPrototypeOf(obj, {
+                    getName : function () {
+                        return 123;
+                    }
+                });
+
+                console.log(obj);
+            }
+
+        </script>
+    </body>
+</html>

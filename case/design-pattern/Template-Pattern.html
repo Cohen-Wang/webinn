@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+        <script>
+            /**
+             * 抽象类 - 饮料
+             */
+            let Beverage = function () {};
+            Beverage.prototype.first = function () {
+                throw new Error("subclass of class Beverage must have real function");
+            };
+            Beverage.prototype.second = function () {
+                throw new Error("subclass of class Beverage must have real function");
+            };
+            Beverage.prototype.third = function () {
+                throw new Error("subclass of class Beverage must have real function");
+            };
+            Beverage.prototype.init = function () {
+                this.first();
+                this.second();
+                this.third();
+            };
+
+            /**
+             * 咖啡
+             */
+            let Coffee = function () {};
+            Coffee.prototype = new Beverage();
+            Coffee.prototype.first = function () {
+                console.log('Coffee -> first');
+            };
+            Coffee.prototype.second = function () {
+                console.log('Coffee -> second');
+            };
+            Coffee.prototype.third = function () {
+                console.log('Coffee -> third');
+            };
+
+
+            let c = new Coffee();
+
+            c.init();
+
+
+
+        </script>
+    </body>
+</html>

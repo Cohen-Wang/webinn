@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>bootstrap-datepicker</title>
+        <link rel="stylesheet" href="../css/lib/bootstrap.min.css">
+    </head>
+    <body>
+
+        <!--导航 S-->
+        <div class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <strong><a href="javascript:void(0);" class="navbar-brand"> Cyber </a></strong>
+                </div>
+            </div>
+        </div>
+        <!--导航 E-->
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div>
+                        <span class="input-group date date-picker margin-bottom-10" id="StartTime">
+                            <input type="text" class="form-control form-filter" readonly name="StartTime" placeholder="从" />
+                            <span class="input-group-btn" style="width: 25%">
+                                <button type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </button>
+                            </span>
+                        </span>
+
+                        <b>到</b>
+
+                        <span class="input-group date date-picker" id="EndTime">
+                            <input type="text" class="form-control form-filter" readonly name="EndTime" placeholder="到" />
+                            <span class="input-group-btn" style="width: 25%">
+                                <button  type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </button>
+                            </span>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="../js/lib/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="../js/lib/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../js/lib/bootstrap-datepicker.js"></script>
+        <script type="text/javascript" src="../js/lib/bootstrap-datepicker.zh-CN.min.js"></script>
+        <script>
+
+            $('.date-picker').datepicker({
+                //rtl: Metronic.isRTL(),
+                language : "zh-CN",
+                autoclose : true,
+                clearBtn : true,// 清除按钮
+                todayBtn : false,// 今日按钮
+                format : "yyyy-mm-dd"
+            });
+
+        </script>
+    </body>
+</html>

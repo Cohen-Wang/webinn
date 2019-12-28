@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+
+
+        <script>
+
+
+            if (true) {
+                console.log('---------面试题--------');
+                let obj = {
+                    a : 1,
+                    b : 2,
+                };
+
+                let obj2 = Object.setPrototypeOf(obj, {c : 3});// 设置 - 原型链属性
+                let obj3 = Object.defineProperty(obj, 'd', {
+                    value : 4,
+                    enumerable : false
+                });
+
+                console.log(obj2);
+                console.log(obj3);
+            }
+
+            /**
+             * 逐一分析
+             */
+            if (true) {
+                console.log('---------Writable attribute:是否可以改变此属性的值--------');
+                let obj = {
+                    a : 1,
+                };
+
+                Object.defineProperty(obj, 'b', {
+                    value : 2,
+                    writable : false,
+                    //enumerable : false,
+                    //configurable : false,
+                });
+
+                /**
+                 * 取决于writable。
+                 * true -> 可以改变
+                 * false-> 严格模式 -> throws TypeError: "b" is read-only
+                 *      -> 非严格模式 -> No error thrown
+                 */
+                obj.a = 2;
+
+                console.log(obj);
+            }
+
+
+            if (true) {
+                console.log('---------Enumerable attribute:是否可以改变此属性的值--------');
+                let obj = {
+                    a : 1,
+                };
+
+                Object.defineProperty(obj, 'b', {
+                    value : 2,
+                    enumerable : true,
+                    //writable : false,
+                    //configurable : false,
+                });
+
+                /**
+                 * 能否遍历出b取决于enumerable属性
+                 */
+                for (let prop in obj) {
+                    console.log(prop);
+                }
+
+                console.log(obj);
+                console.log(obj.b);
+            }
+
+
+            if (true) {
+                console.log('---------Configurable attribute:是否可以改变此属性的值--------');
+                let obj = {
+                    a : 1,
+                };
+
+                Object.defineProperty(obj, 'b', {
+                    value : 2,
+                    configurable : false,
+                    //enumerable : true,
+                    //writable : false,
+                });
+
+                /**
+                 * 能否删除 b 属性，取决于 configurable 属性
+                 */
+                delete obj.b;
+
+                console.log(obj);
+                console.log(obj.b);
+            }
+
+
+            /**
+             * 默认值理解
+             */
+            if (true) {
+                var o = {};
+
+                o.a = 1;
+                // is equivalent to:
+                Object.defineProperty(o, 'a', {
+                    value: 1,
+                    writable: true,
+                    configurable: true,
+                    enumerable: true
+                });
+
+                // On the other hand,
+                Object.defineProperty(o, 'a', { value: 1 });
+                // is equivalent to:
+                Object.defineProperty(o, 'a', {
+                    value: 1,
+                    writable: false,
+                    configurable: false,
+                    enumerable: false
+                });
+            }
+
+
+
+        </script>
+    </body>
+</html>

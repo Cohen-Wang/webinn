@@ -1,0 +1,181 @@
+
+development.png
+size: 512,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+001
+  rotate: false
+  xy: 300, 818
+  size: 103, 175
+  orig: 103, 175
+  offset: 0, 0
+  index: -1
+002
+  rotate: false
+  xy: 300, 641
+  size: 103, 175
+  orig: 103, 175
+  offset: 0, 0
+  index: -1
+003
+  rotate: false
+  xy: 300, 464
+  size: 103, 175
+  orig: 103, 175
+  offset: 0, 0
+  index: -1
+004
+  rotate: false
+  xy: 300, 287
+  size: 103, 175
+  orig: 103, 175
+  offset: 0, 0
+  index: -1
+005
+  rotate: false
+  xy: 300, 110
+  size: 103, 175
+  orig: 103, 175
+  offset: 0, 0
+  index: -1
+006
+  rotate: false
+  xy: 405, 818
+  size: 103, 175
+  orig: 103, 175
+  offset: 0, 0
+  index: -1
+007
+  rotate: false
+  xy: 405, 641
+  size: 103, 175
+  orig: 103, 175
+  offset: 0, 0
+  index: -1
+008
+  rotate: false
+  xy: 405, 464
+  size: 103, 175
+  orig: 103, 175
+  offset: 0, 0
+  index: -1
+009
+  rotate: false
+  xy: 405, 287
+  size: 103, 175
+  orig: 103, 175
+  offset: 0, 0
+  index: -1
+base
+  rotate: false
+  xy: 426, 29
+  size: 23, 32
+  orig: 23, 32
+  offset: 0, 0
+  index: -1
+e01
+  rotate: false
+  xy: 0, 770
+  size: 148, 190
+  orig: 148, 190
+  offset: 0, 0
+  index: -1
+e02
+  rotate: false
+  xy: 0, 578
+  size: 148, 190
+  orig: 148, 190
+  offset: 0, 0
+  index: -1
+e03
+  rotate: false
+  xy: 0, 386
+  size: 148, 190
+  orig: 148, 190
+  offset: 0, 0
+  index: -1
+e04
+  rotate: false
+  xy: 0, 194
+  size: 148, 190
+  orig: 148, 190
+  offset: 0, 0
+  index: -1
+e05
+  rotate: false
+  xy: 0, 2
+  size: 148, 190
+  orig: 148, 190
+  offset: 0, 0
+  index: -1
+e06
+  rotate: false
+  xy: 150, 770
+  size: 148, 190
+  orig: 148, 190
+  offset: 0, 0
+  index: -1
+e07
+  rotate: false
+  xy: 150, 578
+  size: 148, 190
+  orig: 148, 190
+  offset: 0, 0
+  index: -1
+e08
+  rotate: false
+  xy: 150, 386
+  size: 148, 190
+  orig: 148, 190
+  offset: 0, 0
+  index: -1
+e09
+  rotate: false
+  xy: 150, 194
+  size: 148, 190
+  orig: 148, 190
+  offset: 0, 0
+  index: -1
+e10
+  rotate: false
+  xy: 150, 2
+  size: 148, 190
+  orig: 148, 190
+  offset: 0, 0
+  index: -1
+gun
+  rotate: false
+  xy: 300, 52
+  size: 68, 56
+  orig: 68, 56
+  offset: 0, 0
+  index: -1
+rope01
+  rotate: false
+  xy: 370, 63
+  size: 84, 45
+  orig: 84, 45
+  offset: 0, 0
+  index: -1
+rope02
+  rotate: false
+  xy: 370, 6
+  size: 54, 55
+  orig: 54, 55
+  offset: 0, 0
+  index: -1
+top
+  rotate: false
+  xy: 0, 962
+  size: 163, 31
+  orig: 163, 31
+  offset: 0, 0
+  index: -1
+topcover
+  rotate: false
+  xy: 300, 0
+  size: 46, 50
+  orig: 46, 50
+  offset: 0, 0
+  index: -1

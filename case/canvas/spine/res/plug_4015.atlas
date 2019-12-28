@@ -1,0 +1,76 @@
+
+plug_4015.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+as
+  rotate: true
+  xy: 87, 57
+  size: 14, 19
+  orig: 14, 19
+  offset: 0, 0
+  index: -1
+black
+  rotate: false
+  xy: 111, 100
+  size: 10, 12
+  orig: 10, 12
+  offset: 0, 0
+  index: -1
+item
+  rotate: false
+  xy: 0, 59
+  size: 85, 67
+  orig: 85, 67
+  offset: 0, 0
+  index: -1
+light01
+  rotate: true
+  xy: 87, 73
+  size: 24, 20
+  orig: 24, 20
+  offset: 0, 0
+  index: -1
+light01_1
+  rotate: false
+  xy: 0, 30
+  size: 30, 27
+  orig: 30, 27
+  offset: 0, 0
+  index: -1
+light02
+  rotate: false
+  xy: 0, 0
+  size: 20, 28
+  orig: 20, 28
+  offset: 0, 0
+  index: -1
+light02_01
+  rotate: false
+  xy: 32, 31
+  size: 22, 26
+  orig: 22, 26
+  offset: 0, 0
+  index: -1
+light03
+  rotate: false
+  xy: 87, 99
+  size: 22, 27
+  orig: 22, 27
+  offset: 0, 0
+  index: -1
+light03_01
+  rotate: false
+  xy: 56, 33
+  size: 23, 24
+  orig: 23, 24
+  offset: 0, 0
+  index: -1
+light04
+  rotate: false
+  xy: 111, 114
+  size: 15, 12
+  orig: 15, 12
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="./res/images/ico/logo_16x16.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="./res/images/ico/logo_16x16.ico" type="image/x-icon"/>
+        <title>原生JS复制</title>
+    </head>
+    <body>
+
+
+        <input type="text" id="copyVal" readonly value="被复制内容" />
+
+        <button class="copyBtn">点击复制</button>
+
+        <input type="text">
+
+        <script>
+
+            document.getElementById('copyVal').focus();
+            document.getElementById('copyVal').select();
+            //document.execCommand('copy', false, null);
+
+
+            document.getElementsByClassName('copyBtn')[0].onclick = function () {
+                console.log('start');
+
+                document.getElementById('copyVal').select();
+
+                document.execCommand('copy', false, null);
+
+                // try {
+                //     if (document.execCommand('copy', false, null)) {
+                //         console.log("doSomething...");// success info
+                //     } else {
+                //         console.log("doSomething...");// fail info
+                //     }
+                // } catch (err) {
+                //     console.log("doSomething...");// fail info
+                // }
+            }
+
+        </script>
+    </body>
+</html>

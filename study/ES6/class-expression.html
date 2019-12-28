@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+
+        <script>
+
+            let a = '123';
+            var aa = '321';
+
+            /**
+             * 类 ---- 表达式
+             */
+            const myClass = class Person {
+                constructor (name, age) {
+                    this.name = name;
+                    this.age = age;
+                }
+
+                showName () {
+
+
+                }
+            };
+
+            let p = new myClass('cohen', 23);
+
+            console.log(p.name);
+            console.log(p.age);
+            console.log(myClass.name);
+        </script>
+    </body>
+</html>

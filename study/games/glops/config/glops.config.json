@@ -1,0 +1,11 @@
+{
+    "images" : [
+        {"name" : "bg", "src" : "./images/bg.jpg"},
+        {"name" : "i_01", "src" : "./images/i_01.png"},
+        {"name" : "i_02", "src" : "./images/i_02.png"},
+        {"name" : "i_03", "src" : "./images/i_03.png"},
+        {"name" : "i_04", "src" : "./images/i_04.png"},
+        {"name" : "i_05", "src" : "./images/i_05.png"},
+        {"name" : "bomb", "src" : "./images/bomb.png"}
+    ]
+}

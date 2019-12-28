@@ -1,0 +1,116 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>MVC-Pattern</title>
+        <link rel="stylesheet" href="./css/lib/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/lib/bootstrap-theme.min.css">
+        <style>
+            body{padding-top: 50px;}
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label>选择:</label>
+                            <select class="form-control" id="mySelect">
+                                <option value="叶小钗">叶小钗</option>
+                                <option value="一页书">一页书</option>
+                                <option value="素还真">素还真</option>
+                            </select>
+                        </div>
+                        <p class="lead"><b id="end">暂无内容...</b></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="./js/lib/jquery.min.js"></script>
+        <script src="./js/lib/bootstrap.min.js"></script>
+        <script>
+
+            /**
+             * 笨办法
+             */
+            // var end = $('#end');
+            // $('#mySelect').change(function () {
+            //
+            //     var result = '';
+            //     var value = $(this).val();
+            //
+            //     // modal
+            //     if (value === '叶小钗') {
+            //         result = '刀狂剑痴';
+            //     }
+            //
+            //     if (value === '一页书') {
+            //         result = '百世经纶';
+            //     }
+            //
+            //     if (value === '素还真') {
+            //         result = '清香白莲';
+            //     }
+            //
+            //     // view
+            //     end.html(result + ' ---- ' + value);
+            // });
+
+
+
+            //定义一个controller
+            let piliController = {
+                // 选择视图
+                start : function () {
+                    this.view.start();
+                },
+                // 将用户操作映射到模型更新上
+                set : function (name) {
+                    this.model.setPerson(name);
+                }
+            };
+
+            piliController.model = {
+                piliKV : {
+                    "叶小钗" : '刀狂剑痴',
+                    "一页书" : '百世经纶',
+                    "素还真" : '清香白莲'
+                },
+                curPerson : null,
+                // 数据模型负责业务逻辑和数据存储
+                setPerson : function (name) {
+                    this.curPerson = this.piliKV[name] ? name : null;
+                    this.onchange();
+                },
+                // 通知数据同步更新
+                onchange : function () {
+                    piliController.view.update();
+                },
+                // 相应视图对当前状态的查询
+                getPiliAction : function () {
+                    return this.curPerson ? this.piliKV[this.curPerson] + ' ---- ' + this.curPerson : '???';
+                }
+            };
+
+            piliController.view = {
+                // 用户触发change事件
+                start : function () {
+                    $('#mySelect').change(this.onchange);
+                },
+                onchange : function () {
+                    piliController.set($('#mySelect').val());
+                },
+                update : function () {
+                    $('#end').html(piliController.model.getPiliAction());
+                }
+            };
+
+            piliController.start();
+
+
+        </script>
+    </body>
+</html>

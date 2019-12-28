@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>案例-打气球</title>
+		<style>
+			*{margin:0;padding: 0;}
+			body{
+				background :#000;
+				overflow: hidden;
+			}
+			.balloon{width:60px;height:60px;background-color: #faf9f9;
+			border-radius: 50% 50% 25% 50%;transform: rotate(45deg);
+			box-shadow: -8px  -8px  80px -8px #873940 inset;position:absolute;top:0;left:0;}
+			.balloon::after {
+				content: "";
+				position:absolute;
+				bottom:-2px;
+				right:-2px;
+				border:8px solid transparent;
+				border-right-color:#873940;
+				transform: rotate(45deg);
+				border-radius: 50%;/*加点圆弧*/
+			}
+		</style>
+	</head>
+	<body>
+
+
+
+
+		<script src="js/class.balloonHit.js"></script>
+		<script>
+
+
+			balloonHit();
+
+
+		</script>
+	</body>
+</html>

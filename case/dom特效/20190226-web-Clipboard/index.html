@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="./res/images/ico/logo_16x16.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="./res/images/ico/logo_16x16.ico" type="image/x-icon"/>
+        <title>ClipboardJS.js</title>
+        <link rel="stylesheet" href="./css/lib/bootstrap.min.css">
+        <style>
+            .unit{
+                border:2px solid rgba(30,144,255,.3);box-sizing: border-box;border-radius:6px;margin-bottom: 20px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <strong>
+                        <a href="../../index.html" class="navbar-brand">HOME</a>
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                        <blockquote>
+                            <p>Clipboard.js-1.7.1.js</p>
+                        </blockquote>
+                        <div class="well" id="c">
+                            我是将会复制此DIV内的所有内容，包括button元素
+                            <button type="button" class="btn btn-default btn-sm pull-right btn-clipboard1" data-toggle="tooltip" data-placement="bottom" title="点击复制">复制</button>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div>
+                        <blockquote>
+                            <p>Clipboard.js-2.0.4.js</p>
+                        </blockquote>
+
+                        <div class="unit">
+                            <div class="well">
+                                <span>你将从data-clipboard-text属性中复制内容，而不是我本身</span>
+                                <button type="button" class="btn btn-default btn-sm pull-right btn-clipboard2" data-clipboard-text="我是从data-clipboard-text属性中复制的内容" data-toggle="tooltip" data-placement="bottom" title="点击复制">复制</button>
+                            </div>
+                        </div>
+
+                        <div class="unit">
+                            <div class="well" id="temp">我是通过data-clipboard-target="#temp"指向后，被复制的内容</div>
+                            <button type="button" class="btn btn-default btn-sm btn-clipboard2" data-clipboard-target="#temp" data-toggle="tooltip" data-placement="bottom" title="点击复制">复制</button>
+                        </div>
+
+                        <div class="unit">
+                            <textarea class="form-control" name="" id="tempTextarea" cols="30" rows=5" style="resize: none;">
+我是textarea元素，通过data-clipboard-target指向，将是被'剪切'的内容。
+                            </textarea>
+                            <button type="button" class="btn btn-default btn-sm btn-clipboard2" data-clipboard-target="#tempTextarea" data-clipboard-action="cut" data-toggle="tooltip" data-placement="bottom" title="点击剪切">剪切</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <textarea class="form-control" style="resize: none;" name="" id="" cols="30" rows="10" placeholder="粘贴，测试下..."></textarea>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="./js/lib/jquery.min.js"></script>
+        <script src="./js/lib/bootstrap.min.js"></script>
+        <script src="./js/lib/clipboard-1.7.1.js"></script>
+        <script src="./js/lib/clipboard-2.0.4.js"></script>
+        <script>
+
+            /**
+             * clipboard-1.7.1.js
+             */
+            if (true) {
+                var c = document.getElementById("c");
+                var s = c.innerHTML;
+
+                var clipboard1 = new Clipboard('.btn-clipboard1', {
+                    text: function() {
+                        return s;
+                    }
+                });
+                console.log(clipboard1);
+
+                clipboard1.on('success', function(e) {
+                    console.log(e);
+                    console.info('Action:', e.action);
+                    console.info('Text:', e.text);
+                    console.info('Trigger:', e.trigger);
+                    console.info("复制成功");
+                });
+
+                clipboard1.on('error', function(e) {
+                    console.log(e);
+                    console.error('Action:', e.action);
+                    console.error('Trigger:', e.trigger);
+                });
+            }
+
+            /**
+             * clipboard-2.0.4.js
+             */
+            if (true) {
+
+                if (ClipboardJS.isSupported()) {
+                    var clipboard2 = new ClipboardJS('.btn-clipboard2');
+                    console.log(clipboard2);
+
+                    clipboard2.on('success', function(e) {
+                        console.log(e);
+                        console.info('Action:', e.action);
+                        console.info('Text:', e.text);
+                        console.info('Trigger:', e.trigger);
+
+                        e.clearSelection();
+                    });
+
+                    clipboard2.on('error', function(e) {
+                        console.error('Action:', e.action);
+                        console.error('Trigger:', e.trigger);
+                    });
+                }
+            }
+
+            $('[data-toggle="tooltip"]').tooltip({
+                trigger : "hover",
+            });
+
+        </script>
+    </body>
+</html>

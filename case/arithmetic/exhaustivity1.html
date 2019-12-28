@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>穷举</title>
+    </head>
+    <body>
+
+        <h1>穷举</h1>
+        <p>遇到一个问题，找不到更好的解决办法，（找不到数学公式或者规律）时，使用“最笨”的办法，利用计算机计算速度快的特点，将所有可能性全部列出来</p>
+        <p>公鸡一只5元，鸡母一只3元，鸡仔3只1元
+        <p>百钱买百鸡，问公鸡，鸡母、鸡仔各几何？</p>
+        <p>x y z</p>
+        <p>x + y + z = 100</p>
+        <p>x * 5 + y * 3 + z / 3 = 100</p>
+        <hr>
+        <p>答：</p>
+
+        <script>
+
+            for (let cockAmount = 0; cockAmount <= 20; cockAmount++) {
+                for (let hen = 0; hen <= 33; hen++) {
+                    let chicken = 100 - cockAmount - hen;
+                    if (100 === cockAmount * 5 + hen * 3 + chicken / 3) {
+                        document.body.innerHTML += "公鸡一共：" + cockAmount + "。----鸡母一共：" + hen + "。----小鸡一共：" + chicken + "</br>";
+                    }
+                }
+            }
+
+        </script>
+    </body>
+</html>

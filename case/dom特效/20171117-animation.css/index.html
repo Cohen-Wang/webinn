@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="http://wx1.sinaimg.cn/large/005EAIaRgy1fun345b9edj304v03lmxk.jpg" type="image/x-icon" />
+		<link rel="shortcut icon" href="http://wx1.sinaimg.cn/large/005EAIaRgy1fun345b9edj304v03lmxk.jpg" type="image/x-icon"/>
+		<title>animation.css</title>
+
+		<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="./css/animate.css"/>
+		<style>
+			body{background-color: #2E2D3C;}
+
+			.box{position:relative;height:500px;}
+			.pox{position:absolute;left:0;top:0;right:0;bottom:0;margin:auto;
+				width:300px;height:300px;background-color: #d43f3a}
+
+
+			ul li{float:left;margin:20px;padding: 10px;background-color: #fff;border-radius: 5px;
+			width:300px;height:300px;border:solid 1px #000;}
+			img{height:100%;width:100%;}
+
+			.flash:hover{animation:flash 1s ease;}
+			.bounce:hover{animation:bounce 1s ease;}
+			.bounceInDown:hover{animation:bounceInDown 1s ease;}
+
+			.opacityFlash:hover{animation:opacityFlash 1s ease ;}
+			.img4:hover{animation:pulse 1s ease ;}
+			.img5:hover{animation:rubberBand 1s ease ;}
+			.img6:hover{animation:shake 1s ease ;}
+			.img7:hover{animation:swing 1s ease ;}
+			.img8:hover{animation:tada 1s ease ;}
+			.img9:hover{animation:wobble 1s ease ;}
+			.img10:hover{animation:jello 1s ease ;}
+			/*@keyframes flash{
+				0%{opacity: 1;}
+				50%{opacity: 0.7;}
+				100%{opacity: 1;}
+			}*/
+		</style>
+	</head>
+	<body>
+
+		<div class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<strong>
+						<a href="../../index.html" class="navbar-brand">HOME</a>
+					</strong>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+
+			<div class="panel panel-default">
+				<div class="panel-heading">flash</div>
+				<div class="panel-body box">
+					<div class="pox flash"></div>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">bounce</div>
+				<div class="panel-body box">
+					<div class="pox bounce"></div>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">opacityFlash</div>
+				<div class="panel-body box">
+					<div class="pox opacityFlash"></div>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">bounceInDown</div>
+				<div class="panel-body box">
+					<div class="pox animated bounceInDown"></div>
+				</div>
+			</div>
+
+		</div>
+
+
+		<ul>
+			<li><img src="http://wx2.sinaimg.cn/mw690/005EAIaRgy1fkavohatnyj30ku0dwn1o.jpg" class="img1"/></li>
+			<li><img src="http://wx4.sinaimg.cn/mw690/005EAIaRgy1fkavofm0qsj30ku0dwdlg.jpg" class="img2"/></li>
+			<li><img src="http://wx4.sinaimg.cn/mw690/005EAIaRgy1fkavodyhmoj30ku0dwn2g.jpg" class="img3"/></li>
+			<li><img src="http://wx3.sinaimg.cn/mw690/005EAIaRgy1fkavoc3xqoj30ku0dwjx8.jpg" class="img4"/></li>
+			<li><img src="http://wx4.sinaimg.cn/mw690/005EAIaRgy1fkavoabc3xj30ku0dwtcy.jpg" class="img5"/></li>
+			<li><img src="http://wx3.sinaimg.cn/mw690/005EAIaRgy1fkavo8qjgcj30ku0dw79n.jpg" class="img6"/></li>
+			<li><img src="http://wx2.sinaimg.cn/mw690/005EAIaRgy1fkavo725o0j30ku0dwn17.jpg" class="img7"/></li>
+			<li><img src="http://wx1.sinaimg.cn/mw690/005EAIaRgy1fkavo5mw5oj30ku0dwjwu.jpg" class="img8"/></li>
+			<li><img src="http://wx4.sinaimg.cn/mw690/005EAIaRgy1fkavo3yt9vj30ku0dw42w.jpg" class="img9"/></li>
+			<li><img src="http://wx3.sinaimg.cn/mw690/005EAIaRgy1fkavo2e77tj30ku0dwaev.jpg" class="img10"/></li>
+		</ul>
+	</body>
+</html>

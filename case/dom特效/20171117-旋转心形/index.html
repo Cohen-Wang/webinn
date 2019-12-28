@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="http://wx1.sinaimg.cn/large/005EAIaRgy1fun345b9edj304v03lmxk.jpg" type="image/x-icon" />
+        <link rel="shortcut icon" href="http://wx1.sinaimg.cn/large/005EAIaRgy1fun345b9edj304v03lmxk.jpg" type="image/x-icon"/>
+        <title>3d旋转心形</title>
+
+        <style>
+            *{margin:0;padding: 0}
+            body{background-color: #000}
+            ul,li{list-style: none}
+            
+            .loveHeart_box{
+                width:200px;height:320px;
+                margin:300px auto;position: relative;
+                animation: rot 10s linear 0s infinite;
+                transform-style: preserve-3d;
+                /*perspective:800px;*/
+            }
+            @keyframes rot{
+                from{
+                    transform: rotateX(0deg) rotateY(0deg);
+                }
+                to{
+                    transform: rotateX(360deg) rotateY(360deg);
+                }
+            }
+            .loveHeart{
+                width:200px;height:320px;border:2px solid #666;
+                position:absolute;top:0;left:0;
+                border-left:0;border-bottom: 0;
+                border-radius: 50% 50% 0/40% 50% 0;/*********/
+                transform: rotateZ(45deg);
+            }
+            .cube{position:relative;width:100px;height: 100px;
+            transform-style: preserve-3d;
+            transform: translateX(50px) translateY(150px) translateZ(50px);}
+            .cube div{position:absolute;left:0;top:0;
+            width:100px;height: 100px;}
+            .cube div:nth-child(1){top:-100px;transform-origin: bottom;transform: rotateX(90deg);}
+            .cube div:nth-child(2){top:100px;transform-origin: top;transform: rotateX(-90deg);}
+            .cube div:nth-child(3){left:-100px;transform-origin:right;transform: rotateY(-90deg);}
+            .cube div:nth-child(4){left:100px;transform-origin:left;transform: rotateY(90deg);}
+            .cube div:nth-child(5){}
+            .cube div:nth-child(6){transform: translateZ(-100px);}
+            .cube div img{width:100%;height:100%;}
+        </style>
+	</head>
+	<body>
+		<div class="loveHeart_box">
+			<div class="cube">
+				<div><img src="http://wx2.sinaimg.cn/mw690/005EAIaRgy1fkavohatnyj30ku0dwn1o.jpg"/></div>
+				<div><img src="http://wx4.sinaimg.cn/mw690/005EAIaRgy1fkavofm0qsj30ku0dwdlg.jpg"/></div>
+				<div><img src="http://wx4.sinaimg.cn/mw690/005EAIaRgy1fkavodyhmoj30ku0dwn2g.jpg"/></div>
+				<div><img src="http://wx3.sinaimg.cn/mw690/005EAIaRgy1fkavoc3xqoj30ku0dwjx8.jpg"/></div>
+				<div><img src="http://wx4.sinaimg.cn/mw690/005EAIaRgy1fkavoabc3xj30ku0dwtcy.jpg"/></div>
+				<div><img src="http://wx3.sinaimg.cn/mw690/005EAIaRgy1fkavo8qjgcj30ku0dw79n.jpg"/></div>
+			</div>
+		</div>
+
+		<script>
+            window.onload = function(){
+                show();
+            }
+
+
+            function show(){
+                var loveHeart_box=document.getElementsByClassName('loveHeart_box')[0];
+                var num=36;
+                var fragment=document.createDocumentFragment();
+
+                function init(){
+                    for(var i=0;i<num;i++){
+                        var heart=document.createElement('div');
+                        heart.className="loveHeart";
+                        heart.style.transform="rotateY("+i*(360/num)+"deg) rotateZ(45deg) translateX(60px)";
+
+                        fragment.appendChild(heart);
+                    }
+                    loveHeart_box.appendChild(fragment);
+                }
+                init();
+            }
+
+		</script>
+	</body>
+</html>

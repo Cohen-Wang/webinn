@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>测试canvas透明效果</title>
+        <style>
+            *{margin:0;padding: 0}
+            body{
+                min-height: 900px;
+
+
+            }
+            #box{
+                position:relative;
+                display:inline-block;
+                width : 3000px;
+                height :2000px;
+                background:
+                        url("images/ui_Game-hall_map_terrain.png") 0 0 no-repeat,
+                        url("images/ui_Game-hall_map_scenery1.png") 1378px 0 no-repeat,
+                        url("images/ui_Game-hall_map_scenery2.png") 78px 0 no-repeat,
+                        url("images/ui_Game-hall_map_scenery3.png") 0 0 no-repeat,
+                        url("images/ui_Game-hall_map_scenery4.png") 0 0 no-repeat,
+                        url("images/ui_Game-hall_map_scenery5.jpg") 0 0 no-repeat;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="box">123</div>
+
+
+
+        <script src="js/lib/spine-canvas.js"></script>
+        <script src="js/app/class.spineCanvas.js"></script>
+        <script>
+            /**
+             * 骨架 skeleton
+             * 骨骼 skeleton
+             * 节点 node
+             * 皮肤 skin
+             * 动画 animation
+             * 骨架控制骨骼，骨骼控制节点，节点里面是美术资源
+             */
+
+            if (true) {
+
+                new CYBER.SpineCanvas({
+                    id : 'box',
+                    skeletonName : 'box',
+                    animationName : 'animation',
+                    left : 1500,
+                    top : 233,
+                    width : 100,
+                    height : 100,
+                    isShowCoordinate : false,
+                    debugRendering : false,
+                });
+
+                new CYBER.SpineCanvas({
+                    id : 'box',
+                    skeletonName : 'hall_air',
+                    animationName : 'trigger',
+                    left : 1000,
+                    top : 250,
+                    width : 400,
+                    height : 400,
+                    isShowCoordinate : false,
+                    debugRendering : false,
+                });
+
+                new CYBER.SpineCanvas({
+                    id : 'box',
+                    skeletonName : 'bottom_light',
+                    animationName : 'idle',
+                    left : 1280,
+                    top : 380,
+                    width : 300,
+                    height : 300,
+                    isShowCoordinate : false,
+                    debugRendering : false,
+                });
+
+                new CYBER.SpineCanvas({
+                    id : 'box',
+                    skeletonName : 'quanxitouying',
+                    animationName : 'idle',
+                    left : 2150,
+                    top : 360,
+                    width : 100,
+                    height : 100,
+                    isShowCoordinate : false,
+                    debugRendering : false,
+                });
+
+                new CYBER.SpineCanvas({
+                    id : 'box',
+                    skeletonName : 'luandou_lamp',
+                    animationName : 'idle',
+                    left : 802,
+                    top : 58,
+                    width : 300,
+                    height : 300,
+                    isShowCoordinate : false,
+                    debugRendering : false,
+                });
+
+                // new CYBER.SpineCanvas({
+                //     id : 'box',
+                //     skeletonName : 'gamehall_fan',
+                //     animationName : 'idle',
+                //     left : 802,
+                //     top : 58,
+                //     width : 300,
+                //     height : 300,
+                //     isShowCoordinate : false,
+                //     debugRendering : false,
+                // });
+
+
+
+            } else {
+                // 获取canvas
+                let can = document.getElementById('canvas');
+                let ctx = can.getContext('2d');
+                // 实例化
+                let skeletonRenderer = new spine.canvas.SkeletonRenderer(ctx);
+                let assetManager = new spine.canvas.AssetManager();
+                // 加载结果
+                let skeleton;
+                let state;// 某一帧的状态
+                let bounds;// 为了计算骨骼位置 和 大小
+                // 变量
+                let lastFrameTime = Date.now()/1000;
+                let skelName = "plug_4011";
+                let animName = "activated";
+                //
+
+                init();
+                load();
+
+
+                function init () {
+                    // 骨骼渲染器
+                    skeletonRenderer.debugRendering = true;// 是否显示边框
+                    skeletonRenderer.triangleRendering = false;// 是否显示边框里面的对角线
+                    // 资源管理
+                    assetManager.loadText("res/" + skelName + ".json");
+                    assetManager.loadText("res/" + skelName + ".atlas");
+                    assetManager.loadTexture("res/" + skelName + ".png");
+                }
+
+                function load () {
+                    if (assetManager.isLoadingComplete()) {
+                        let data = loadSkeleton(skelName, animName, "default");
+                        //
+                        skeleton = data.skeleton;
+                        state = data.state;
+                        bounds = data.bounds;
+                        //
+                        requestAnimationFrame(render);
+                    } else {
+                        requestAnimationFrame(load);
+                    }
+                }
+
+                function loadSkeleton (skelName, animName, skin) {
+                    // 皮肤
+                    skin = skin || "default";
+                    // 加载atlas
+                    let atlas = new spine.TextureAtlas(assetManager.get("res/" + skelName + ".atlas"), function(path) {
+                        return assetManager.get("res/" + path);
+                    });
+                    //console.log(atlas);// 返回了图片宽高和（一些纹理细节）
+
+
+                    // 实例化一个AtlasAttachmentLoader
+                    let atlasLoader = new spine.AtlasAttachmentLoader(atlas);
+                    //console.log(atlasLoader);
+
+
+                    // 实例化SkeletonJson用于解析json文件
+                    let skeletonJson = new spine.SkeletonJson(atlasLoader);
+                    //console.log(skeletonJson);
+
+
+                    // 赋值json文件内容
+                    let skeletonData = skeletonJson.readSkeletonData(assetManager.get("res/" + skelName + ".json"));
+                    //console.log(skeletonData.bones[1].x);
+
+
+                    // 1.
+                    let skeleton = new spine.Skeleton(skeletonData);
+                    console.log(skeleton);
+                    skeleton.flipY = true;// Y轴正向
+                    skeleton.flipX = false;// X轴向右
+                    skeleton.setSkinByName(skin);
+
+                    // 2.
+                    let bounds = calculateBounds(skeleton);
+
+                    // 3.创建一个动画状态，设置初始化动画循环
+                    let animationState = new spine.AnimationState(new spine.AnimationStateData(skeleton.data));
+                    animationState.setAnimation(0, animName, true);
+
+                    // animationState.addListener({
+                    //     event: function(trackIndex, event) {
+                    //         // console.log("Event on track " + trackIndex + ": " + JSON.stringify(event));
+                    //     },
+                    //     complete: function(trackIndex, loopCount) {
+                    //         // console.log("Animation on track " + trackIndex + " completed, loop count: " + loopCount);
+                    //     },
+                    //     start: function(trackIndex) {
+                    //         // console.log("Animation on track " + trackIndex + " started");
+                    //     },
+                    //     end: function(trackIndex) {
+                    //         // console.log("Animation on track " + trackIndex + " ended");
+                    //     }
+                    // });
+
+                    // Pack everything up and return to caller.
+                    return {
+                        skeleton: skeleton,
+                        bounds: bounds,
+                        state: animationState,
+                    };
+                }
+
+                function calculateBounds(skeleton) {
+                    let data = skeleton.data;
+                    skeleton.setToSetupPose();// ???
+                    skeleton.updateWorldTransform();// ???
+                    let offset = new spine.Vector2();
+                    let size = new spine.Vector2();
+                    skeleton.getBounds(offset, size, []);
+                    return {
+                        offset: offset,
+                        size: size
+                    };
+                }
+
+                function render () {
+                    let now = Date.now() / 1000;
+                    let delta = now - lastFrameTime;
+                    lastFrameTime = now;
+                    //
+                    resize();
+
+                    ctx.save();
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
+                    ctx.clearRect(0, 0, can.width, can.height);
+                    ctx.restore();
+                    //
+                    let speed = 0.018;
+                    state.update(speed);
+                    state.apply(skeleton);
+                    skeleton.updateWorldTransform();
+                    skeletonRenderer.draw(skeleton);// √
+                    // 画坐标系
+                    if (true) {
+                        ctx.strokeStyle = "green";
+                        ctx.beginPath();
+                        ctx.moveTo(-1000, 0);
+                        ctx.lineTo(1000, 0);
+                        ctx.moveTo(0, -1000);
+                        ctx.lineTo(0, 1000);
+                        ctx.stroke();
+                    }
+                    //
+                    requestAnimationFrame(render);
+                }
+
+                let x = 0;
+                function resize () {
+                    // magic
+                    let centerX = bounds.offset.x + bounds.size.x / 2;
+                    let centerY = bounds.offset.y + bounds.size.y / 2;
+                    //
+                    let scaleX = bounds.size.x / can.width;// 470 : 500
+                    let scaleY = bounds.size.y / can.height;// 730 : 500
+                    let scale = Math.max(scaleX, scaleY) * 1.2;
+                    if (scale < 1) scale = 1;
+                    //
+                    let width = can.width * scale;
+                    let height = can.height * scale;
+
+                    x++;
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+
+                    ctx.scale(1 / scale, 1 / scale);
+                    ctx.translate(-centerX, -centerY);
+                    ctx.translate(width / 2, height / 2);
+                }
+            }
+        </script>
+    </body>
+</html>

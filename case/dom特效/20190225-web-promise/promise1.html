@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Javscript - Promise - 学习</title>
+    </head>
+    <body>
+
+        <script>
+
+
+            function p1 (method, url) {
+                return new Promise(function (resolve, reject) {
+                    let xhr = new XMLHttpRequest();
+                    console.log(xhr);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                console.log(xhr.responseText);
+
+                                let flag = JSON.parse(xhr.responseText).flag;
+
+                                resolve(flag);
+                            }
+                        }
+                    };
+
+                    //
+                    xhr.onloadstart
+
+                    xhr.onerror = function () {
+                        console.log(xhr.statusText);
+                    };
+
+                    xhr.open(method, url, true);
+                    xhr.send(null);
+                })
+            }
+
+
+            p1('GET', './promise1.json').then(function (data) {
+                if (data === true) {
+                    alert('true');
+                } else {
+                    alert('false')
+                }
+            })
+
+        </script>
+    </body>
+</html>

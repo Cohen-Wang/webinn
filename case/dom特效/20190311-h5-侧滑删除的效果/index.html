@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="./css/dist/main.css">
+
+        <!--<script type="text/javascript">-->
+            <!--(function(doc, win) {-->
+                <!--var docEl = doc.documentElement,-->
+                    <!--resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',-->
+                    <!--recalc = function() {-->
+                        <!--var clientWidth = docEl.clientWidth;-->
+                        <!--if(!clientWidth) return;-->
+                        <!--docEl.style.fontSize = 20 * (clientWidth / 375) + 'px';-->
+                    <!--};-->
+                <!--if(!doc.addEventListener) return;-->
+                <!--win.addEventListener(resizeEvt, recalc, false);-->
+                <!--doc.addEventListener('DOMContentLoaded', recalc, false);-->
+            <!--})(document, window);-->
+        <!--</script>-->
+
+    </head>
+    <body>
+
+
+        <div class="container" id="app">
+            <div class="page-title">滑动组件</div>
+            <ul class="list_ul">
+                <li class="list-item " v-for="(item, index) in list" data-type="0">
+                    <div class="list-box" @touchstart.capture="touchStart" @touchend.capture="touchEnd" @click="skip">
+                        <img class="list-img" :src="item.imgUrl" alt="">
+                        <div class="list-content">
+                            <p class="title">{{item.title}}</p>
+                            <p class="tips">{{item.tips}}</p>
+                            <p class="time">{{item.time}}</p>
+                        </div>
+                    </div>
+                    <div class="delete" @click="deleteItem" :data-index="index">删除</div>
+                </li>
+            </ul>
+        </div>
+
+
+        <script src="./js/lib/vue.min.js"></script>
+        <script src="./js/dist/main.js"></script>
+    </body>
+</html>

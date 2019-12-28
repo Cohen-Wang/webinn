@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>JSONP 实例</title>
+    </head>
+    <body>
+
+        <div id="divCustomers"></div>
+
+        <script>
+            function callbackFunction (result) {
+                var html = '<ul>';
+                for (var i = 0; i < result.length; i++) {
+                    html += '<li>' + result[i].height + '</li>';
+                }
+                html += '</ul>';
+                document.getElementById('divCustomers').innerHTML = html;
+            }
+        </script>
+        <!--下面的地址是在（同源）的基础上，模拟jsonp-->
+        <script type="text/javascript" src="./php/jsonp.php?wb=men&jsoncallback=callbackFunction"></script>
+    </body>
+</html>

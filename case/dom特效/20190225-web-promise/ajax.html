@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Javscript - AJAX</title>
+    </head>
+    <body>
+
+        <script>
+
+
+            let xhr = new XMLHttpRequest();
+            console.log(xhr);
+
+            //
+            xhr.onreadystatechange = function () {
+                console.log('onreadystatechange' + '----xhr.readyState :' + xhr.readyState);// 会执行4次
+
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log('xhr.response:' + xhr.response);
+                        console.log('xhr.responseText:' + xhr.responseText);
+                        console.log('xhr.responseXML:' + xhr.responseXML);
+
+                        console.log('xhr.responseURL:' + xhr.responseURL);
+
+                        console.log('xhr.status:' + xhr.status);
+                        console.log('xhr.statusText:' + xhr.statusText);
+
+                        //
+                        console.log('xhr.getResponseHeader("Content-type") : ' + xhr.getResponseHeader("Content-type"));
+                        console.log('xhr.getAllResponseHeaders() : ' + '\n' + xhr.getAllResponseHeaders());
+
+
+                    }
+                }
+            };
+
+            // 加载开始
+            xhr.onloadstart = function () {
+                console.log('onloadstart');
+            };
+
+            /**
+             * 上传阶段
+             */
+            xhr.upload.onloadstart = function () {
+                console.log('xhr.send()不为空的时候：upload.onloadstart');
+            };
+
+            xhr.upload.onprogress = function () {
+                console.log('xhr.send()不为空的时候：upload.onprogress');
+            };
+
+            xhr.upload.onload = function () {
+                console.log('xhr.send()不为空的时候：upload.onload');
+            };
+
+            xhr.upload.onloadend = function () {
+                console.log('xhr.send()不为空的时候：upload.onloadend');
+            };
+
+            /**
+             * 下载阶段
+             */
+            // 加载进度
+            xhr.onprogress = function () {
+                console.log('下载阶段：onprogress');
+            };
+
+            // 加载完成
+            xhr.onload = function () {
+                console.log('下载阶段：onload');
+            };
+
+            // 加载完成
+            xhr.onloadend = function () {
+                console.log('下载阶段：onloadend');
+            };
+
+            // 终止
+            xhr.ontimeout = function () {
+                console.log('下载阶段：ontimeout ');
+            };
+
+            // 加载中断
+            xhr.onabort = function () {
+                console.log('下载阶段：onabort');
+            };
+
+            // 错误
+            xhr.onerror = function () {
+                console.log('下载阶段：onerror');
+            };
+
+            //
+            xhr.timeout = 2000;// 终止时间
+            //xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.responseType = '';
+
+            xhr.open('POST', './promise1.json', true);
+            //xhr.send(null);
+            xhr.send('name=cohen');
+
+
+
+        </script>
+    </body>
+</html>

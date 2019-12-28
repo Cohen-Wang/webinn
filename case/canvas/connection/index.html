@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="../../../res/images/logo/logo_16x16.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="../../../res/images/logo/logo_16x16.png" type="image/x-icon"/>
+        <title>Connection</title>
+        <style>
+            * {margin: 0; padding: 0}
+            html {height:100%}
+            body {height:100%;overflow: hidden;}
+        </style>
+    </head>
+    <body>
+
+
+        <script src="connection.js"></script>
+        <script>
+            // 工具函数
+            let random = function (min, max) {
+                return Math.random() * (max - min) + min;
+            };
+
+
+            // 初始化
+            let can = document.createElement('canvas');
+            let ctx = can.getContext('2d');
+            // 设置
+            can.width = window.innerWidth;
+            can.height = window.innerHeight;
+            can.style['backgroundColor'] = '#fcf8e3';
+            // 添加
+            document.body.appendChild(can);
+            // 变量
+            const num = 30;
+            let arr = [];
+            // 创建实例
+            for (let i = 0; i < num; i++) {
+                let element = createItem();
+                let options = createMove();
+                arr.push({
+                    element: element,
+                    options: options,
+                });
+            }
+            function createItem () {
+                let result = null;
+                let n = Math.random();
+                let color = ~~random(0, 250);
+                let options = {
+                    x: random(0, can.width),
+                    y: random(0, can.height),
+                    color: 'hsl(' + color + ', 100%, 40%)',
+                    radius: 4,
+                };
+                if (0 <= n && n < .25) {
+                    result = new cyber.SolidCircle(options);
+                } else if (.25 <= n && n <.5) {
+                    result = new cyber.HollowCircle(options);
+                } else if (.5 <= n && n <.75) {
+                    options.radius = 10;
+                    result = new cyber.SolidStar(options);
+                } else {
+                    options.radius = 10;
+                    result = new cyber.HollowStar(options);
+                }
+                return result;
+            }
+            function createMove () {
+                let options = {
+                    speedX: random(-2, 2),
+                    speedY: random(-2, 2),
+                };
+                return options;
+            }
+
+            // 详情
+            function start (ctx) {
+                ctx.clearRect(0, 0, can.width, can.height);
+
+                for (let i = 0, len = arr.length; i < len; i++) {
+                    if (arr[i].element.x <= 0 || arr[i].element.x >= can.width) arr[i].options.speedX = -arr[i].options.speedX;
+                    if (arr[i].element.y <= 0 || arr[i].element.y >= can.height) arr[i].options.speedY = -arr[i].options.speedY;
+
+                    arr[i].element.x += arr[i].options.speedX;
+                    arr[i].element.y += arr[i].options.speedY;
+
+                    // j = i + 1;
+                    for (let j = i + 1; j < len; j++) {
+                        if ( Math.sqrt(Math.pow(arr[i].element.x - arr[j].element.x, 2) + Math.pow(arr[i].element.y - arr[j].element.y, 2)) <= 100) {
+                            let options = {
+                                x1: arr[i].element.x,
+                                y1: arr[i].element.y,
+                                x2: arr[j].element.x,
+                                y2: arr[j].element.y,
+                                color: '#000',
+                                lineWidth: 0.2,
+                            };
+                            let line = new cyber.Line(options);
+                            line.render(ctx);
+                        }
+                    }
+
+                    arr[i].element.render(ctx);
+                }
+
+            }
+            // 动画
+            (function run () {
+                start(ctx);
+                window.requestAnimationFrame(run);
+            }());
+        </script>
+    </body>
+</html>

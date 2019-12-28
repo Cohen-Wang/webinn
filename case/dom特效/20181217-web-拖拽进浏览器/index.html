@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="../../res/images/logo/logo.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="../../res/images/logo/logo.png" type="image/x-icon"/>
+        <title>拖拽进浏览器</title>
+
+        <link href="../../css/lib/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap-theme.min.css" rel="stylesheet">
+        <style>
+            *{margin:0;padding:0;}
+            body{background-color: #eeeeee;}
+            #box{width:500px;height:500px;;border:10px dashed #cccccc;}
+            ul{width:500px;height:auto;overflow:hidden;float:left;}
+            ul li{float:left;}
+        </style>
+    </head>
+    <body>
+
+        <div class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <strong>
+                        <a href="../../index.html" class="navbar-brand">HOME</a>
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-default btn-file navbar-btn">
+            <span class="glyphicon glyphicon-folder-open"></span>
+            <p>上传图片</p>
+            <input type="file" class="btn btn-default" accept="image/png" @change="openImage(event)">
+        </button>
+        <div id="box"></div>
+        <ul id='ul1'></ul>
+
+
+        <script type="application/javascript">
+
+            /**
+             * body
+             * @param event
+             */
+            document.body.ondragover = function (event) {
+                let oEvent = event || window.event;
+                oEvent.preventDefault();
+            };
+
+            document.body.ondrop = function (event) {
+                let oEvent = event || window.event;
+                oEvent.preventDefault();
+            };
+
+            /**
+             * div
+             * @type {HTMLElement}
+             */
+            let oDiv = document.getElementById('box');
+            let oul  = document.getElementById('ul1');
+
+            oDiv.ondragenter = function (event) {
+                let oEvent = event || window.event;
+                oEvent.preventDefault();
+                this.innerHTML = '进入目标';
+            };
+
+            oDiv.ondragover = function (event) {
+                let oEvent = event || window.event;
+                oEvent.preventDefault();
+            };
+
+            oDiv.ondragleave = function (event) {
+                let oEvent = event || window.event;
+                oEvent.preventDefault();
+                this.innerHTML = '对象离开了';
+            };
+
+            oDiv.ondrop = function (event) {
+                let oEvent = event || window.event;
+                oEvent.preventDefault();
+                this.innerHTML = '对象放下了';
+
+                // 获取拖拽事件对象的数据
+                let aFiles = oEvent.dataTransfer.files;
+                console.log(aFiles);
+                //
+                for (let i = 0; i < aFiles.length; i++) {
+                    if(aFiles[i].type.indexOf('image') !== -1) {
+                        let reader = new FileReader();
+                        reader.readAsDataURL(aFiles[i]);
+                        reader.onload = function () {
+                            let oImg = document.createElement('img');
+                            let oli = document.createElement('li');
+                            oImg.src = this.result;
+                            oli.appendChild(oImg);
+                            oul.appendChild(oli);
+                        }
+                    }
+                    else {
+                        alert('拖拽的类型错误！');
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

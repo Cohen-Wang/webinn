@@ -1,0 +1,91 @@
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>五子棋游戏</title>
+	</head>
+	<body>
+		
+		<canvas id="canvas" width="570" height="570" style="border: 5px solid #abcabc"></canvas>
+		
+
+		<script type="text/javascript">
+			
+			//获取canvas的标签
+			var canvas = document.getElementById("canvas");
+			var ctx = canvas.getContext("2d");
+			
+			
+			var map = 25;// 定义棋盘大小
+			var chessSize = 12;// 棋子大小
+			var x = y = 0;// 获取下棋的坐标
+			var isRed = true;// ==true的该下红棋  否则下黑棋
+			var color = "#000";// 棋子的颜色
+			
+			//棋子数组   二维数组
+			//保存所下的棋子  0：未下；1：下红棋；2：下黑棋
+			var chessData = new Array(23);
+			for (var i = 0; i < 23; i++) {
+
+			   	chessData[i] = new Array(23);
+
+				for (var j = 0; j < 23; j++) {
+					chessData[i][j] = 0;
+				}
+			}
+			
+			//所下棋子在棋子数组  的位置
+			var i, j;
+			//绘制棋盘
+			for (var i = 0; i < 23; i++) {
+				ctx.moveTo(10, 10 + i * map);
+				ctx.lineTo(560, 10 + i * map);
+				ctx.moveTo(10 + i * map, 10);
+				ctx.lineTo(10 + i * map, 560);
+			   	ctx.stroke();// 画
+			}
+			// 创建函数，完成下棋
+			function addChess (x,y) {
+				// 下棋  画小圆圈     角度转弧度 π/180×角度        弧度变角度 180/π×弧度
+				ctx.beginPath();// 开始
+				ctx.arc(x,y,chessSize,0,Math.PI*2,true);// 画棋子
+				ctx.fillStyle = color;
+				ctx.fill();
+				ctx.closePath();// 结束
+				if (color=="#000") {
+					color = "#f00";
+					// 黑棋
+					chessData[i][j] = 2;
+				} else {
+					color = "#000";
+					// 红棋
+					chessData[i][j] = 1;
+				}
+			}
+
+			//重复调用  在做坦克大战之类游戏   需要使用
+			// window.setInterval(函数,时间);
+			//游戏是否结束
+			// function isGameWin()
+			//如果是人机对战版，则需要下棋的AI  如果不是人机对战  则下完棋后，提醒对方下棋
+			// function gameAI() 
+			//做鼠标监听    游戏逻辑
+			document.onmousedown = function (e) {
+			   	window.onclick = function () {
+			  		// 获取下棋的坐标
+			  		i = Math.round((e.x - 10) / 25);
+			   		j = Math.round((e.y - 10) / 25);// 边界不能下
+					// 判断该位置x，y是否可以下棋
+					x = i*25+10;
+					y = j*25+10;
+			
+					// 判断该位置ij是否有棋子
+					if (chessData[i][j] === 0) {
+						addChess(x,y);// 下棋
+					}else{
+						alert("不好意思！你来晚了，已经被对方捷足先登了");
+					}
+			  	};
+			};
+		</script>
+	</body>
+</html>

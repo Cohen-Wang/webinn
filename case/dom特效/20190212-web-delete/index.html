@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>删除特效案例</title>
+        <link rel="stylesheet" href="./css/lib/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/lib/animate.css">
+        <style>
+            .flash{animation: 1s rubberBand;}
+        </style>
+    </head>
+    <body>
+
+        <div class="container" id="deleteCase">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-hover">
+                        <caption class="text-center"><h3>删除特效案例</h3></caption>
+                        <thead>
+                            <tr>
+                                <td v-show="isDeleteButtonShow === true"></td>
+                                <td></td>
+                                <td></td>
+                                <td >
+                                    <div class="pull-right" v-show="isDeleteButtonShow === false">
+                                        <a href="javascript:void(0);" class="btn btn-link btn-xs" @click="isDeleteButtonShow = true">管理</a>
+                                    </div>
+                                    <div class="pull-right" v-show="isDeleteButtonShow === true">
+                                        <a href="javascript:void(0);" class="btn btn-primary btn-xs flash" @click="">下载</a>
+                                        <a href="javascript:void(0);" class="btn btn-danger btn-xs flash" @click="">删除</a>
+                                        <a href="javascript:void(0);" class="btn btn-link btn-xs" @click="isDeleteButtonShow = false">取消</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="flash" style="width:50px;text-align: center;border-bottom:2px solid #ddd;" v-show="isDeleteButtonShow === true">
+                                    <input type="checkbox">
+                                </td>
+                                <th>name</th>
+                                <th>age</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(exampleItem, exampleIndex) in example" style="cursor: pointer;" :style="{backgroundColor:temp === exampleItem.name ? '#ddd' : '#fff'}" @click="temp = exampleItem.name">
+                                <td class="flash" style="width:50px;text-align: center;" v-show="isDeleteButtonShow === true">
+                                    <input type="checkbox">
+                                </td>
+                                <td v-text="exampleItem.name"></td>
+                                <td v-text="exampleItem.age"></td>
+                                <td v-text="exampleItem.school"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div>{{temp}}</div>
+
+                </div>
+            </div>
+        </div>
+
+        <script src="./js/lib/vue.min.js"></script>
+        <script>
+
+            let vm = new Vue({
+                el : "#deleteCase",
+                data : {
+                    example : [
+                        {name:"cohen",age:23,school:"A大学"},
+                        {name:"james",age:33,school:"B大学"},
+                        {name:"YAO",age:50,school:"C大学"},
+                        {name:"Iverson",age:44,school:"D大学"},
+                    ],
+
+                    isDeleteButtonShow : false,
+
+                    temp : '',
+                },
+
+                methods : {
+
+                },
+
+                computed : {
+
+                },
+
+
+            })
+
+
+
+        </script>
+    </body>
+</html>

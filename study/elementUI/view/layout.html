@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  	<meta charset="UTF-8">
+	  	<title>elemen-UI</title>
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<style>
+			*{padding: 0;margin:0;}
+			.showBorder{border:1px solid #ccc;box-sizing: border-box;}
+		</style>
+	</head>
+	<body>
+
+		<div id="app">
+			<el-container>
+				<el-header class="showBorder">Header</el-header>
+				<el-main>用 Element 快速搭建页面</el-main>
+			</el-container>
+			<hr>
+
+			<el-row>
+				<el-col :span="24" class="showBorder">111</el-col>
+			</el-row>
+			<el-row>
+				<el-col :span="12" class="showBorder">21</el-col>
+				<el-col :span="12" class="showBorder">22</el-col>
+			</el-row>
+			<el-row>
+				<el-col :span="8" class="showBorder">31</el-col>
+				<el-col :span="8" class="showBorder">32</el-col>
+				<el-col :span="8" class="showBorder">33</el-col>
+			</el-row>
+			<el-row>
+				<el-col :span="6" class="showBorder">41</el-col>
+				<el-col :span="6" class="showBorder">42</el-col>
+				<el-col :span="6" class="showBorder">43</el-col>
+				<el-col :span="6" class="showBorder">44</el-col>
+			</el-row>
+			<el-row>
+				<el-col :span="4" class="showBorder">51</el-col>
+				<el-col :span="4" class="showBorder">52</el-col>
+				<el-col :span="4" class="showBorder">53</el-col>
+				<el-col :span="4" class="showBorder">54</el-col>
+				<el-col :span="4" class="showBorder">55</el-col>
+				<el-col :span="4" class="showBorder">56</el-col>
+			</el-row>
+			<hr>
+
+			<el-row>
+				<el-col :span="6" :offset="6" class="showBorder">移动6格</el-col>
+			</el-row>
+			<hr>
+
+			<el-row type="flex" class="row-bg" justify="center">
+				<el-col :span="6"><div class="showBorder">111</div></el-col>
+				<el-col :span="6"><div class="showBorder">111</div></el-col>
+				<el-col :span="6"><div class="showBorder">111</div></el-col>
+			</el-row>
+			<hr>
+
+			<el-row>
+				<el-col :lg="6" :md="12" :sm="12" class="showBorder">111</el-col>
+				<el-col :lg="6" :md="12" :sm="12" class="showBorder">222</el-col>
+				<el-col :lg="6" :md="12" :sm="12" class="showBorder">333</el-col>
+				<el-col :lg="6" :md="12" :sm="12" class="showBorder">444</el-col>
+			</el-row>
+			<hr>
+
+			<el-row>
+				<el-button type="primary" icon="el-icon-search">搜索</el-button>
+				<el-button type="primary" icon="el-icon-delete-solid">搜索</el-button>
+				<el-button type="danger">危险按钮</el-button>
+				<el-button type="text">文字按钮</el-button>
+				<el-button type="text" disabled>文字按钮</el-button>
+			</el-row>
+			<hr>
+
+			<el-row>
+				<el-radio v-model="radio" label="1">备选项</el-radio>
+				<el-radio v-model="radio" label="2">备选项</el-radio>
+			</el-row>
+			<hr>
+
+			<el-row>
+				<el-checkbox-group v-model="checkList">
+					<el-checkbox label="复选框 A"></el-checkbox>
+					<el-checkbox label="复选框 B"></el-checkbox>
+					<el-checkbox label="复选框 C"></el-checkbox>
+					<el-checkbox label="禁用" disabled></el-checkbox>
+					<el-checkbox label="选中且禁用" disabled></el-checkbox>
+				</el-checkbox-group>
+			</el-row>
+			<hr>
+
+			<el-row>
+				<el-input placeholder="请输入内容" v-model="input"></el-input>
+				<el-input placeholder="请输入内容" v-model="input" :disabled="true"></el-input>
+				<el-input placeholder="请输入内容" v-model="input" clearable></el-input>
+				<el-input placeholder="请输入密码" v-model="input" show-password></el-input>
+				<el-input placeholder="请输入密码" v-model="input" suffix-icon="el-icon-date"></el-input>
+			</el-row>
+
+
+
+		</div>
+
+
+	  	<script src="../js/lib/vue.min.js"></script>
+	  	<script src="../js/lib/vue-resource.min.js"></script>
+	  	<script src="../js/lib/element-ui.js"></script>
+	  	<script>
+	  		
+	    	var vm = new Vue ({
+	      		el : '#app',
+	      		data : function () {
+	        		return {
+	        		    visible : false,
+
+						radio : true,
+
+                        checkList: ['选中且禁用','复选框 A'],
+
+                        input : '',
+
+
+	        		}
+	      		}
+				
+	    	});
+
+	  </script>
+	</body>
+</html>

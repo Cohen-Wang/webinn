@@ -1,0 +1,78 @@
+[
+	{
+		"word" : "passive",
+		"pronunciation" : "/'pæsɪv/",
+		"date" : "20180914",
+		"translation" : [
+			{"characteristic" : "adj", "meaning" : "被动的，消极的；被动语态的"},
+			{"characteristic" : "n", "meaning" : "被动语态"}
+		]
+	},
+	{
+		"word" : "revalidate",
+		"pronunciation" : "/ri'vælɪ,det/",
+		"date" : "20180914",
+		"translation" : [
+			{"characteristic" : "vt", "meaning" : "使重新生效；使从新有法律效力"}
+		]
+	},
+	{
+		"word" : "pragma",
+		"pronunciation" : "/p'ræɡmə/",
+		"date" : "20180914",
+		"translation" : [
+			{"characteristic" : "n", "meaning" : "编译指示；杂注"}
+		]
+	},
+	{
+		"word" : "daemon",
+		"pronunciation" : "/'dimən/",
+		"date" : "20180914",
+		"translation" : [
+			{"characteristic" : "n", "meaning" : "守护进程；后台程序"}
+		]
+	},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]

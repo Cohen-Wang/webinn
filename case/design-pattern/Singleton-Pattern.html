@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+        <button id="btn">开关</button>
+
+        <script>
+
+            let getSingleTon = function (fn) {
+                let result;
+                return function () {
+                    return result || (result = fn.apply(this, arguments));
+                }
+            };
+
+
+            let createDiv = function () {
+                let oDiv = document.createElement('div');
+                oDiv.innerHTML = "div hahahah";
+                oDiv.style.display = 'none';
+                oDiv.style.backgroundColor = 'yellowgreen';
+
+                document.body.appendChild(oDiv);
+
+                return oDiv;
+            };
+
+            let createSingleton = getSingleTon(createDiv);
+
+            document.getElementById('btn').onclick = function () {
+                let div = createSingleton();
+
+                div.style.display = (div.style.display === 'block') ? 'none' : 'block';
+            }
+
+
+
+
+
+        </script>
+    </body>
+</html>

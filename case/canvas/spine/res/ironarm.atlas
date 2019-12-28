@@ -1,0 +1,132 @@
+
+ironarm.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+circlecover
+  rotate: false
+  xy: 316, 43
+  size: 33, 33
+  orig: 33, 33
+  offset: 0, 0
+  index: -1
+fire01
+  rotate: false
+  xy: 449, 71
+  size: 56, 52
+  orig: 56, 52
+  offset: 0, 0
+  index: -1
+fire02
+  rotate: false
+  xy: 150, 6
+  size: 56, 52
+  orig: 56, 52
+  offset: 0, 0
+  index: -1
+fire03
+  rotate: false
+  xy: 208, 6
+  size: 56, 52
+  orig: 56, 52
+  offset: 0, 0
+  index: -1
+firelight
+  rotate: false
+  xy: 310, 10
+  size: 28, 31
+  orig: 28, 31
+  offset: 0, 0
+  index: -1
+gunlight
+  rotate: false
+  xy: 351, 41
+  size: 31, 35
+  orig: 31, 35
+  offset: 0, 0
+  index: -1
+l_arm
+  rotate: false
+  xy: 167, 60
+  size: 86, 63
+  orig: 86, 63
+  offset: 0, 0
+  index: -1
+l_finger
+  rotate: false
+  xy: 316, 78
+  size: 67, 45
+  orig: 67, 45
+  offset: 0, 0
+  index: -1
+l_hand01
+  rotate: false
+  xy: 57, 8
+  size: 91, 56
+  orig: 91, 56
+  offset: 0, 0
+  index: -1
+l_topcover
+  rotate: false
+  xy: 266, 15
+  size: 42, 47
+  orig: 42, 47
+  offset: 0, 0
+  index: -1
+l_uparm
+  rotate: false
+  xy: 0, 7
+  size: 55, 116
+  orig: 55, 116
+  offset: 0, 0
+  index: -1
+r_arm
+  rotate: false
+  xy: 370, 0
+  size: 24, 39
+  orig: 24, 39
+  offset: 0, 0
+  index: -1
+r_hand
+  rotate: false
+  xy: 384, 42
+  size: 21, 34
+  orig: 21, 34
+  offset: 0, 0
+  index: -1
+r_uparm
+  rotate: false
+  xy: 385, 82
+  size: 62, 41
+  orig: 62, 41
+  offset: 0, 0
+  index: -1
+r_weapon
+  rotate: false
+  xy: 57, 66
+  size: 108, 57
+  orig: 108, 57
+  offset: 0, 0
+  index: -1
+r_weaponlight
+  rotate: false
+  xy: 407, 68
+  size: 16, 12
+  orig: 16, 12
+  offset: 0, 0
+  index: -1
+smoke
+  rotate: false
+  xy: 255, 64
+  size: 59, 59
+  orig: 59, 59
+  offset: 0, 0
+  index: -1
+starlight
+  rotate: false
+  xy: 340, 10
+  size: 28, 29
+  orig: 28, 29
+  offset: 0, 0
+  index: -1

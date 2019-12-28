@@ -1,0 +1,18 @@
+{
+	"images" :
+	[
+		{"name" : "bg",           "url" : "images/bg.jpg"},
+        {"name" : "bottom",       "url" : "images/bottom.jpg"},
+		{"name" : "fish1",        "url" : "images/fish1.png"},
+		{"name" : "fish1_1",      "url" : "images/fish1_1.png"},
+		{"name" : "fish2",        "url" : "images/fish2.png"},
+        {"name" : "fish2_1",      "url" : "images/fish2_1.png"},
+		{"name" : "fish3",        "url" : "images/fish3.png"},
+		{"name" : "fish3_1",      "url" : "images/fish3_1.png"},
+		{"name" : "gold",         "url" : "images/gold.png"},
+        {"name" : "battery",      "url" : "images/battery.png"},
+        {"name" : "integer",      "url" : "images/integer.png"},
+        {"name" : "pig",          "url" : "images/pig.png"},
+        {"name" : "bullet",       "url" : "images/bullet.png"}
+	]
+}

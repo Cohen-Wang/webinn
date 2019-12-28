@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+
+        <script>
+            if (!true) {
+                let debug = true;
+
+                let userLogin = (resolve, reject) => {
+                    window.setTimeout(() => {
+                        if (debug) {
+                            resolve({
+                                response: true,
+                            })
+                        } else {
+                            reject('失败1');
+                        }
+                    }, 2000)
+                };
+
+                let getUserInfo = (resolve, reject) => {
+                    window.setTimeout(() => {
+                        if (true) {
+                            resolve({
+                                result: true,
+                            })
+                        } else {
+                            reject('失败2');
+                        }
+                    }, 2000);
+                };
+
+                new Promise(userLogin)
+                    .then(res => {
+                        console.log(res);
+                        let response = res.response;
+
+                        /**
+                         * 关键
+                         */
+                        return new Promise(getUserInfo)
+                            .then(res => {
+                                console.log(res);
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+            }
+
+
+            if (true) {
+                let p = new Promise((resolve, reject) => {
+                    window.setTimeout(() => {
+                        let no = Math.random();
+                        if (no > 0.5) {
+                            resolve({
+                                no: no,
+                                response: true,
+                            })
+                        } else {
+                            reject({
+                                no: no,
+                                response: false,
+                            })
+                        }
+                    }, 3000)
+                });
+
+                p.then(res => {
+                    console.log(res);
+                }).catch(err => {
+                    console.log(err);
+                })
+            }
+
+        </script>
+    </body>
+</html>

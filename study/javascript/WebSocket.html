@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8" />
+        <title>WebSocket Test</title>
+    </head>
+    <body>
+
+        <script>
+            var wsUri ="ws://echo.websocket.org/";
+
+
+            testWebSocket();
+            function testWebSocket() {
+                websocket = new WebSocket(wsUri);
+
+                websocket.onopen = function(evt) {
+                    onOpen(evt)
+                };
+
+                websocket.onclose = function(evt) {
+                    onClose(evt)
+                };
+
+                websocket.onmessage = function(evt) {
+                    onMessage(evt)
+                };
+
+                websocket.onerror = function (evt) {
+                    onError(evt)
+                };
+            }
+
+            function onOpen (evt) {
+                console.log("CONNECTED");
+                doSend("WebSocket rocks");
+            }
+
+            function onClose (evt) {
+                console.log("DISCONNECTED");
+            }
+
+            function onMessage (evt) {
+                console.log('RESPONSE: '+ evt.data);
+                /**
+                 * 关闭
+                 */
+                websocket.close();
+            }
+
+            function onError (evt) {
+                console.log('ERROR:'+ evt.data);
+            }
+
+            function doSend (message) {
+                console.log("SENT: " + message);
+                /**
+                 * 发送
+                 */
+                websocket.send(message);
+            }
+
+        </script>
+    </body>
+</html>

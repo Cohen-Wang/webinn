@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>filter</title>
+        <link rel="stylesheet" href="../css/lib/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/lib/bootstrap-theme.min.css">
+    </head>
+    <body>
+
+        <div id="app">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>默认焦点：</label>
+                            <input type="text" class="form-control" v-model="a">
+                            <p>{{a}}</p>
+                            <p>{{a | big | add}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="../js/lib/vue-2.6.10.js"></script>
+        <script src="../js/lib/vue-resource.min.js"></script>
+        <script>
+
+            let vm = new Vue({
+                el : '#app',
+                data : {
+                    a : '',
+                },
+                methods : {
+
+                },
+                filters : {
+                    big : function (value) {
+                        if (!value) return '';
+                        value = value.toString();
+                        return value.charAt(0).toUpperCase() + value.slice(1);
+                    },
+
+                    add : function (value) {
+                        return value + ' $';
+                    },
+                }
+            });
+
+        </script>
+    </body>
+</html>

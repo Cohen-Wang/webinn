@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>canvas-樱花下落</title>
+
+        <style>
+            body{overflow: hidden;}
+            body{
+                /*max-width:100%;*/
+                background: black;
+                box-sizing: border-box;
+            }
+            img{
+                width:50px;
+                height:50px;
+                margin-top:-5%;
+                opacity: 0.5;
+                position: absolute;
+                z-index: 99;
+                /*-webkit-transform:rotate3d(.6,1,.6,45deg);*/
+                /*-moz-transform:rotate3d(.6,1,.6,45deg);*/
+                /*-ms-transform:rotate3d(.6,1,.6,45deg);*/
+                /*-o-transform:rotate3d(.6,1,.6,45deg);*/
+                /*transform:rotate3d(.6,1,.6,45deg);*/
+
+            }
+        </style>
+    </head>
+    <body>
+
+
+        <div class="container-fluid">
+            <div id="box" style="height:800px;">
+                <div class="cherry">
+                    <img id="yinghua" src="yinghua.png" alt="" >
+                </div>
+            </div>
+        </div>
+
+
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="yinghua.js"></script>
+        <script>
+
+            $(function(){
+                $('.cherry').Cherry_Blossoms({
+                    is_Cherry:true,//是否生成樱花
+                    image_min:10,//花瓣最小宽度和高度
+                    image_max:50,//花瓣最大宽度和高度
+                    time_min:10000,//花瓣最快下坠时间
+                    time_max:20000,//花瓣最慢下坠时间
+                    interval:500//花瓣生成时间间隔
+                })
+            })
+        </script>
+    </body>
+</html>

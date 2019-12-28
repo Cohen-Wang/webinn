@@ -1,0 +1,55 @@
+
+bombbox_50002.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+50002_light
+  rotate: false
+  xy: 253, 106
+  size: 71, 51
+  orig: 71, 51
+  offset: 0, 0
+  index: -1
+bombbox_50002
+  rotate: true
+  xy: 153, 15
+  size: 117, 98
+  orig: 117, 98
+  offset: 0, 0
+  index: -1
+bombbox_light
+  rotate: false
+  xy: 0, 0
+  size: 151, 132
+  orig: 151, 132
+  offset: 0, 0
+  index: -1
+cord01
+  rotate: false
+  xy: 0, 134
+  size: 176, 118
+  orig: 176, 118
+  offset: 0, 0
+  index: -1
+cord02
+  rotate: false
+  xy: 358, 155
+  size: 140, 97
+  orig: 140, 97
+  offset: 0, 0
+  index: -1
+light01
+  rotate: false
+  xy: 253, 41
+  size: 28, 63
+  orig: 28, 63
+  offset: 0, 0
+  index: -1
+umbrella
+  rotate: false
+  xy: 178, 159
+  size: 178, 93
+  orig: 178, 93
+  offset: 0, 0
+  index: -1

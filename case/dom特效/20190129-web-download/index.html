@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link rel="shortcut icon" type="image/x-icon" href="./res/images/ico/favicon.ico"/>
+        <link rel="icon"          type="image/x-icon" href="./res/images/ico/favicon.ico"/>
+        <title>download.js测试</title>
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <strong>
+                        <a href="../../index.html" class="navbar-brand">HOME</a>
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="page-header">
+                            <h1>逐步分析（下载）功能的实现 ：</h1>
+                        </div>
+
+                        <div>
+                            <blockquote>
+                                <p>下载文件：</p>
+                            </blockquote>
+                            <div>
+                                <a href="./test.txt" target="_blank" class="btn btn-link">打开文件</a>
+                                <code>&lt;a href="./test.txt" target="_blank"&gt;打开文件&lt;/a&gt;</code>
+                            </div>
+                            <div>
+                                <a href="./test.txt" download="filename_when_you_download.txt" class="btn btn-link">下载文件</a>
+                                <code>&lt;a href="./test.txt" download="filename_when_you_download.txt"&gt;下载文件&lt;/a&gt;</code>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div>
+                            <blockquote>
+                                <p>window.URL（只有两个方法）：</p>
+                            </blockquote>
+                            <div>
+                                <h4>window.URL.createObjectURL(): <small>创建</small></h4>
+                                <h4>window.URL.revokeObjectURL(): <small>废除</small></h4>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <blockquote>
+                                    <p>下载内存中的数据：</p>
+                                </blockquote>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-default" onclick="downloadData()">下载</button>
+                            </div>
+                            <br><br><br><br><br><br>
+                            <div class="col-md-12">
+<pre>
+function myDownload (content, filename) {
+    let blob = new Blob([content]);// 创建blob对象，参数类型是数组；blob是一个可存储二进制的容器，如：图片，文件，音乐
+    this._link = document.createElement('a');
+    this._link.download = filename;
+    this._link.href = url = URL.createObjectURL(blob);// 创建一个被传入参数的URL对象；生成一个URL对象
+    let event = new MouseEvent('click');
+    this._link.dispatchEvent(event);
+    window.URL.revokeObjectURL(url);
+}
+</pre>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div>
+                            <div>
+                                <blockquote>
+                                    <p>别人的插件：</p>
+                                </blockquote>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-default" onclick="download2()">下载</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="./js/lib/download.js"></script>
+        <script>
+            let obj = {
+                name : "cohen",
+                age : 23,
+                school : "西华师范大学",
+                major : {
+                    "love" : ["red","blue","green"],
+                    "show" : "USA",
+                }
+            };
+            let str = JSON.stringify(obj);
+
+            /***********************************************************************************************************
+             * 下载内存中的数据
+             */
+            function downloadData () {
+                myDownload(str, 'testname.txt');
+            }
+            //
+            function myDownload (content, filename) {
+                let blob = new Blob([content]);// 创建blob对象，参数类型是数组；blob是一个可存储二进制的容器，如：图片，文件，音乐
+                this._link = document.createElement('a');
+                this._link.download = filename;
+                this._link.href = url = URL.createObjectURL(blob);// 创建一个被传入参数的URL对象；生成一个URL对象
+                let event = new MouseEvent('click');
+                this._link.dispatchEvent(event);
+                window.URL.revokeObjectURL(url);
+            }
+
+            /***********************************************************************************************************
+             * 别人的插件
+             */
+            function download2 () {
+                window.download(str, 'temp.txt');
+            }
+
+
+
+        </script>
+    </body>
+</html>

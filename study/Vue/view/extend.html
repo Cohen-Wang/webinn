@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>extend</title>
+        <link rel="stylesheet" href="../css/lib/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/lib/bootstrap-theme.min.css">
+    </head>
+    <body>
+
+        <div id="app">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="../js/lib/vue-2.6.10.js"></script>
+        <script src="../js/lib/vue-resource.min.js"></script>
+        <script>
+
+            // 定义一个混入对象
+            var myMixin = {
+
+                /**
+                 * 注意： data 是函数 ，不是对象
+                 * @returns {{aaa: string}}
+                 */
+                data : function () {
+                    return {
+                        aaa : 'hahaha',
+                    }
+                },
+                methods: {
+                    hello: function () {
+                        alert('hello from mixin!' + this.aaa);
+                    }
+                },
+                created: function () {
+                    this.hello()
+                },
+            };
+
+            // 定义一个使用混入对象的组件
+            var Component = Vue.extend({
+                mixins: [myMixin]
+            });
+
+            var component = new Component() // => "hello from mixin!"
+
+        </script>
+    </body>
+</html>

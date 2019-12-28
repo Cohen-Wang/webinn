@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>《JavaScript高级程序设计》----label</title>
+    </head>
+    <body>
+
+
+        <script>
+
+            if (!true) {
+                let num = 0;
+                for (let i = 0; i < 10; i++) {
+                    for (let j = 0; j < 10; j++) {
+                        num++;
+                    }
+                }
+                alert(num); // 100
+            }
+
+            if (!true) {
+                let num = 0;
+                for (let i = 0; i < 10; i++) {
+                    console.log("❤❤❤❤i=" + i);
+                    for (let j = 0; j < 10; j++) {
+                        console.log("■■■■j=" + j);
+                        if (i === 5 && j === 5 ) {
+                            console.log("------------------i , j = 5");
+                            break;
+                        }
+                        num++;//95
+                    }
+                }
+                console.log(num);
+            }
+
+            if (!true) {
+                let num = 0;
+                for (let i = 0; i < 10; i++) {
+                    console.log("❤❤❤❤i=" + i);
+                    for (let j = 0; j < 10; j++) {
+                        console.log("■■■■j=" + j);
+                        if ( i === 5 && j === 5 ) {
+                            console.log("------------------i , j = 5");
+                            continue;
+                        }
+                        num++;//99
+                    }
+                }
+                console.log(num);
+            }
+
+            if (!true) {
+                let num = 0;
+                outPoint:// 这里为label，标签名为outPoint
+                    for (let i = 0 ; i < 10 ; i++) {
+                        console.log("❤❤❤❤i=" + i);
+                        for (let j = 0 ; j < 10 ; j++) {
+                            console.log("■■■■j=" + j);
+                            if ( i === 5 && j === 5 ) {
+                                console.log("------------------i , j = 5");
+                                console.log(num);
+                                break outPoint;
+                            }
+                            num++;//55
+                        }
+                    }
+                console.log(num);
+            }
+
+            if (true) {
+                let num = 0;
+                outPoint:// 这里为label，标签名为outPoint
+                    for (let i = 0 ; i < 10 ; i++) {
+                        console.log("❤❤❤❤i=" + i);
+                        for (let j = 0 ; j < 10 ; j++) {
+                            console.log("■■■■j=" + j);
+                            if ( i === 5 && j === 5 ) {
+                                console.log("------------------i , j = 5");
+                                console.log(num);
+                                continue outPoint;
+                            }
+                            num++;//95
+                        }
+                    }
+                console.log(num);
+            }
+
+
+        </script>
+    </body>
+</html>

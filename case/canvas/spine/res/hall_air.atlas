@@ -1,0 +1,13 @@
+
+hall_air.png
+size: 64,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+gunlight
+  rotate: false
+  xy: 0, 0
+  size: 44, 46
+  orig: 44, 46
+  offset: 0, 0
+  index: -1

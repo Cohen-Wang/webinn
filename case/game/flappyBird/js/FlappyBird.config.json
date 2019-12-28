@@ -1,0 +1,61 @@
+{
+	"images" : 
+	[
+		{
+			"name" : "bg_day",
+			"url" : "images/bg_day.png"
+		},
+		{
+			"name" : "bg_night",
+			"url" : "images/bg_night.png"
+		},
+		{
+			"name" : "bird0_0",
+			"url" : "images/bird0_0.png"
+		},
+		{
+			"name" : "bird0_1",
+			"url" : "images/bird0_1.png"
+		},
+		{
+			"name" : "bird0_2",
+			"url" : "images/bird0_2.png"
+		},
+		{
+			"name" : "bird1_0",
+			"url" : "images/bird1_0.png"
+		},
+		{
+			"name" : "bird1_1",
+			"url" : "images/bird1_1.png"
+		},
+		{
+			"name" : "bird1_2",
+			"url" : "images/bird1_2.png"
+		},
+		{
+			"name" : "bird2_0",
+			"url" : "images/bird2_0.png"
+		},
+		{
+			"name" : "bird2_1",
+			"url" : "images/bird2_1.png"
+		},
+		{
+			"name" : "bird2_2",
+			"url" : "images/bird2_2.png"
+		},
+		{
+			"name" : "land",
+			"url" : "images/land.png"
+		},
+		{
+			"name" : "pipe_up",
+			"url" : "images/pipe_up.png"
+		},
+		{
+			"name" : "pipe_down",
+			"url" : "images/pipe_down.png"
+		}
+	]
+}

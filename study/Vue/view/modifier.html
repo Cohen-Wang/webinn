@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>modifier</title>
+        <link rel="stylesheet" href="../css/lib/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/lib/bootstrap-theme.min.css">
+    </head>
+    <body>
+
+        <div id="app">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-info" @click.ctrl="ctrl()">.ctrl</button>
+                        <button type="button" class="btn btn-info" @click.ctrl.exact="ctrlOnly()">.ctrl.exact</button>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>input:</label>
+                            <input type="text" class="form-control" v-model="test1">
+                        </div>
+                        <p v-text="test1"></p>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>change:</label>
+                            <input type="text" class="form-control" v-model.lazy="test2">
+                        </div>
+                        <p v-text="test2"></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>.number:</label>
+                            <input type="number" class="form-control" v-model.number="test3">
+                        </div>
+                        <p v-text="test3"></p>
+                        <p v-text="typeof test3"></p>
+                    </div>
+                </div>
+                <hr>
+
+            </div>
+        </div>
+
+
+        <script src="../js/lib/vue-2.6.10.js"></script>
+        <script src="../js/lib/vue-resource.min.js"></script>
+        <script>
+
+            const vm = new Vue({
+                el : '#app',
+                data : {
+                    test1 : 'test1',
+                    test2 : 'test2',
+
+                    test3 : 123,
+                },
+                computed : {
+
+                },
+                methods : {
+
+                },
+            });
+
+        </script>
+    </body>
+</html>

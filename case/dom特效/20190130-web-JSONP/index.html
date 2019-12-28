@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="./res/images/ico/logo_16x16.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="./res/images/ico/logo_16x16.ico" type="image/x-icon"/>
+        <title>JSONP</title>
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/bootstrap-theme.min.css">
+        <style>
+            body{background-color: #333;}
+        </style>
+    </head>
+    <body>
+        <!--nav S-->
+        <div class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <strong>
+                        <a href="../../index.html" class="navbar-brand">HOME</a>
+                    </strong>
+                </div>
+            </div>
+        </div>
+        <!--nav E-->
+
+        <!--main S-->
+        <div class="container" style="background-color: #fff;padding-top: 20px;padding-bottom: 20px;margin-bottom: 100px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="lead text-center"><b>JSONP：</b></p>
+                    <hr>
+                </div>
+
+                <div class="col-md-12">
+                    <ol>
+                        <li>
+                            jsonp:跨域ajax数据请求的解决方案。
+                        </li>
+                        <li>
+                            由来：
+                            <ul>
+                                <li>ajax不能进行跨域请求</li>
+                                <li>可以在一个项目中访问另一个项目的js文件</li>
+                                <li>使用ajax请求另一个项目的js文件</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <hr>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>输入任意内容:</label>
+                        <input type="text" class="form-control" oninput="getInfo(this.value);">
+                    </div>
+                    <div id="box">
+                        <!--...-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--main E-->
+
+        <script src="./js/lib/download.js"></script>
+        <script>
+
+            function getInfo (value) {
+                let oScript = document.createElement('script');
+                console.log(value);
+                let decodeValue = decodeURIComponent(value);
+                console.log(decodeValue);
+                oScript.src = "https://suggest.taobao.com/sug?code=utf-8&q="+decodeValue+"&callback=show";
+                document.body.appendChild(oScript);
+            }
+
+            function show (data) {
+                let oBox = document.getElementById('box');
+                oBox.innerHTML = '';// 先清空
+                //
+                let oUl = document.createElement('ul');
+                oUl.className = 'list-unstyled';
+                let oFragment = document.createDocumentFragment();
+                //
+                data.result.forEach(function (value, index) {
+                    let oLi = document.createElement('li');
+                    oLi.innerHTML = index + " : " + value[0] + " : " + value[1];
+                    oFragment.appendChild(oLi);
+                });
+
+                oUl.appendChild(oFragment);
+                oBox.appendChild(oUl);
+            }
+
+        </script>
+    </body>
+</html>

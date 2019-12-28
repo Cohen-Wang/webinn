@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" href="../css/lib/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/lib/bootstrap-theme.min.css">
+    </head>
+    <body>
+
+        <div id="app">
+            <nav class="navbar navbar-default">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">Brand</a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container">
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Vue</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                <h1>父组件内容</h1>
+                                <i>{{num}}</i>
+                            </div>
+                            <hr>
+                            <div>
+                                <my-component :c="c"
+                                              :num="num"
+                                              @add="num += 1">
+
+                                </my-component>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="../js/lib/vue.min.js"></script>
+        <script src="../js/lib/vue-resource.min.js"></script>
+        <script>
+
+            let MyComponent = Vue.extend({
+                data: function () {
+                    return {
+                        a : '我只组件中的data'
+                    }
+                },
+
+                props: ['c', 'num'],
+
+                template:
+                `
+                    <div >
+                        <h1>{{a}}</h1>
+                        <h1>{{num}}</h1>
+                        <button @click="add">+</button>
+                        <button @click="$emit('add')">+</button>
+
+                        <h1>123</h1>
+                        <ul>
+                            <li v-for="(item, index) in c">
+                                {{item.name}} -- {{item.quantity}}
+                            </li>
+                        </ul>
+                    </div>
+                `,
+
+                methods: {
+                    add: function () {
+                        this.num +=1;
+                    }
+                },
+            });
+
+
+            const vm = new Vue({
+                el : '#app',
+                data : {
+                    num : 0,
+                    c : [{
+                        name : 'Iphone6',
+                        quantity : 10,
+                    },{
+                        name : '小米',
+                        quantity : 20,
+                    },{
+                        name : 'Samsung',
+                        quantity : 30,
+                    },{
+                        name : 'Samsung2',
+                        quantity : 40,
+                    }],
+                },
+                components: {
+                    'my-component': MyComponent
+                },
+                computed : {
+
+                },
+                methods : {
+                    addFather: function () {
+                        this.num += 1;
+                    }
+                },
+            })
+        </script>
+    </body>
+</html>

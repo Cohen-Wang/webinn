@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>旋转基础</title>
+
+        <style>
+            *{margin:0;padding: 0}
+            body{overflow: hidden;}
+        </style>
+    </head>
+    <body>
+
+        <canvas id="canvas"></canvas>
+
+        <script>
+
+            // 获取
+            let can = document.getElementById('canvas');
+            let ctx = can.getContext('2d');
+            //
+            can.width = window.innerWidth;
+            can.height = window.innerHeight;
+            can.style.backgroundColor = '#000';
+            // 变量
+            let center = {
+                x : can.width / 2,
+                y : can.height / 2
+            };
+            let distance = 300;
+            let time = null;
+
+
+            let timer = window.setInterval(function () {
+                //
+                let rotate = Math.PI/180 * time;
+                // 清屏
+                ctx.clearRect(0, 0, can.width, can.height);
+                // 中心点
+                drawCircle(center.x, center.y, 20, 'red');
+                // 旋转
+                drawCircle(distance * Math.cos(rotate) + center.x, distance * Math.sin(rotate) + center.y, 5, 'green');
+                //
+                time++;
+            }, 1000/60);
+
+
+
+
+            //
+            function drawCircle (x, y, r, color) {
+                color = color || 'abcdef';
+                ctx.save();
+                ctx.beginPath();
+                ctx.fillStyle = color;
+                ctx.arc(x, y, r, 0, Math.PI*2);
+                ctx.fill();
+                ctx.closePath();
+                ctx.restore();
+            }
+
+
+
+
+        </script>
+
+    </body>
+</html>

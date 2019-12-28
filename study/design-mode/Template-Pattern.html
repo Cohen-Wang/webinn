@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+
+        <script>
+
+            /**
+             * 抽象类
+             */
+            function Beverage () {}
+            Beverage.prototype.firstStep = function () {
+                throw new Error('子类必须重写 firstStep 方法');
+            };
+            Beverage.prototype.secondStep = function () {
+                throw new Error('子类必须重写 secondStep 方法');
+            };
+            Beverage.prototype.thirdStep = function () {
+                throw new Error('子类必须重写 thirdStep 方法');
+            };
+            Beverage.prototype.init = function () {
+                this.firstStep();
+                this.secondStep();
+                this.thirdStep();
+            };
+
+            /**
+             * Coffee
+             */
+            function Coffee () {}
+            Coffee.prototype = new Beverage();
+            Coffee.prototype.firstStep = function () {
+                console.log('Coffee firstStep');
+            };
+            Coffee.prototype.secondStep = function () {
+                console.log('Coffee secondStep');
+            };
+            Coffee.prototype.thirdStep = function () {
+                console.log('Coffee thirdStep');
+            };
+
+            /**
+             * Tea
+             */
+            function Tea () {}
+            Tea.prototype = new Beverage();
+            Tea.prototype.firstStep = function () {
+                console.log('Tea firstStep');
+            };
+            Tea.prototype.secondStep = function () {
+                console.log('Tea secondStep');
+            };
+            Tea.prototype.thirdStep = function () {
+                console.log('Tea thirdStep');
+            };
+
+
+
+            let c = new Coffee();
+            c.init();
+
+
+            let t = new Tea();
+            t.init();
+
+
+
+
+        </script>
+    </body>
+</html>

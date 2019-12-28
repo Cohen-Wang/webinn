@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="../../res/images/logo/logo.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="../../res/images/logo/logo.png" type="image/x-icon"/>
+        <title>canvas-spine-canvas.js</title>
+
+        <link href="../../css/lib/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap-theme.min.css" rel="stylesheet">
+        <style>
+            body{overflow: hidden;}
+        </style>
+    </head>
+    <body>
+
+        <div class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <strong>
+                        <a href="../../index.html" class="navbar-brand">HOME</a>
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div id="box" style="height:800px;">
+                <canvas id="canvas" style="background-color: #000"></canvas>
+            </div>
+        </div>
+
+
+        <script src="js/lib/jquery-1.10.1.min.js"></script>
+        <script src="js/lib/spine-canvas.js"></script>
+        <script>
+
+            let can = document.getElementById("canvas");
+            let ctx = can.getContext("2d");
+            // 设置
+            can.width = can.parentNode.offsetWidth;
+            can.height = can.parentNode.offsetHeight;
+            //
+            let assetManager;
+            let skeleton,
+                state,
+                bounds;
+            let skeletonRenderer;// 骨骼渲染器
+            let lastFrameTime = Date.now()/1000;
+            let skelName = "holographic";
+            let animName = "idle";
+
+            init();
+            function init () {
+
+                /*****************************************************************************************************
+                 *
+                 */
+                // 骨骼渲染器
+                skeletonRenderer = new spine.canvas.SkeletonRenderer(ctx);
+                skeletonRenderer.debugRendering = true;// 支持调试渲染
+                skeletonRenderer.triangleRendering = false;// 支持三角渲染, 支持网页, but may produce artifacts in some browsers
+                // 资源管理
+                assetManager = new spine.canvas.AssetManager();
+                assetManager.loadText("res/" + skelName + ".json");
+                assetManager.loadText("res/" + skelName + ".atlas");
+                assetManager.loadTexture("res/" + skelName + ".png");
+                //
+                requestAnimationFrame(load);
+            }
+
+            function load () {
+                if (assetManager.isLoadingComplete()) {
+                    let data = loadSkeleton(skelName, animName, "default");
+                    skeleton = data.skeleton;
+                    state = data.state;
+                    bounds = data.bounds;
+                    requestAnimationFrame(render);
+                } else {
+                    requestAnimationFrame(load);
+                }
+            }
+
+            function loadSkeleton (name, initialAnimation, skin) {
+                // 皮肤
+                if (skin === undefined) skin = "default";
+
+                // 加载atlas
+                let atlas = new spine.TextureAtlas(assetManager.get("res/" + name + ".atlas"), function(path) {
+                    return assetManager.get("res/" + path);
+                });
+                // 创建一个AtlasAttachmentLoader
+                let atlasLoader = new spine.AtlasAttachmentLoader(atlas);
+                // 实例化SkeletonJson用于解析.json文件
+                let skeletonJson = new spine.SkeletonJson(atlasLoader);
+
+                // 在解析中设置大小比例用于应用；parse the file, 创建一个骨架
+                let skeletonData = skeletonJson.readSkeletonData(assetManager.get("res/" + name + ".json"));
+                let skeleton = new spine.Skeleton(skeletonData);
+                skeleton.flipY = true;
+                //
+                let bounds = calculateBounds(skeleton);
+                skeleton.setSkinByName(skin);
+
+                // 创建一个动画状态, 设置初始化动画循环；
+                let animationState = new spine.AnimationState(new spine.AnimationStateData(skeleton.data));
+                animationState.setAnimation(0, initialAnimation, true);
+                animationState.addListener({
+                    event: function(trackIndex, event) {
+                        // console.log("Event on track " + trackIndex + ": " + JSON.stringify(event));
+                    },
+                    complete: function(trackIndex, loopCount) {
+                        // console.log("Animation on track " + trackIndex + " completed, loop count: " + loopCount);
+                    },
+                    start: function(trackIndex) {
+                        // console.log("Animation on track " + trackIndex + " started");
+                    },
+                    end: function(trackIndex) {
+                        // console.log("Animation on track " + trackIndex + " ended");
+                    }
+                });
+
+                // Pack everything up and return to caller.
+                return {
+                    skeleton: skeleton,
+                    state: animationState,
+                    bounds: bounds
+                };
+            }
+
+            function calculateBounds(skeleton) {
+                let data = skeleton.data;
+                skeleton.setToSetupPose();
+                skeleton.updateWorldTransform();
+                let offset = new spine.Vector2();
+                let size = new spine.Vector2();
+                skeleton.getBounds(offset, size, []);
+                return {
+                    offset: offset,
+                    size: size
+                };
+            }
+
+            function render () {
+                let now = Date.now() / 1000;
+                let delta = now - lastFrameTime;
+                lastFrameTime = now;
+
+                resize();
+
+                ctx.save();
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.clearRect(0, 0, can.width, can.height);
+                ctx.restore();
+
+                state.update(delta);
+                state.apply(skeleton);
+                skeleton.updateWorldTransform();
+                skeletonRenderer.draw(skeleton);
+
+                ctx.strokeStyle = "green";
+                ctx.beginPath();
+                ctx.moveTo(-1000, 0);
+                ctx.lineTo(1000, 0);
+                ctx.moveTo(0, -1000);
+                ctx.lineTo(0, 1000);
+                ctx.stroke();
+
+                requestAnimationFrame(render);
+            }
+
+            function resize () {
+                let w = can.clientWidth;
+                let h = can.clientHeight;
+                if (can.width !== w || can.height !== h) {
+                    can.width = w;
+                    can.height = h;
+                }
+
+                // magic
+                let centerX = bounds.offset.x + bounds.size.x / 2;
+                let centerY = bounds.offset.y + bounds.size.y / 2;
+                //
+                // let scaleX = bounds.size.x / can.width;
+                // let scaleY = bounds.size.y / can.height;
+                // let scale = Math.max(scaleX, scaleY) * 1.2;
+                // if (scale < 1) scale = 1;
+                //
+                // let width = can.width * scale;
+                // let height = can.height * scale;
+
+                // 移动位置
+                ctx.setTransform(1, 0, 0, 1, 0, 0);// 每次回归正常状态
+                //ctx.scale(1 / scale, 1 / scale);
+                //ctx.translate(width / 2, height / 2);// 先平移到中心点
+                //ctx.translate(-centerX, -centerY);
+                ctx.translate(213, 150);
+            }
+
+
+
+        </script>
+    </body>
+</html>

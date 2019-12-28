@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+
+
+        <script>
+
+
+            /**
+             * ./store/index.js
+             */
+            import Vue from 'vue';
+            import Vuex from 'vuex';
+            import state from './state';
+            import getters from './getters';
+            import mutations from './mutations';
+            import actions from './actions';
+
+            Vue.user(Vuex);
+
+            export default new Vuex.Store({
+                state,
+                getters,
+                mutations,
+                actions,
+            });
+
+            /**
+             * state.js
+             */
+            export const state = {
+                users : ''
+            };
+
+            /**
+             * getters.js
+             */
+            export const getters = {
+                users: state => {
+                    return state.users;
+                }
+            };
+            console.log(this.$store.getters.users);
+
+            /**
+             * mutations.js
+             */
+            export const mutations = {
+                SET_USERS: (state, data) => {
+                    state.users = data.users;
+                }
+            };
+            this.$store.commit('SET_USERS', data);
+
+            /**
+             * actions.js
+             */
+            export const actions = {
+                setUsers: context => {
+                    context.commit('SET_USERS');
+                }
+            };
+            this.$store.dispatch('setUsers', {
+                amount: 10
+            })
+
+
+        </script>
+    </body>
+</html>

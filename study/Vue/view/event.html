@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>event</title>
+        <link rel="stylesheet" href="../css/lib/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/lib/bootstrap-theme.min.css">
+    </head>
+    <body>
+
+        <div id="app">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-info btn-block btn-lg" @click="showEventObject($event)">事件对象$event</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="../js/lib/vue.min.js"></script>
+        <script src="../js/lib/vue-resource.min.js"></script>
+        <script>
+
+
+            Vue.component('todo-item', {
+                props : ['item'],
+                template: '<li v-text="item"></li>'
+            });
+
+            const vm = new Vue({
+                el : '#app',
+                data : {
+                    trigger : function () {
+                        alert('我是可以在vm对象外部调用的函数， 我的函数名是：' + arguments.callee.name);
+                    },
+
+                    showEventObject : function (event) {
+                        alert('控制台输出事件对象：$event');
+                        console.log(event)
+                    },
+                },
+                computed : {
+
+                },
+                methods : {
+
+                },
+            });
+
+            vm.trigger();
+        </script>
+    </body>
+</html>

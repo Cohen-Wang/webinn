@@ -1,0 +1,76 @@
+
+competition_lamp.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+circle01
+  rotate: false
+  xy: 154, 110
+  size: 125, 101
+  orig: 125, 101
+  offset: 0, 0
+  index: -1
+circle01a
+  rotate: false
+  xy: 0, 83
+  size: 152, 128
+  orig: 152, 128
+  offset: 0, 0
+  index: -1
+fire01
+  rotate: false
+  xy: 236, 310
+  size: 40, 19
+  orig: 40, 19
+  offset: 0, 0
+  index: -1
+fire01a
+  rotate: false
+  xy: 418, 298
+  size: 81, 61
+  orig: 81, 61
+  offset: 0, 0
+  index: -1
+fire02
+  rotate: false
+  xy: 154, 68
+  size: 70, 40
+  orig: 70, 40
+  offset: 0, 0
+  index: -1
+fire02a
+  rotate: false
+  xy: 0, 0
+  size: 111, 81
+  orig: 111, 81
+  offset: 0, 0
+  index: -1
+star01
+  rotate: false
+  xy: 0, 213
+  size: 234, 116
+  orig: 234, 116
+  offset: 0, 0
+  index: -1
+star01a
+  rotate: false
+  xy: 0, 331
+  size: 294, 177
+  orig: 294, 177
+  offset: 0, 0
+  index: -1
+tank01
+  rotate: false
+  xy: 296, 275
+  size: 120, 84
+  orig: 120, 84
+  offset: 0, 0
+  index: -1
+tank02
+  rotate: false
+  xy: 296, 361
+  size: 179, 147
+  orig: 179, 147
+  offset: 0, 0
+  index: -1

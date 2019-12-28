@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+        <title>Javascript Date对象-详解-实战</title>
+        <link rel="stylesheet" href="../css/lib/bootstrap.min.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <strong>
+                        <a href="../../../index.html" class="navbar-brand">HOME</a>
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="list-group" data-spy="affix" style="width:250px;">
+                        <a data-pjax href="index.html" class="list-group-item">首页</a>
+                        <a data-pjax href="./javascript.html" class="list-group-item">javascript</a>
+                        <a data-pjax href="./practice.html" class="list-group-item active">日期对象实战</a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div id="content">
+
+                        <div id="date_practice" class="panel panel-default">
+                            <div class="panel-heading">
+                                实战操作
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>日期：</label>
+                                        <input type="date" class="form-control" v-model="inputDate">
+                                    </div>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">原始数据：<b class="pull-right text-success" v-text="inputDate"></b></li>
+                                        <li class="list-group-item">时间戳：<b class="pull-right text-success" v-text="inputDate_timestamp"></b></li>
+                                        <li class="list-group-item">转为'/'：<b class="pull-right text-success" v-text="inputDate.replace(/-/g, '\/')"></b></li>
+
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>时间：</label>
+                                        <input type="time" class="form-control" v-model="inputTime">
+                                    </div>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">原始数据：<b class="pull-right text-success" v-text="inputTime"></b></li>
+                                        <li class="list-group-item">时间戳：<b class="pull-right text-success" v-text="inputDate_timestamp"></b></li>
+                                        <li class="list-group-item">转为'-'：<b class="pull-right text-success" v-text="inputTime.replace(/:/g, '-')"></b></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script src="../js/lib/vue.min.js"></script>
+                        <script src="../js/dist/date_practice.js"></script>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </body>
+</html>

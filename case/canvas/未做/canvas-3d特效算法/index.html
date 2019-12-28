@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="http://wx1.sinaimg.cn/large/005EAIaRgy1fun345b9edj304v03lmxk.jpg" type="image/x-icon" />
+        <link rel="shortcut icon" href="http://wx1.sinaimg.cn/large/005EAIaRgy1fun345b9edj304v03lmxk.jpg" type="image/x-icon"/>
+        <title>canvas-3d圆-旋转-第二步</title>
+
+        <style>
+            *{margin:0;padding: 0}
+            body{min-height: 915px;overflow: hidden}
+        </style>
+    </head>
+    <body>
+
+        <canvas id="canvas"></canvas>
+
+        <script>
+
+            // 获取
+            let can = document.getElementById('canvas');
+            let ctx = can.getContext('2d');
+            // 设置
+            can.width = window.innerWidth;
+            can.height = window.innerHeight > 900 ? window.innerHeight : 900;
+            can.style.backgroundColor = '#000';
+
+
+            let center = {x:can.width/2, y:can.height/2, z:0};
+            let xCount = 20; // x 方向的点数
+            let zCount = 20; // z 方向的点数
+            let step = can.width / xCount; // x 方向点之间的间隔
+            let rectWidth = 5;// 方形宽度
+            let points = [];// 存储
+
+            createPoints();
+            render();
+            drawRect(center.x, center.y, rectWidth, rectWidth, 'red');// 画个中心点
+
+
+            // 根据 perspective 和 z 获取三维坐标对应二维坐标的xy缩放值
+            function getScaleByZ (z, p=600) {
+                return (z > p) ? Infinity : scale = p / (-z + p);
+            }
+
+            /**
+             * 画方形的方法
+             * @param x
+             * @param y
+             * @param w
+             * @param h
+             * @param color
+             */
+            function drawRect (x, y, w, h, color) {
+                color = color || '#abcdef';
+                ctx.beginPath();
+                ctx.fillStyle = color;
+                ctx.fillRect(x, y, w, h);
+                ctx.closePath();
+            }
+
+            /**
+             * 创建坐标的方法，也是算法
+             */
+            function createPoints () {
+                for (let i = -(xCount - 1) / 2; i <= (xCount - 1) / 2; i++) {
+                    for (let j = -(zCount - 1) / 2; j <= (zCount - 1) / 2; j++) {
+                        let x = i;
+                        let z = j;
+                        let y = 0;
+                        points.push({
+                            x : (x + xCount/2) * step,
+                            y : can.height + 1,
+                            z : z * step
+                        });
+                    }
+                }
+            }
+
+            /**
+             * 渲染
+             */
+            function render () {
+                // 清空
+                ctx.clearRect(0, 0, can.width, can.height);
+                // 画
+                for (let i = 0; i < points.length; i++) {
+                    //
+                    let scale = getScaleByZ(points[i].z);
+                    //
+                    let drawX = center.x + (points[i].x - center.x) * scale;
+                    let drawY = center.y + (points[i].y - center.y) * scale;
+                    let drawWidth = rectWidth * scale;
+
+                    //drawRect(points[i].x, points[i].y, drawWidth, drawWidth);
+                    drawRect(drawX, drawY, drawWidth, drawWidth);
+                }
+            }
+
+        </script>
+    </body>
+</html>

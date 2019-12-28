@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Javscript - Promise - 学习</title>
+    </head>
+    <body>
+
+        <script>
+
+            //console.log(window.Promise);// ƒ Promise() { [native code] }
+            //console.log(window.Promise());// Uncaught TypeError: undefined is not a promise
+
+            let myPromise = new Promise(function (resolve, reject) {
+                // 模拟异步获取某个数据
+                setTimeout(function () {
+                    console.log("setTimeout");// 代码正常执行
+                    resolve('我是异步获取的数据123');
+                }, 2000);
+
+            });
+
+            console.log(myPromise);
+
+            //
+            myPromise.then(function (message) {
+                console.log(message);
+            }).catch(function (error) {
+                console.log(error);
+            }).finally(function () {
+                console.log('finally');
+            })
+
+        </script>
+    </body>
+</html>

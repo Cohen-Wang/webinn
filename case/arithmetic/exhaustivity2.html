@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>穷举</title>
+    </head>
+    <body>
+
+        <h1>穷举</h1>
+        <p>有一个三位数，个位数字比百位数字大，而百位数字又比十位数字大，并且各位数字之和等于各位数字相乘之积，求此三位数</p>
+        <hr>
+
+        <script>
+
+            /**
+             * a 百位数
+             * b 十位数
+             * c 个位数
+             */
+            let a, b, c;
+            for (let  a = 0;  a <= 10;  a++) {
+                for (let b = 0; b <= 10; b++) {
+                    for (let c = 0; c <= 10; c++) {
+                        //let c = 100 - cockAmount - hen;
+                        if (
+                            c > a
+                            && a > b
+                            && (a + b + c) === a * b * c
+                        )
+                        {
+                            document.body.innerHTML += a * 100 + b * 10 + c + "</br>";
+                        }
+                    }
+                }
+            }
+
+
+
+        </script>
+    </body>
+</html>

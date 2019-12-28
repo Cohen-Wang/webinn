@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="../../res/images/logo/logo_16x16.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="../../res/images/logo/logo_16x16.png" type="image/x-icon"/>
+        <title>web-sweetalert.js</title>
+        <link type="text/css" rel="stylesheet" href="../../css/lib/bootstrap.min.css">
+        <link type="text/css" rel="stylesheet" href="./css/sweetalert.min.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <strong>
+                        <a href="../../index.html" class="navbar-brand">HOME</a>
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" id="alertsweet">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <p class="panel-title">sweetalert</p>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <div class="page-header">
+                                <h3>sweetalert.js</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="btn-group">
+                                <button class="btn btn-success" @click="showSuccess()">成功</button>
+                                <button class="btn btn-warning" @click="showWarning()">警告</button>
+                                <button class="btn btn-danger"  @click="showError()">错误</button>
+                                <button class="btn btn-info"    @click="showInput()">输入框</button>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr>
+                            <table class="table table-hover">
+                                <caption class="text-center"><h3>《sweetalert》特效</h3></caption>
+                                <thead>
+                                <tr>
+                                    <th>名称</th>
+                                    <th>年龄</th>
+                                    <th>爱好</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(player, playerIndex) in players">
+                                    <td v-text="player.name"></td>
+                                    <td v-text="player.age"></td>
+                                    <td v-text="player.hobby"></td>
+                                    <td>
+                                        <button type="button" class="btn btn-xs btn-danger" @click="deletePlayer(playerIndex)">删除</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="./js/lib/vue.min.js"></script>
+        <script src="./js/lib/vue-resource.min.js"></script>
+        <script src="./js/lib/sweetalert.min.js"></script>
+        <script src="./js/dist/index.js"></script>
+    </body>
+</html>

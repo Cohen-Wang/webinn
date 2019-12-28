@@ -1,0 +1,100 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.list_ul {
+    list-style: none;
+    overflow: hidden;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+    position: relative;
+}
+
+.list-item {
+    position: relative;
+    height: 4rem;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+.list-item[data-type="0"] {
+    transform: translate3d(0, 0, 0);
+}
+
+.list-item[data-type="1"] {
+    transform: translate3d(-5rem, 0, 0);
+}
+
+.list-box {
+    padding: 0.5rem;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    justify-content: flex-end;
+    font-size: 0;
+}
+
+.list-item .list-img {
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.list-item .list-content {
+    padding: 0.25rem 0 0.25rem 0.5rem;
+    position: relative;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.list-item .title {
+    display: block;
+    color: #333;
+    overflow: hidden;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.list-item .tips {
+    display: block;
+    overflow: hidden;
+    font-size: 0.6rem;
+    color: #999;
+    line-height: 1rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.list-item .time {
+    display: block;
+    font-size: 0.6rem;
+    position: absolute;
+    right: 0;
+    top: 0.25rem;
+    color: #666;
+}
+
+.list-item .delete {
+    width: 5rem;
+    height: 4rem;
+    background: #ff4949;
+    font-size: 0.85rem;
+    color: #fff;
+    text-align: center;
+    line-height: 4rem;
+    position: absolute;
+    top: 0;
+    right: -5rem;
+}

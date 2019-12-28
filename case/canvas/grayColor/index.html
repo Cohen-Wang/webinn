@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>灰色图片</title>
+        <style>
+            * {margin:0;padding: 0}
+            html {height:100%}
+            body {height:100%; overflow: hidden;}
+        </style>
+    </head>
+    <body>
+
+        <canvas id="canvas" style="width: 100%; height: 100%; background-color: #8c8c8c;"></canvas>
+
+        <script src="grayColor.js"></script>
+        <script>
+            let can = document.getElementById('canvas');
+            let ctx = can.getContext('2d');
+            can.width = can.clientWidth;
+            can.height = can.clientHeight;
+
+            let img = new cyber.Img();
+
+            img.getInfo({
+                src: './logo.png',
+                width: 400,
+            }, function (data) {
+                //console.log(data);
+
+                // 原图
+                ctx.putImageData(data, 300, 300);
+
+                // 灰色
+                let newData = data.data;
+                for (let i = 0; i < newData.length; i+=4) {
+                    newData[i] = newData[i+1] = newData[i+2] = (newData[i] + newData[i+1] + newData[i+2]) / 3;
+                }
+                ctx.putImageData(data, 900, 300);
+            })
+        </script>
+    </body>
+</html>

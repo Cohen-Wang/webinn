@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+        <button id="btn">开关</button>
+
+        <script>
+
+            let math = {
+                "s" : function (salary) {
+                    return salary * 2;
+                },
+                "a" : function (salary) {
+                    return salary * 3;
+                }
+            };
+
+            let calcu = function (level, salary) {
+                return math[level](salary);
+            };
+
+            console.log( calcu("s", 200) );
+            console.log( calcu("a", 200) );
+
+
+        </script>
+    </body>
+</html>

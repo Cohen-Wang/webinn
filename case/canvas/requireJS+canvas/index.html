@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>requireJS+canvas</title>
+        <link rel="stylesheet" href="css/bootstrap.css">
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">canvas画画工具</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info" id="btn-line">直线</button>
+                            <button type="button" class="btn btn-info" id="btn-rect">矩形</button>
+                            <button type="button" class="btn btn-info" id="btn-oval">圆形</button>
+                            <button type="button" class="btn btn-info" id="btn-clear">清空画布</button>
+                        </div>
+                        <h4 class="lead text-danger" id="hint">当前操作：画直线</h4>
+                        <hr>
+                        <canvas id="canvas" style="width: 100%; min-height: 600px; background-color: #eee;"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- 第二课 包括所有类 -->
+        <script src="./js/require.js" data-main="js/main"></script>
+        <script>
+
+            /**
+             * TODO
+             * 问：为什么各个类里面的 draw方法不写成 原型链？？？？
+             * 答：应该是这里不需要继承吧，我觉得写成原型链也可以；
+             */
+
+
+
+            <!-- 第三课 -->
+            require(['app/point', 'app/line', 'app/rect', 'app/arc', 'app/utils'],
+                function (Point, Line, Rect, Arc, Utils) {// 注意：要填写Utils
+                    let can = document.getElementById('canvas');
+                    let ctx = can.getContext('2d');
+
+                    // 重新赋值宽高
+                    can.width = can.clientWidth;
+                    can.height = can.clientHeight;
+
+                    // 获得canvas所在的矩形
+                    let canvasRect = can.getBoundingClientRect();
+
+
+                    // 绑定事件
+                    can.addEventListener('mousedown', handleMouseDown);
+                    can.addEventListener('mousemove', handleMouseMove);
+                    can.addEventListener('mouseup', handleMouseUp);
+
+
+                    // 给按钮绑定事件
+                    function bindClick(domID, handler) {
+                        document.getElementById(domID).addEventListener('click', handler);
+                    }
+                    bindClick('btn-clear', menuBtnClicked);
+                    bindClick('btn-line', menuBtnClicked);
+                    bindClick('btn-rect', menuBtnClicked);
+                    bindClick('btn-oval', menuBtnClicked);
+
+
+
+                    let isMouseDown = false;
+                    let typeNums = 0;// 1 直线；2 矩形； 3 圆形
+
+                    let downPoint = new Point(0, 0);//TODO
+                    let movePoint = new Point(0, 0);//TODO
+                    let upPoint = new Point(0, 0);//TODO
+
+                    let line, rect, arc;
+
+
+                    <!-- 第四课 -->
+                    function handleMouseDown (event) {
+                        downPoint.x = event.clientX - canvasRect.left;
+                        downPoint.y = event.clientY - canvasRect.top;
+
+                        if (typeNums === 0) {
+                            line = new Line(downPoint, downPoint);// TODO 两个downPoint
+                            line.startPoint = downPoint;// TODO
+                        } else if (typeNums === 1) {
+                            rect = new Rect(new Point(downPoint.x, downPoint.y), 0, 0);// TODO 初始化 0 0
+
+                        } else if (typeNums === 2) {
+                            arc = new Arc(new Point(downPoint.x, downPoint.y), 0);// TODO 初始化 0？
+                        }
+
+                        isMouseDown = true;
+                    }
+
+
+                    function handleMouseMove (event) {
+                        movePoint.x = event.clientX - canvasRect.left;
+                        movePoint.y = event.clientY - canvasRect.top;
+
+                        if (movePoint.x === downPoint.x && movePoint.y === downPoint.y) return;
+                        if (movePoint.x === upPoint.x && movePoint.y === upPoint.y) return;
+
+                        if (isMouseDown) {
+                            clearCanvas(ctx);
+                            //
+                            if (typeNums === 0) {
+                                line.endPoint = movePoint;
+                                Utils.drawLine(ctx, line);
+                            } else if (typeNums === 1) {
+                                rect.width = movePoint.x - downPoint.x;
+                                rect.height = movePoint.y - downPoint.y;
+                                Utils.drawRect(ctx, rect);
+                            } else if (typeNums === 2) {
+                                let distanceX = movePoint.x - downPoint.x;
+                                let distanceY = movePoint.y - downPoint.y;
+                                // 两点距离
+                                arc.radius = Math.sqrt(Math.pow(distanceY, 2) + Math.pow(distanceX, 2));
+                                if (arc.radius < 0) arc.radius = -arc.radius;
+                                arc.startPoint.x = downPoint.x;
+                                arc.startPoint.y = downPoint.y;
+                                Utils.drawArc(ctx, arc);
+                            }
+
+                        }
+
+                        // 画历史
+                        Utils.drawHistory(ctx);
+                    }
+
+
+                    function handleMouseUp (event) {
+                        upPoint.x = event.clientX - canvasRect.left;
+                        upPoint.y = event.clientY - canvasRect.top;
+
+                        if (isMouseDown) {
+                            //
+                            isMouseDown = false;
+                            //
+                            if (typeNums === 0) {
+                                line.endPoint = upPoint;
+                                // 添加
+                                if (!downPoint.equals(upPoint)) {
+                                    Utils.addHistory(new Line(new Point(downPoint.x, downPoint.y), new Point(upPoint.x, upPoint.y)));
+                                }
+                            } else if (typeNums === 1) {
+                                rect.width = upPoint.x - downPoint.x;
+                                rect.height = upPoint.y - downPoint.y;
+                                // 添加
+                                Utils.addHistory(new Rect(new Point(downPoint.x, downPoint.y), rect.width, rect.height));
+                            } else if (typeNums === 2) {
+
+                                // 添加
+                                Utils.addHistory(new Arc(new Point(arc.startPoint.x, arc.startPoint.y), arc.radius));
+                            }
+                        }
+
+                        // 清空，再画
+                        clearCanvas(ctx);
+                        Utils.drawHistory(ctx);
+                    }
+
+
+                    function clearCanvas (ctx) {
+                        ctx.clearRect(0, 0, can.width, can.height);
+                    }
+
+
+
+                    <!-- 第五课 -->
+                    function menuBtnClicked (event) {
+                        var domID = event.srcElement.id;
+
+                        if (domID === 'btn-clear') {
+                            clearCanvas(ctx);// 清空画布
+                            Utils.clearHistory();// 清空历史
+                            showHint('当前操作：清空画布');
+                        } else if (domID === 'btn-line') {
+                            typeNums = 0;
+                            showHint('当前操作：画直线');
+                        } else if (domID === 'btn-rect') {
+                            typeNums = 1;
+                            showHint('当前操作：画矩形');
+                        } else if (domID === 'btn-oval') {
+                            typeNums = 2;
+                            showHint('当前操作：画圆形');
+                        }
+                    }
+
+
+                    function showHint (msg) {
+                        document.getElementById('hint').innerText = msg;
+                    }
+
+                }
+            );
+        </script>
+    </body>
+</html>

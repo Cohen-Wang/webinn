@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="../../res/images/logo/logo.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="../../res/images/logo/logo.png" type="image/x-icon"/>
+        <title>canvas-bezierCurveTo</title>
+
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap-theme.min.css" rel="stylesheet">
+        <style>
+            *{margin:0;padding:0;}
+            body{overflow: hidden;min-height:800px;}
+        </style>
+    </head>
+    <body>
+
+        <div class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <strong>
+                        <a href="../../index.html" class="navbar-brand">HOME</a>
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div id="box" style="height:800px;">
+                <canvas id="canvas">您的浏览器不支持canvas</canvas>
+            </div>
+        </div>
+
+        <script>
+            //
+            let can = document.getElementById('canvas');
+            let ctx = can.getContext('2d');
+            //
+            can.width = can.parentNode.offsetWidth;
+            can.height = can.parentNode.offsetHeight;
+            can.style.backgroundColor = '#000';
+
+            drawBezierCurveTo();
+            function drawBezierCurveTo() {
+                ctx.save();
+                ctx.beginPath();
+                //
+                ctx.lineWidth = 5;
+                ctx.strokeStyle = 'red';
+                ctx.moveTo(20,20);
+                /**
+                 * 开始点：moveTo(20,20)
+                 * 控制点 1：bezierCurveTo(20,100,200,100,200,20);      (20,100)
+                 * 控制点 2：bezierCurveTo(20,100,200,100,200,20);      (200,100)
+                 * 结束点：bezierCurveTo(20,100,200,100,200,20);        (200,20)
+                 */
+                ctx.bezierCurveTo(20,200,200,100,200,20);
+                ctx.stroke();
+                //
+                ctx.closePath();
+                ctx.restore();
+            }
+
+            // quadratic n. 二次方程式
+            drawQuadraticCurveTo ();
+            function drawQuadraticCurveTo () {
+                ctx.save();
+                ctx.beginPath();
+                //
+                ctx.lineWidth = 5;
+                ctx.strokeStyle = 'red';
+                ctx.moveTo(20,200);
+                /**
+                 * 开始点：moveTo(20,20)
+                 * 控制点：quadraticCurveTo(20,100,200,20)      (20,100)
+                 * 结束点：quadraticCurveTo(20,100,200,20)      (200,20)
+                 */
+                ctx.quadraticCurveTo(20,300,200,200);
+                ctx.stroke();
+                //
+                ctx.closePath();
+                ctx.restore();
+            }
+
+            drawHeart(50, 500, 10);
+            function drawHeart (x, y, z, m) {
+                ctx.save();
+                ctx.beginPath();
+                ctx.fillStyle = 'red';
+                //
+                ctx.moveTo(x, y);
+                z *= 0.05;
+                ctx.bezierCurveTo(x, y - 3*z, x - 5*z, y - 15*z, x - 25*z, y - 15*z);
+                ctx.bezierCurveTo(x - 55*z, y - 15*z, x - 55*z, y + 22.5*z, x - 55*z, y + 22.5*z);
+                ctx.bezierCurveTo(x - 55*z, y + 40*z, x - 35*z, y + 62*z, x, y + 80*z);
+                ctx.bezierCurveTo(x + 35*z, y + 62*z, x + 55*z, y + 40*z, x + 55*z, y + 22.5*z);
+                ctx.bezierCurveTo(x + 55*z, y + 22.5*z, x + 55*z, y - 15*z, x + 25*z, y - 15*z);
+                ctx.bezierCurveTo(x + 10*z, y - 15*z, x, y - 3*z, x, y);
+                //
+                ctx.fill();
+                ctx.closePath();
+                ctx.restore();
+            }
+
+        </script>
+    </body>
+</html>

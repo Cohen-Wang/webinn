@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+
+        <script>
+
+
+            if (true) {
+                console.groupCollapsed() ;
+                console.dir(Symbol);
+                console.groupEnd();
+            }
+
+            if (true) {
+                console.groupCollapsed() ;
+                let s = Symbol('school');
+                console.log(s);
+                console.log(typeof s);
+                console.log(s.description);
+                console.groupEnd();
+            }
+
+
+            let b = Boolean(!Symbol(123));
+            console.log(b);
+
+
+
+        </script>
+    </body>
+</html>

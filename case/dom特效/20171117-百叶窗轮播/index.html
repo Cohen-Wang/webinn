@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="http://wx1.sinaimg.cn/large/005EAIaRgy1fun345b9edj304v03lmxk.jpg" type="image/x-icon" />
+		<link rel="shortcut icon" href="http://wx1.sinaimg.cn/large/005EAIaRgy1fun345b9edj304v03lmxk.jpg" type="image/x-icon"/>
+		<title>百叶窗轮播</title>
+
+		<style id="css">
+			*{margin:0;padding: 0}
+			ul,li{list-style: none}
+			body{background-color: #000;}
+			.box{width:800px;height:360px;margin:50px auto;position:relative;perspective: 800px;}
+			.box ul li{/*width:200px;*/height:360px;float:left;position:relative;
+			transform-style: preserve-3d;
+			/*transition:all 1s;*/  /*由于有延时区分，所以要单独写*/
+			transform: translateZ(-180px);
+
+			}
+			.box ul li div{/*width:200px;*/height:360px;position: absolute;}
+
+			.box ul li div:nth-child(1){
+				bottom:360px;
+				transform-origin: bottom;
+				transform: translateZ(180px) rotateX(90deg) ;
+				background:url(http://wx3.sinaimg.cn/large/005EAIaRgy1fkavuhuf7ij31z418gk58.jpg) ;
+			}
+			.box ul li div:nth-child(2){
+				top:360px;
+				transform-origin:top;
+				transform: translateZ(180px) rotateX(-90deg);
+				background:url(http://wx4.sinaimg.cn/large/005EAIaRgy1fkavun7a72j31z418gndg.jpg);
+			}
+			.box ul li div:nth-child(3){
+				transform: translateZ(180px);
+				background:url(http://wx3.sinaimg.cn/large/005EAIaRgy1fkavuqbfr2j31hc0u0n4h.jpg);
+			}
+			.box ul li div:nth-child(4){
+				transform: translateZ(-180px) rotateX(180deg);
+				background:url(http://wx3.sinaimg.cn/large/005EAIaRgy1fkavurnhz7j31hc0u0q77.jpg);
+			}
+			/*不要了*/
+			/*.box ul li div:nth-child(5){
+				width:360px;
+				right:200px;
+				transform-origin:right;
+				transform: translateZ(180px) rotateY(-90deg);
+			}
+			.box ul li div:nth-child(6){
+				width:360px;
+				left:200px;
+				transform-origin:left;
+				transform: translateZ(180px) rotateY(90deg);
+			}*/
+
+			/*只是为了测试*/
+			/*.box:hover ul li{
+				transform:translateZ(-180px) rotateX(180deg);
+			}*/
+
+			/*为什么一定要写在后面啊？*/
+			/*.box ul li:nth-child(1){ transition:all 0.6s 0s}
+			.box ul li:nth-child(2){transition:all 0.6s .2s}
+			.box ul li:nth-child(3){transition:all 0.6s .4s}
+			.box ul li:nth-child(4){transition:all 0.6s .6s}*/
+
+
+			/*.box ul li:nth-child(1) div{background-position-x: 0;}
+			.box ul li:nth-child(2) div{background-position-x: -200px; }
+			.box ul li:nth-child(3) div{background-position-x: -400px; }
+			.box ul li:nth-child(4) div{background-position-x: -600px; }*/
+
+			.box ol{position:absolute;right:50px;bottom:20px}
+			.box ol li{width:40px;height:40px;font:bold 20px/40px "微软雅黑";text-align:center;float:left;margin-right: 10px;
+			cursor: pointer;color:#000;background-color: #fff;}
+			.box ol li.active{color:#fff;background-color: #000;}
+		</style>
+	</head>
+	<body>
+
+
+		<div class="box">
+			<ul>
+
+			</ul>
+			<ol>
+				<li class="active">1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+			</ol>
+		</div>
+
+
+		<script>
+			var oBox = document.getElementsByClassName('box')[0];
+			var oUl = oBox.getElementsByTagName('ul')[0];
+			//var oUlLi = oUl.getElementsByTagName('li');
+
+			var oOl = oBox.getElementsByTagName('ol')[0];
+			var oOlLi = oOl.getElementsByTagName('li');
+			var oCss = document.getElementById('css');
+
+			var num=60;
+			oCss.innerHTML+='.box ul li{width:'+800/num+'px;}'
+			for(var i=0;i<num;i++){
+				var oUlLi = document.createElement('li');
+
+				oCss.innerHTML+='.box ul li:nth-child('+(i+1)+'){transition:all 0.6s '+i*0.02+'s;}';
+				oCss.innerHTML+='.box ul li:nth-child('+(i+1)+') div{background-position-x: '+(-i*800/num)+'px; }';
+				if(i>num/2){
+					oCss.innerHTML+='.box ul li:nth-child('+(i+1)+'){ z-index:'+(-1*i)+'}';
+				};
+				for(var j=0;j<4;j++){
+					var oDiv=document.createElement('div');
+					oDiv.style.width=800/num+'px';
+					oUlLi.appendChild(oDiv);
+				};
+				oUl.appendChild(oUlLi);
+			};
+
+			var oUlLi = oUl.getElementsByTagName('li');
+			var now=0;
+			for(var i=0;i<oOlLi.length;i++){
+				oOlLi[i].index=i;
+				oOlLi[i].onclick = function(){
+					now=this.index;
+					tab()
+				}
+
+			};
+
+			function tab(){
+				for(var i=0;i<oOlLi.length;i++){
+					oOlLi[i].className='';
+				};
+				for(var j=0;j<oUlLi.length;j++){
+					oUlLi[j].style.transform='translateZ(-180px) rotateX('+(now*-90)+'deg)'
+				}
+				oOlLi[now].className='active';
+			}
+			function next(){
+				now++;
+				if(now==oOlLi.length)now=0;
+				tab();
+			}
+
+
+			var timer=null;
+			timer=setInterval(next,5000);
+
+			/*oBox.onmouseenter=function(){
+				clearInterval(timer);
+			}
+			oBox.onmouseleave=function(){
+				timer=setInterval(next,5000);
+			}*/
+		</script>
+	</body>
+</html>

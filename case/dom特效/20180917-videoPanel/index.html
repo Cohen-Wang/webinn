@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="http://wx1.sinaimg.cn/large/005EAIaRgy1fun345b9edj304v03lmxk.jpg" type="image/x-icon" />
+        <link rel="shortcut icon" href="http://wx1.sinaimg.cn/large/005EAIaRgy1fun345b9edj304v03lmxk.jpg" type="image/x-icon"/>
+        <title>video</title>
+
+
+        <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
+        <link href="https://cdn.bootcss.com/bootstrap-slider/10.0.2/css/bootstrap-slider.css" rel="stylesheet">
+        <style>
+            *{margin: 0;padding: 0;}
+        </style>
+    </head>
+    <body>
+
+        <nav class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <strong>
+                        <a href="index.html" class="navbar-brand">WEBINN</a>
+                    </strong>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+
+            <button class="btn btn-danger" onclick="load('res/video/Maybach.mp4')">Maybach</button>
+            <button class="btn btn-danger" onclick="load('res/video/view.mp4')">view</button>
+
+            <hr>
+            <!--video 共9个属性  poster autoplay controls loop muted poster width="1000" height=""-->
+            <video id="video"   poster          controls loop       poster width="" height="">
+                <source src="res/video/Maybach.mp4" type="video/mp4">
+                <source src="res/video/view.ogg" type="video/ogg">
+                Your browser does not support the video tag.
+            </video>
+
+
+            <!--进度条-->
+            <div class="progress" id="prpgressBtn">
+                <div class="progress-bar progress-bar-danger"  style="width: 60%;"></div>
+            </div>
+
+            <hr>
+
+            <div class="btn-group" role="group" aria-label="...">
+                <!--<button id="" class="btn btn-default">-->
+                    <!--<span class="glyphicon glyphicon-fast-backward"></span>-->
+                <!--</button>-->
+                <button id="beginBtn" class="btn btn-default" title="回到开始">
+                    <span class="glyphicon glyphicon-step-backward"></span>
+                </button>
+                <button id="backwardBtn" class="btn btn-default" title="后退">
+                    <span class="glyphicon glyphicon-backward"></span>
+                </button>
+
+                <button id="playBtn" class="btn btn-default" title="播放/暂停">
+                    <span class="glyphicon glyphicon-play"></span>
+                </button>
+
+                <button id="forwardBtn" class="btn btn-default" title="前进">
+                    <span class="glyphicon glyphicon-forward"></span>
+                </button>
+                <button id="" class="btn btn-default">
+                    <span class="glyphicon glyphicon-step-forward"></span>
+                </button>
+                <button id="" class="btn btn-default">
+                    <span class="glyphicon glyphicon-fast-forward"></span>
+                </button>
+            </div>
+
+            <button id="mutedBtn" class="btn btn-default" title="静音">
+                <span class="glyphicon glyphicon-volume-up"></span>
+            </button>
+            <input id="volumeRange" type="range" min="0" max="1" step="0.1" style="display: inline-block;width: 150px;vertical-align: middle;">
+
+
+            <div class="dropup" style="display: inline-block">
+                <button class="btn btn-default dropdown-toggle" type="button" id="" data-toggle="dropdown">
+                    播放速度
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#" onclick="playSpeed(2);">2.0</a></li>
+                    <li><a href="#" onclick="playSpeed(1.5);">1.5</a></li>
+                    <li><a href="#" onclick="playSpeed(1.2);">1.2</a></li>
+                    <li><a href="#" onclick="playSpeed(1);">1</a></li>
+                    <li><a href="#" onclick="playSpeed(0.7);">0.7</a></li>
+                    <li><a href="#" onclick="playSpeed(0.5);">0.5</a></li>
+                </ul>
+            </div>
+
+
+            <button id="fullscreenBtn" class="btn btn-default">
+                <span class="glyphicon glyphicon-fullscreen"></span>
+            </button>
+
+
+
+
+        </div>
+
+
+
+        <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script>
+
+
+
+
+            // 变量
+            let oVideo = document.getElementById('video');
+            let oRes = oVideo.getElementsByTagName('source');
+
+            // 设置宽高
+            oVideo.width = "1170";
+
+            // currentSrc : 返回当前的src
+            console.log(oVideo.currentSrc);
+
+            if (oVideo.currentTime <= 60) {
+                oVideo.currentTime = 60;
+            }
+            // currentTime : 当前播放位置，单位s
+            // document.onclick = function () {
+            //     console.log(oVideo.currentTime);
+            // };
+
+            // defaultMuted
+            // muted
+            // volume ： 当前音量：0 ~ 1
+            // 默认播放速度
+            //oVideo.defaultPlaybackRate = 2;
+            //oVideo.load();
+
+            /**
+             * 加载视频
+             * 属性：src
+             * 方法：load()
+             */
+            function load (source) {
+                oVideo.load();
+                oVideo.src = source;
+            }
+
+            /**
+             * 播放/暂停
+             * 属性：paused
+             * 方法：play()
+             * 方法：pause()
+             */
+            playBtn.onclick = function () {
+                if (oVideo.paused) {
+                    this.innerHTML = "<span class=\"glyphicon glyphicon-pause\"></span>";
+                    oVideo.play();
+                } else {
+                    this.innerHTML = "<span class=\"glyphicon glyphicon-play\"></span>";
+                    oVideo.pause();
+                }
+            };
+
+            // 回到开始
+            beginBtn.onclick = function () {
+                oVideo.currentTime = 0;
+            };
+
+            // 后退
+            backwardBtn.onclick = function () {
+                oVideo.currentTime -= 20;
+                console.log(oVideo.currentTime);
+            };
+
+            // 前进
+            forwardBtn.onclick = function () {
+                oVideo.currentTime += 20;
+                console.log(oVideo.currentTime);
+            };
+
+            // 静音
+            mutedBtn.onclick = function () {
+                if (oVideo.muted) {
+                    this.innerHTML = "<span class=\"glyphicon glyphicon-volume-up\"></span>";
+                    document.getElementById('volumeRange').value = 1;
+                    oVideo.muted = false;
+                } else {
+                    this.innerHTML = "<span class=\"glyphicon glyphicon-volume-off\"></span>";
+                    document.getElementById('volumeRange').value = 0;
+                    oVideo.muted = true;
+                }
+            };
+
+            // 音量
+            volumeRange.onchange = function () {
+                oVideo.volume = this.value;
+                if (oVideo.volume === 0) {
+                    document.getElementById('mutedBtn').innerHTML = "<span class=\"glyphicon glyphicon-volume-off\"></span>";
+                }
+                else if (oVideo.volume === 1) {
+                    document.getElementById('mutedBtn').innerHTML = "<span class=\"glyphicon glyphicon-volume-up\"></span>";
+                }
+                else {
+                    document.getElementById('mutedBtn').innerHTML = "<span class=\"glyphicon glyphicon-volume-down\"></span>";
+                }
+            };
+
+            // 播放速度
+            function playSpeed (value) {
+                oVideo.playbackRate = value;
+            }
+
+            // 进度条
+            prpgressBtn.onclick = function () {
+
+
+            };
+
+            function progress () {
+                let progressBar = document.getElementById('prpgressBtn').getElementsByClassName('progress-bar')[0];
+                progressBar.style.width = oVideo.currentTime / oVideo.duration * 100 + '%';
+                //progressBar.innerHTML = Math.ceil(oVideo.currentTime / oVideo.duration * 100) + '%';
+            }
+
+            oVideo.addEventListener('timeupdate', progress);
+
+            // 双击全屏
+            fullscreenBtn.onclick = function () {
+                oVideo.width = window.innerWidth;
+            };
+
+            oVideo.onclick = function () {
+                if (oVideo.paused) {
+                    this.innerHTML = "<span class=\"glyphicon glyphicon-pause\"></span>";
+                    oVideo.play();
+                } else {
+                    this.innerHTML = "<span class=\"glyphicon glyphicon-play\"></span>";
+                    oVideo.pause();
+                }
+            };
+
+
+            oVideo.dblclick = function () {
+                alert('3121');
+            }
+
+
+
+        </script>
+    </body>
+</html>

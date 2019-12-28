@@ -1,0 +1,16 @@
+{
+	"title":"CSS兼容性和前缀总结",
+	"explanation":
+	[
+		"CSS1:作为一项W3C推荐，CSS1发布于 1996年12月17 日。1999 年1月11日，此推荐被重新修订。",
+    	"CSS2:作为一项 W3C 推荐，CSS2发布于 1999年1月11日。CSS2添加了对媒介（打印机和听觉设备）和可下载字体的支持。",
+    	"CSS3:1998年W3C发布了CSS的第二个版本即CSS2.0,2001年5月W3C开始进行CSS3标准的制定，到目前为止该标准还没有最终定稿。"
+	],
+	"thead":["序号","编号","属性","IE","Firefox","Chrome","Opera","操作"],
+	"detail":
+	[
+		{"number":"3.4","property":"box-radius","ie":["9+"],"firefox":"-moz-:3.0","chrome":"-webkit-:4.0","opera":"10.5+"},
+		{"number":"3.5","property":"box-shadow","ie":["9+","IE低版本：progid:DXImageTransform.Microsoft.Shadow(color='颜色值',Direction=阴影角度,Strength=阴影半径);"],"firefox":"-moz-:3.5~3.6","chrome":"-webkit-:4.0~9.0","opera":"10.5+"},
+		{"number":"12.1","property":"transition","ie":["-ms-:10+","IE低版本：progid:DXImageTransform.Microsoft.Shadow(color='颜色值',Direction=阴影角度,Strength=阴影半径);"],"firefox":"-moz-:4.0~15.0","chrome":"-webkit-:4.0~20.0","opera":"-o-:10.5~12.0"}
+	]
+}

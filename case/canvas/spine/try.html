@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <style>
+
+            *{margin:0;padding: 0}
+            body{min-height: 800px;overflow: hidden}
+        </style>
+    </head>
+    <body>
+
+        <canvas id="canvas" width="500" height="500" style="background: #000;">您的浏览器不支持canvas!</canvas>
+
+        <script src="js/lib/spine-canvas.js"></script>
+        <script>
+            /**
+             * 骨架 skeleton
+             * 骨骼 skeleton
+             * 节点 node
+             * 皮肤 skin
+             * 动画 animation
+             * 骨架控制骨骼，骨骼控制节点，节点里面是美术资源
+             */
+            // 获取canvas
+            let can = document.getElementById('canvas');
+            let ctx = can.getContext('2d');
+            // 实例化
+            let skeletonRenderer;// 实例化：骨骼渲染器
+            let assetManager;// 实例化：资源管理
+            // 加载结果
+            let skeleton;
+            let state;
+            let bounds;
+            // 变量
+            let lastFrameTime = Date.now()/1000;
+            let skelName = "spineboy";
+            let animName = "walk";
+
+            init();
+            function init () {
+                // 骨骼渲染器
+                skeletonRenderer = new spine.canvas.SkeletonRenderer(ctx);
+                skeletonRenderer.debugRendering = true;// 是否显示边框
+                skeletonRenderer.triangleRendering = false;// 是否显示边框里面的对角线
+                // 资源管理
+                assetManager = new spine.canvas.AssetManager();
+                assetManager.loadText("res/" + skelName + ".json");
+                assetManager.loadText("res/" + skelName + ".atlas");
+                assetManager.loadTexture("res/" + skelName + ".png");
+                //
+                requestAnimationFrame(load);
+            }
+
+            function load () {
+                if (assetManager.isLoadingComplete()) {
+                    let data = loadSkeleton(skelName, animName, "default");
+                    //
+                    skeleton = data.skeleton;
+                    state = data.state;
+                    bounds = data.bounds;
+                    //
+                    requestAnimationFrame(render);
+                } else {
+                    requestAnimationFrame(load);
+                }
+            }
+
+            function loadSkeleton (skelName, initialAnimation, skin) {
+                // 皮肤
+                skin = skin || "default";
+                // 加载atlas
+                let atlas = new spine.TextureAtlas(assetManager.get("res/" + skelName + ".atlas"), function(path) {
+                    return assetManager.get("res/" + path);
+                });
+                // 实例化一个AtlasAttachmentLoader
+                let atlasLoader = new spine.AtlasAttachmentLoader(atlas);
+                // 实例化SkeletonJson用于解析.json文件
+                let skeletonJson = new spine.SkeletonJson(atlasLoader);
+                // 在解析中设置大小比例用于应用；parse the file, 创建一个骨架
+                let skeletonData = skeletonJson.readSkeletonData(assetManager.get("res/" + skelName + ".json"));
+                // 外面要用的变量1
+                let skeleton = new spine.Skeleton(skeletonData);
+                skeleton.flipY = true;
+                // 外面要用的变量2
+                let bounds = calculateBounds(skeleton);
+                skeleton.setSkinByName(skin);
+                // 外面要用的变量3，创建一个动画状态，设置初始化动画循环
+                let animationState = new spine.AnimationState(new spine.AnimationStateData(skeleton.data));
+                animationState.setAnimation(0, initialAnimation, true);
+                animationState.addListener({
+                    event: function(trackIndex, event) {
+                        // console.log("Event on track " + trackIndex + ": " + JSON.stringify(event));
+                    },
+                    complete: function(trackIndex, loopCount) {
+                        // console.log("Animation on track " + trackIndex + " completed, loop count: " + loopCount);
+                    },
+                    start: function(trackIndex) {
+                        // console.log("Animation on track " + trackIndex + " started");
+                    },
+                    end: function(trackIndex) {
+                        // console.log("Animation on track " + trackIndex + " ended");
+                    }
+                });
+
+                // Pack everything up and return to caller.
+                return {
+                    skeleton: skeleton,
+                    bounds: bounds,
+                    state: animationState,
+                };
+            }
+
+            function calculateBounds(skeleton) {
+                let data = skeleton.data;
+                skeleton.setToSetupPose();
+                skeleton.updateWorldTransform();
+                let offset = new spine.Vector2();
+                let size = new spine.Vector2();
+                skeleton.getBounds(offset, size, []);
+                return {
+                    offset: offset,
+                    size: size
+                };
+            }
+
+            function render () {
+                let now = Date.now() / 1000;
+                let delta = now - lastFrameTime;
+                lastFrameTime = now;
+                //
+                resize();
+
+                ctx.save();
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.clearRect(0, 0, can.width, can.height);
+                ctx.restore();
+                //
+                let speed = 0.018;
+                state.update(speed);
+                state.apply(skeleton);
+                skeleton.updateWorldTransform();
+                skeletonRenderer.draw(skeleton);
+                // 画坐标系
+                if (true) {
+                    ctx.strokeStyle = "green";
+                    ctx.beginPath();
+                    ctx.moveTo(-1000, 0);
+                    ctx.lineTo(1000, 0);
+                    ctx.moveTo(0, -1000);
+                    ctx.lineTo(0, 1000);
+                    ctx.stroke();
+                }
+                //
+                requestAnimationFrame(render);
+            }
+
+            function resize () {
+                console.log(bounds);
+                // magic
+                let centerX = bounds.offset.x + bounds.size.x / 2;
+                let centerY = bounds.offset.y + bounds.size.y / 2;
+                //
+                let scaleX = bounds.size.x / can.width;// 470 : 500
+                let scaleY = bounds.size.y / can.height;// 730 : 500
+                let scale = Math.max(scaleX, scaleY) * 1.2;
+                if (scale < 1) scale = 1;
+                //
+                let width = can.width * scale;
+                let height = can.height * scale;
+
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.scale(1 / scale, 1 / scale);
+                ctx.translate(-centerX, -centerY);
+                ctx.translate(width / 2, height / 2);
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="./res/images/ico/logo_16x16.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="./res/images/ico/logo_16x16.ico" type="image/x-icon"/>
+        <title>loading</title>
+        <link rel="stylesheet" href="./css/lib/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/lib/fakeLoader.css">
+        <style>
+            body{
+                height : 3000px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <!--[if lt IE 7]>
+        <p class="lead">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <strong>
+                        <a href="../../index.html" class="navbar-brand">HOME</a>
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a class="btn btn-link" href="http://joaopereirawd.github.io/fakeLoader.js">← Article & Download 官网</a>
+                    <hr>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" id="btn1">Spinner1</button>
+                        <button type="button" class="btn btn-default" id="btn2">Spinner2</button>
+                        <button type="button" class="btn btn-default" id="btn3">Spinner3</button>
+                        <button type="button" class="btn btn-default" id="btn4">Spinner4</button>
+                        <button type="button" class="btn btn-default" id="btn5">Spinner5</button>
+                        <button type="button" class="btn btn-default" id="btn6">Spinner6</button>
+                        <button type="button" class="btn btn-default" id="btn7">Spinner7</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fakeloader"></div>
+
+
+        <script src="js/lib/jquery-1.10.2.js"></script>
+        <script src="./js/lib/fakeLoader.min.js"></script>
+        <script>
+            document.getElementById('btn1').onclick = function () {
+                $(".fakeloader").fakeLoader({
+                    timeToHide : 3000,
+                    zIndex:"9999",
+                    bgColor : "rgba(46, 204, 113, 1)",
+                    spinner : "spinner1"
+                });
+            };
+
+            document.getElementById('btn2').onclick = function () {
+                $(".fakeloader").fakeLoader({
+                    timeToHide : 3000,
+                    bgColor : "#e74c3c",
+                    spinner : "spinner2"
+                });
+            };
+
+            document.getElementById('btn3').onclick = function () {
+                $(".fakeloader").fakeLoader({
+                    timeToHide : 3000,
+                    bgColor : "#3498db",
+                    spinner : "spinner3"
+                });
+            };
+
+            document.getElementById('btn4').onclick = function () {
+                $(".fakeloader").fakeLoader({
+                    timeToHide : 3000,
+                    bgColor : "#34495e",
+                    spinner : "spinner4"
+                });
+            };
+
+            document.getElementById('btn5').onclick = function () {
+                $(".fakeloader").fakeLoader({
+                    timeToHide : 3000,
+                    bgColor : "#e67e22",
+                    spinner : "spinner5"
+                });
+            };
+
+            document.getElementById('btn6').onclick = function () {
+                $(".fakeloader").fakeLoader({
+                    timeToHide : 3000,
+                    bgColor : "#1abc9c",
+                    spinner : "spinner6"
+                });
+            };
+
+            document.getElementById('btn7').onclick = function () {
+                $(".fakeloader").fakeLoader({
+                    timeToHide : 3000,
+                    bgColor : "#9b59b6",
+                    spinner : "spinner7"
+                });
+            };
+
+        </script>
+    </body>
+</html>

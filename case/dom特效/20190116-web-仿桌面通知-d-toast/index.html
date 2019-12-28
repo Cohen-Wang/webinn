@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" href="./res/images/ico/logo_16x16.ico" type="image/x-icon" />
+		<link rel="shortcut icon" href="./res/images/ico/logo_16x16.ico" type="image/x-icon"/>
+		<title>仿桌面通知-d-toast</title>
+		<link rel="stylesheet" href="./css/lib/bootstrap.css">
+	</head>
+	<body>
+		<!--jumbotron S-->
+		<div class="jumbotron">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h1>仿桌面通知-d-toast</h1>
+						<p>Never underestimate your power to change yourself !</p>
+					</div>
+					<div class="col-md-12" style="z-index: 9;">
+						<div class="col-md-offset-8">
+							<button class="btn btn-success">
+								&nbsp;&nbsp;&nbsp;&nbsp;download &nbsp;&nbsp;&nbsp;&nbsp;
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--jumbotron E-->
+
+		<!--content S-->
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label>内容：</label>
+						<input type="text" class="form-control" id="text" value="这里将是通知框的内容">
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-info" onclick="test(1)">仿桌面-无图片-通知</button>
+						<button type="button" class="btn btn-info" onclick="test(2, true)">仿桌面-有图片-通知</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-success" onclick="testInner(3)">浏览器-无图片-通知</button>
+						<button type="button" class="btn btn-success" onclick="testInner(4, true)">浏览器-有图片-通知</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-warning" onclick="testOnlyContent()">直接new dToast()</button>
+					</div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-warning" onclick="commonUsed()">常用写法</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--content E-->
+
+		<script src="./js/lib/d-toast.js"></script>
+		<script>
+			/**
+			 * 仿桌面的通知
+			 */
+            function test (i, isShowIcon) {
+                // 需允许浏览器通知
+                let config = {
+                    //title : "新消息" + i,// 通知标题部分（可选）；默认：新消息
+                    body : "通知内容...",// 通知内容部分
+                    //inner : false, // 是否仿桌面通知（可选）；true为浏览器内通知，false为仿桌面通知，默认：false
+                    //data : "abc2",// 是浏览器仿桌面通知（可选）；否首选桌面通知，默认：否
+                    // onclick : function (data) {// 点击通知区域后的事件（可选）；data:可传递参数
+                    //     new dToast("桌面通知被点击了，传递参数：" + data);
+                    // },
+                };
+				// 是否有图片
+                if (isShowIcon === true) {
+                    config.icon = "./res/images/d-toast/thumb-" + i + ".jpg";// 通知的图片 可选
+                }
+                //桌面通知
+                new dToast(config);
+            }
+
+            /**
+			 * 浏览器内的通知
+             * @param i
+             * @param isShowIcon
+             */
+            function testInner (i, isShowIcon) {
+                // 写配置
+                let config = {
+                    title : "新消息" + i,// 通知标题部分（可选）；默认：新消息
+                    body : "通知内容...",// 通知内容部分
+                    inner : true, // 是否仿桌面通知（可选）；true为浏览器内通知，false为仿桌面通知，默认：false
+                    data : "我是仿桌面通知的参数",// 可传递参数（可选）
+                    timeout : 3000, // 自动关闭（可选）；单位ms，默认：6500毫秒。timeout<=0 不自动关闭
+                    onclick : function (data) { // 监听点击通知；data:可传递参数（可选）
+                        new dToast("仿桌面通知被点击了 传递参数："+data);
+                    },
+                };
+				//
+                if (isShowIcon === true) {
+                    config.icon = "./res/images/d-toast/thumb-" + i + ".jpg";// 通知的图片（可选）
+                }
+                //仿桌面通知
+                new dToast(config);
+            }
+
+            /**
+			 * 最简单写法
+             */
+            function testOnlyContent () {
+                new dToast("传参的内容...");
+            }
+
+            /**
+			 * 常用写法
+             */
+            function commonUsed () {
+				new dToast({
+                    body : "通知内容...",// 通知内容部分
+                    inner : true, // 是否仿桌面通知（可选）；true为浏览器内通知，false为仿桌面通知，默认：false
+                    timeout : 3000, // 自动关闭（可选）；单位ms，默认：6500毫秒。timeout<=0 不自动关闭
+				})
+			}
+
+		</script>
+	</body>
+</html>

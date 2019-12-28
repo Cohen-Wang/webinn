@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="../../../res/images/logo/logo_16x16.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="../../../res/images/logo/logo_16x16.png" type="image/x-icon"/>
+        <title>solarSystem</title>
+        <style>
+            *{margin:0;padding: 0}
+            html{height:100%}
+            body{height:100%;min-height:900px;overflow: hidden;}
+        </style>
+    </head>
+    <body id="body">
+
+
+
+
+
+        <script src="https://cdn.bootcss.com/stats.js/16/Stats.js"></script>
+        <script>
+            /*************************************
+             * Author : Cohen_Wang
+             * Date : 2018 - 10 - 30
+             */
+
+            (function (namespace) {
+
+                let __extend = function (_child, _super) {
+                    for (let p in _super.prototype) {
+                        if (_super.prototype.hasOwnProperty(p)) {
+                            _child.prototype[p] = _super.prototype[p];
+                        }
+                    }
+                };
+
+                let Canvas = (function () {
+                    // 构造
+                    function Canvas (id) {
+                        this.id = id;
+                        this.createCanvas();
+                    }
+                    // 创建canvas
+                    Canvas.prototype.createCanvas = function () {
+                        this.oContainer = document.getElementById(this.id);
+
+                        this.can = document.createElement('canvas');
+                        this.ctx = this.can.getContext('2d');
+
+                        this.can.width = this.oContainer.offsetWidth;
+                        this.can.height = this.oContainer.offsetHeight;
+
+                        this.oContainer.appendChild(this.can);
+                    };
+                    return Canvas;
+                }) ();
+
+
+
+                // star
+                function Star (name, x, y, radius, distance, startColor, endColor, revolution, routeColor) {
+                    this.name = name;// 星球名称
+                    this.x = x;// 圆心 x , y
+                    this.y = y;
+                    this.radius = radius;// 半径 r
+                    this.distance = distance;// 距离太阳的距离
+                    this.startColor = startColor;// 渐变色
+                    this.endColor = endColor;
+                    this.revolution = revolution;// 公转周期 revolution
+
+                    this.routeColor = routeColor || "red";
+                }
+                // 画行星，画行星的轨迹，写字
+                Star.prototype.draw = function (ctx) {
+                    this.drawRoute(ctx);
+                    this.drawStar(ctx);
+                    this.writeText(ctx);
+                };
+                // 行星轨道
+                Star.prototype.drawRoute = function (ctx) {
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.strokeStyle = this.routeColor;
+                    ctx.arc(300, 300, this.distance, 0, 2 * Math.PI, false);
+                    ctx.stroke();
+                    ctx.closePath();
+                    ctx.restore();
+                };
+                // 画行星
+                Star.prototype.drawStar = function (ctx) {
+                    ctx.save();
+                    ctx.translate(300, 300);
+                    // 绘制渐变颜色
+                    let gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+                    gradient.addColorStop(0, this.startColor);
+                    gradient.addColorStop(1, this.endColor);
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    //ctx.rotate(time * 360 / this.revolution * Math.PI / 180);
+                    ctx.rotate(360 / this.revolution * Math.PI / 180);
+                    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
+                    ctx.fill();
+                    ctx.closePath();
+                    ctx.restore();
+                    // if (this.name === '地球') {
+                    //     //存储转动的角度,找到moon的旋转坐标
+                    //     EarchRotate = time * (360/this.revolution) * (Math.PI/180);
+                    //     MoonX = 165*Math.sin(EarchRotate);
+                    //     MoonY = -165*Math.cos(EarchRotate);
+                    //     ctx.rotate(time * (360/this.revolution) * (Math.PI/180) );
+                    //     ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI, false);
+                    //     ctx.fill();
+                    // }
+                    // else if (this.name === '月球') {
+                    //     ctx.save();
+                    //     ctx.translate(MoonX, MoonY); //重置原点，即设置月球旋转中心
+                    //     //月球旋转轨迹
+                    //     ctx.beginPath();
+                    //     ctx.strokeStyle = 'rgba(207,207,207,0.2)';
+                    //     ctx.arc(0,0,30,0,2*Math.PI,false);
+                    //     ctx.stroke();
+                    //     ctx.closePath();
+                    //     //月球圆心坐标
+                    //     var x = 30*Math.cos((time*360/this.revolution-90)*Math.PI/180);
+                    //     var y = 30*Math.sin((time*360/this.revolution-90)*Math.PI/180);
+                    //     ctx.rotate(time*360/this.revolution*Math.PI/180);
+                    //     //月球的渐变颜色
+                    //     var gradientM = ctx.createRadialGradient(x, y, 0, x, y, this.r);
+                    //     gradientM.addColorStop(0,this.startColor);
+                    //     gradientM.addColorStop(1,this.endColor);
+                    //     ctx.fillStyle = gradientM;
+                    //     //绘制月球
+                    //     ctx.beginPath();
+                    //     ctx.arc(x,y,this.r,0,2*Math.PI,false);
+                    //     ctx.closePath();
+                    //     ctx.fill();
+                    //     ctx.restore();
+                    //
+                    //     // 其他行星
+                    // } else {
+                    //     ctx.rotate(time * 360 / this.revolution * Math.PI / 180);
+                    //     ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
+                    //     ctx.fill();
+                    // }
+                };
+                // 写名字
+                Star.prototype.writeText = function (ctx) {
+                    ctx.save();
+                    ctx.translate(300, 300);
+                    ctx.fillStyle = 'red';
+                    ctx.font = "bold " + 0.9 * this.r + "px Arial";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    //ctx.rotate(time * 360 / this.revolution * Math.PI / 180)
+                    ctx.fillText(this.name, this.x, this.y);
+                    ctx.restore();
+                };
+
+
+
+
+                let SolarSystem = (function () {
+                    // 构造
+                    function SolarSystem (id) {
+                        Canvas.call(this, id);
+                        // 变量
+                        this.center = {
+                            x : this.can.width / 2,
+                            y : this.can.height / 2
+                        };
+
+                        this.time = 0;
+                        let EarchRotate;
+                        let MoonX;
+                        let MoonY;
+
+
+                        this.stars = this.createStars();
+                        //
+                        let _this = this;
+                        (function loop () {
+                            _this.ctx.clearRect(0, 0, _this.can.width, _this.can.height);// 清空画布
+                            //
+                            _this.update();
+                            _this.render(_this.ctx);
+                            //
+                            window.requestAnimationFrame(loop);
+                        }) ();
+                    }
+                    // 继承
+                    __extend(solarSystem, Canvas);
+                    // 创建行星
+                    solarSystem.prototype.createStars = function () {
+                        let stars = [];
+
+                        // 只能一个一个创建
+                        let Sun     = stars[0] = new Star('太阳', 0, 0, 25, 0, '#ffff00', '#ff9900', 0, '#ccc');
+                        let Mercury = stars[1] = new Star('水星', 0, -55, 8, 100, '#a69697', '#5c3e40', 87.70, '#ccc');// 水星
+                        let Venus   = stars[2] = new Star('金星', 0, -110, 13, 200, '#c4bbac', '#1f1315', 224.701, '#ccc');// 金星
+                        let Earth   = stars[3] = new Star('地球', 0, -165,18, 300, '#78b1e8', '#050c12', 365.2422, '#ccc');// 地球
+                        let Moon    = stars[4] = new Star('月球', 0, -195, 6, 400, '#a69697', '#5c3e40', 27.32, '#ccc');// 月球
+                        let Mars    = stars[5] = new Star('火星', 0, -220, 10, 500, '#cec9b6', '#76422d', 686.98, '#ccc');// 火星
+                        let Jupier  = stars[6] = new Star('木星', 0, -275, 25, 600, '#c0a48e', '#322222', 4332.589, '#ccc');// 木星
+                        let Saturn  = stars[7] = new Star('土星', 0, -330, 23, 700, '#f7f9e3', '#5c4533', 10759.5, '#ccc');// 土星
+                        let Uranus  = stars[8] = new Star('天王星', 0, -385, 20, 800, '#a7e1e5', '#19243a', 30799.095, '#ccc');// 天王星
+                        let Neptune = stars[9] = new Star('海王星', 0, -440, 20, 900, '#0661b2', '#1e3b73', 60152, '#ccc');// 海王星
+
+                        return stars;
+                    };
+                    // 更新
+                    solarSystem.prototype.update = function () {
+                        this.time++;
+                        for (let i = 0; i < this.stars.length; i++) {
+
+                            this.stars[i].x += Math.cos(this.time * Math.PI / 180) * 2;
+                            this.stars[i].y += Math.sin(this.time * Math.PI / 180) * 2;
+                        }
+                    };
+                    // 渲染
+                    solarSystem.prototype.render = function (ctx) {
+                        for (let i = 0; i < this.stars.length; i++) {
+                            this.stars[i].draw(ctx);
+                        }
+                    };
+                    return solarSystem;
+                }) ();
+                namespace.SolarSystem = solarSystem;
+
+            }) (window.cyber || (cyber = Object.create(null)));
+
+        </script>
+
+
+
+        <script>
+
+            let a = new cyber.SolarSystem('body');
+
+        </script>
+    </body>
+</html>

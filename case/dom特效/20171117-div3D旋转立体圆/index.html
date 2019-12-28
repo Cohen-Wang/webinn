@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="http://wx1.sinaimg.cn/large/005EAIaRgy1fun345b9edj304v03lmxk.jpg" type="image/x-icon" />
+        <link rel="shortcut icon" href="http://wx1.sinaimg.cn/large/005EAIaRgy1fun345b9edj304v03lmxk.jpg" type="image/x-icon"/>
+        <title>3d旋转圆圈</title>
+
+        <style>
+
+            *{margin:0;padding: 0;}
+            body{background-color: #000}
+            .ball{position:relative;width:500px;height:500px;margin:50px auto;}
+            .ball-cube{
+                position:relative;
+                width:500px;height:500px;
+                transform-style: preserve-3d;
+                transform: rotateX(20deg) rotateY(20deg);
+                animation: rot 30s linear 0s infinite;
+            }
+
+            @keyframes rot{
+                from{
+                    transform: rotateX(0deg) rotateY(0deg);
+                }
+                to{
+                    transform: rotateX(360deg) rotateY(360deg);
+                }
+            }
+
+            .ball-cube div{
+                position:absolute;
+                top:0;left: 0;
+                width:500px;height:500px;
+                border:10px solid red;
+                border-radius: 50%;
+            }
+        </style>
+	</head>
+
+	<body>
+
+		<div class="ball"><div class="ball-cube"></div></div>
+
+		<script>
+
+            show();
+			function show () {
+				var oBall = document.querySelector('.ball');
+				var ball_cube = document.querySelector('.ball-cube');
+				var num = 9;
+				var deg = 360/num;
+				var w = 500;
+				var divYs = [];
+
+
+                initY();
+				function initY () {
+					var fragment = document.createDocumentFragment();
+					for (var i = 0; i < num; i++) {
+						var divY=document.createElement('div');
+						divY.style.transform='rotateY('+i*deg+'deg)';//里面不能打冒号；
+						divYs.push(divY);
+						divY.style.borderColor=getColor();
+						fragment.appendChild(divY);
+					}
+					ball_cube.appendChild(fragment);
+				}
+
+
+				var divXs = [];
+
+                initX();
+				function initX () {
+					var fragment = document.createDocumentFragment();
+					for (var i = 0; i < 1; i++) {
+						var divX = document.createElement('div');
+						divX.style.transform = 'rotateX(90deg) translateZ(0px) scale(1)';//里面不能打冒号；
+						divX.style.borderColor = getColor();
+						divXs.push(divX);
+						fragment.appendChild(divX);
+					}
+					ball_cube.appendChild(fragment);
+				}
+
+				function changeColor () {
+					for (var i = 0, len = divYs.length; i<len; i++) {
+						divYs[i].style.borderColor = getColor();
+					}
+					for (var j = 0, len = divXs.length; j < len; j++) {
+						divXs[j].style.borderColor = getColor();
+					}
+				}
+				//setInterval(changeColor,1000);
+
+
+				function getColor () {
+					var colorNum = [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'];
+					var color = '';
+
+					for (var i = 0; i < 6; i++) {
+						var n = ~~(Math.random() * 15);
+						color += colorNum[n];
+						if (i === 5) {
+							return '#'+color;
+						}
+					}
+				}
+			}
+
+
+		</script>
+	</body>
+</html>

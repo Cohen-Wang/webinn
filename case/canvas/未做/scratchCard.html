@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="../../../res/images/logo/logo_16x16.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="../../../res/images/logo/logo_16x16.png" type="image/x-icon"/>
+        <title>scratchCard</title>
+        <style>
+            *{margin:0;padding: 0}
+            html{height:100%}
+            body{height:100%;min-height:900px;overflow: hidden;}
+        </style>
+    </head>
+    <body id="body">
+
+
+
+
+
+        <script src="https://cdn.bootcss.com/stats.js/16/Stats.js"></script>
+        <script>
+            /*************************************
+             * Author : Cohen_Wang
+             * Date : 2018 - 10 - 31
+             *
+             *  * 学习要点：
+             *      this.canRect = this.can.getBoundingClientRect();
+             *      bindEvent
+             *      mouseDownFn.bind(this)
+             *      this.ctx.globalCompositeOperation = 'destination-out';
+             *
+             */
+
+            (function (namespace) {
+
+                let __extend = function (_child, _super) {
+                    for (let p in _super.prototype) {
+                        if (_super.prototype.hasOwnProperty(p)) {
+                            _child.prototype[p] = _super.prototype[p];
+                        }
+                    }
+                };
+
+                let Canvas = (function () {
+                    // 构造
+                    function Canvas (id) {
+                        this.id = id;
+                        this.createCanvas();
+                    }
+                    // 创建canvas
+                    Canvas.prototype.createCanvas = function () {
+                        this.oContainer = document.getElementById(this.id);
+
+                        this.can = document.createElement('canvas');
+                        this.ctx = this.can.getContext('2d');
+
+                        this.can.width = this.oContainer.offsetWidth;
+                        this.can.height = this.oContainer.offsetHeight;
+
+                        this.oContainer.appendChild(this.can);
+                    };
+                    return Canvas;
+                }) ();
+
+
+                /**
+                 * 刮刮卡类
+                 */
+                let ScratchCard = (function () {
+                    // 构造
+                    function ScratchCard (id, r) {
+                        Canvas.call(this, id);
+                        // 变量
+                        this.r = r || 20;// 圆半径
+                        this.mouseDown = false;
+                        // 初始化
+                        this.canRect = this.can.getBoundingClientRect();
+                        // 设置背景
+                        this.can.style.backgroundImage = 'url("./res/images/scratchCard/1.jpg")';
+                        this.drawRect(0, 0, this.can.width, this.can.height, '#666');
+                        // 绑定事件
+                        this.bindEvent();
+                    }
+                    // 继承
+                    __extend(ScratchCard, Canvas);
+                    // 绑定事件
+                    ScratchCard.prototype.bindEvent = function () {
+                        this.can.addEventListener('mousedown', this.mouseDownFn.bind(this));
+                        this.can.addEventListener('mousemove', this.mouseMoveFn.bind(this));
+                        this.can.addEventListener('mouseup', this.mouseUpFn.bind(this));
+                    };
+                    // 按下
+                    ScratchCard.prototype.mouseDownFn = function (event) {
+                        //console.log(this);// 本来this指向canvas，但是由于上面绑定了，所以指向当前对象
+                        let oEvent = event || window.event;
+                        let x = oEvent.clientX - this.canRect.left;
+                        let y = oEvent.clientY - this.canRect.top;
+                        this.drawCircle(x, y, this.r, '#fff');
+                        this.mouseDown = true;
+                    };
+                    // 移动
+                    ScratchCard.prototype.mouseMoveFn = function (event) {
+                        let oEvent = event || window.event;
+                        let x = oEvent.clientX - this.canRect.left;
+                        let y = oEvent.clientY - this.canRect.top;
+
+                        if (this.mouseDown) {
+                            this.drawCircle(x, y, this.r, '#fff');
+                        }
+                    };
+                    // 抬起
+                    ScratchCard.prototype.mouseUpFn = function () {
+                        this.mouseMoveFn = null;
+                        this.mouseUpFn = null;
+                        this.mouseDown = false;
+                        // 获取数据
+                        let data = this.ctx.getImageData(0, 0, this.can.width, this.can.height).data;
+                        //
+                        let j = 0;// 还剩余的有颜色的像素点
+                        let area = this.can.width * this.can.height;
+                        for (let i = 0; i < data.length; i += 4) {
+                            if (data[i] && data[i+1] && data[i+2] && data[i+3]) {
+                                j++;
+                            }
+                        }
+                        console.log(j);
+                        // 当图层被擦除剩余80%时触发
+                        if (j / area <= 0.8) {
+                            this.ctx.clearRect(0, 0, this.can.width, this.can.height);
+                        }
+                        // 返回已经刮掉的面积
+                        return ((1 - j / area)*100).toFixed(2) + '%';
+                    };
+                    // 画圆
+                    ScratchCard.prototype.drawCircle = function (x, y, r, color) {
+                        color = color || 'red';
+                        this.ctx.save();
+                        this.ctx.beginPath();
+
+                        //this.ctx.globalCompositeOperation = 'source-over';
+                        //this.ctx.globalCompositeOperation = 'source-atop';
+                        //this.ctx.globalCompositeOperation = 'source-in';
+                        //this.ctx.globalCompositeOperation = 'source-out';
+                        //this.ctx.globalCompositeOperation = 'destination-over';
+                        //this.ctx.globalCompositeOperation = 'destination-atop';
+                        //this.ctx.globalCompositeOperation = 'destination-in';
+                        this.ctx.globalCompositeOperation = 'destination-out';
+                        //this.ctx.globalCompositeOperation = 'lighter';
+                        //this.ctx.globalCompositeOperation = 'copy';
+                        //this.ctx.globalCompositeOperation = 'xor';
+
+                        this.ctx.fillStyle = color;
+                        this.ctx.arc(x, y, r, 0, Math.PI * 2);
+                        this.ctx.fill();
+                        this.ctx.closePath();
+                        this.ctx.restore();
+                    };
+                    // 写字
+                    ScratchCard.prototype.writeText = function (text, x, y, color) {
+                        color = color || 'red';
+                        this.ctx.save();
+                        this.ctx.beginPath();
+                        this.ctx.fillStyle = color;
+                        this.ctx.font = '160px Arial';
+                        this.ctx.textAlign = "center";
+                        this.ctx.textBaseline = "middle";
+                        this.ctx.fillText(text, x, y);
+                        this.ctx.fill();
+                        this.ctx.closePath();
+                        this.ctx.restore();
+                    };
+                    // 画矩形
+                    ScratchCard.prototype.drawRect = function (x, y, w, h, color) {
+                        color = color || 'red';
+                        this.ctx.save();
+                        this.ctx.beginPath();
+                        this.ctx.fillStyle = color;
+                        this.ctx.rect(x, y, w, h);
+                        this.ctx.fill();
+                        this.ctx.closePath();
+                        this.ctx.restore();
+                    };
+                    return ScratchCard;
+                }) ();
+                namespace.ScratchCard = ScratchCard;
+
+            }) (window.cyber || (cyber = Object.create(null)));
+
+        </script>
+
+
+
+        <script>
+
+            let a = new cyber.ScratchCard('body');
+
+        </script>
+    </body>
+</html>

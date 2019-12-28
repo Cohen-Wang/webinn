@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="../../res/images/logo/logo.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="../../res/images/logo/logo.png" type="image/x-icon"/>
+        <title>game-捕鱼达人</title>
+        <style>
+            *{margin:0;padding:0;}
+            html{height:100%;}
+            body{overflow: hidden;}
+        </style>
+    </head>
+    <body>
+
+        <canvas id="canvas" style="background:red;">您的浏览器不支持canvas！</canvas>
+
+
+        <!--<script src="js/index.js"></script>-->
+        <script src="js/class.flshne.js"></script>
+        <script src="js/class.background.js"></script>
+        <script src="js/class.battery.js"></script>
+        <script src="js/class.bullet.js"></script>
+        <script>
+            let fishne = new Fishne({
+                id : 'canvas',
+                url : 'config/config.fishne.json'
+            })
+        </script>
+    </body>
+</html>

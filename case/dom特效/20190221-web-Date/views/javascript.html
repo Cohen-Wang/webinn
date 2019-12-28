@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+        <title>Javascript Date对象-详解-临时</title>
+        <link rel="stylesheet" href="../css/lib/bootstrap.min.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <strong>
+                        <a href="../../../index.html" class="navbar-brand">HOME</a>
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="list-group" data-spy="affix" style="width:250px;">
+                        <a data-pjax href="index.html" class="list-group-item active">首页</a>
+                        <a data-pjax href="./javascript.html" class="list-group-item  active">javascript</a>
+                        <a data-pjax href="./practice.html" class="list-group-item">日期对象实战</a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div id="content">
+
+                        <div id="date" class="panel panel-default">
+                            <div class="panel-heading">
+                                get
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                    <blockquote>
+                                        <p>本地时间</p>
+                                    </blockquote>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">new Date()<span class="pull-right" v-text="nowDate"></span></li><!--为了触发，这里必须有一个调用 此变量-->
+                                        <li class="list-group-item">new Date().getFullYear()<span class="pull-right" v-text="new Date().getFullYear() + '年'"></span></li>
+                                        <li class="list-group-item">new Date().getYear()：已淘汰<span class="pull-right" v-text="new Date().getYear() + '年'"></span></li>
+                                        <li class="list-group-item">new Date().getMonth() + 1<span class="pull-right" v-text="new Date().getMonth() + 1 + '月'"></span></li>
+                                        <li class="list-group-item">new Date().getDate()<span class="pull-right" v-text="new Date().getDate() + '日'"></span></li>
+                                        <li class="list-group-item">new Date().getDay()<span class="pull-right" v-text="new Date().getDay() + '星期'"></span></li>
+                                        <li class="list-group-item">new Date().getHours()<span class="pull-right" v-text="new Date().getHours() + '时'"></span></li>
+                                        <li class="list-group-item">new Date().getMinutes()<span class="pull-right" v-text="new Date().getMinutes() + '分'"></span></li>
+                                        <li class="list-group-item">new Date().getSeconds()<span class="pull-right" v-text="new Date().getSeconds() + '秒'"></span></li>
+                                        <li class="list-group-item">new Date().getMilliseconds()<span class="pull-right" v-text="new Date().getMilliseconds() + '毫秒'"></span></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <blockquote>
+                                        <p>UTC</p>
+                                    </blockquote>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">new Date()<span class="pull-right" v-text="new Date()"></span></li>
+                                        <li class="list-group-item">new Date().getUTCFullYear()<span class="pull-right" v-text="new Date().getUTCFullYear() + '年'"></span></li>
+                                        <li class="list-group-item">...<span class="pull-right"></span></li>
+                                        <li class="list-group-item">new Date().getUTCMonth() + 1<span class="pull-right" v-text="new Date().getUTCMonth() + 1 + '月'"></span></li>
+                                        <li class="list-group-item">new Date().getUTCDate()<span class="pull-right" v-text="new Date().getUTCDate() + '日'"></span></li>
+                                        <li class="list-group-item">new Date().getUTCDay()<span class="pull-right" v-text="new Date().getUTCDay() + '星期'"></span></li>
+                                        <li class="list-group-item">new Date().getUTCHours() <b class="text-danger">UTC时间主要区别</b><span class="pull-right" v-text="new Date().getUTCHours() + '时'"></span></li>
+                                        <li class="list-group-item">new Date().getUTCMinutes()<span class="pull-right" v-text="new Date().getUTCMinutes() + '分'"></span></li>
+                                        <li class="list-group-item">new Date().getSeconds()<span class="pull-right" v-text="new Date().getUTCSeconds() + '秒'"></span></li>
+                                        <li class="list-group-item">new Date().getUTCMilliseconds()<span class="pull-right" v-text="new Date().getUTCMilliseconds() + '毫秒'"></span></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-12">
+                                    <ul class="list-unstyled">
+                                        <li>1.UTC:(Coordinated Universal Time 协调世界时)由于英文（CUT）和法文（TUC）的缩写不同，作为妥协，简称UTC</li>
+                                        <li>2.中国大陆、中国香港、中国澳门、中国台湾、蒙古国、新加坡、马来西亚、菲律宾、西澳大利亚州的时间与UTC的时差均为+8，也就是UTC+8。</li>
+                                        <li>3.北京时间=UTC+8=GMT+8</li>
+                                    </ul>
+
+                                    <ul class="list-unstyled">
+                                        <li>1.G.M.T.(Greenwich Mean Time)格林尼治时间</li>
+                                        <li>2.北京时间=GMT时间+8小时。GMT指的是格林威治中央区时，北京位于东八区，也就是北京的地方时比中央时区的地方时早8小时。</li>
+                                        <li>3.北京时间=UTC+8=GMT+8</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

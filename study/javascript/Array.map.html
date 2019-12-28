@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+        <script>
+
+            /**
+             * array.map(function(currentValue, index, arr), thisValue)
+             * map() 方法返回一个新数组，数组中的元素为原始数组元素调用函数处理后的值。
+             * 返回： 新数组
+             * 注意： map() 不会改变原始数组。
+             */
+            let arr = [1, 2, 3, 4, 5];
+            let arr2 = arr.map(function (currentValue, index, arr) {
+                console.log(currentValue, index, arr);
+                return currentValue * 2;
+            });
+            console.log(arr2);
+
+        </script>
+    </body>
+</html>

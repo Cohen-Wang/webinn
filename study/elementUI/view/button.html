@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>element-UI</title>
+        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    </head>
+    <body>
+        <div id="app">
+            <el-container>
+                <el-row>
+                    <el-button type="primary" :loading="true">加载中</el-button>
+                </el-row>
+            </el-container>
+        </div>
+
+
+        <script src="../js/lib/vue.min.js"></script>
+        <script src="../js/lib/vue-resource.min.js"></script>
+        <script src="../js/lib/element-ui.js"></script>
+        <script>
+
+            var vm = new Vue ({
+                el: '#app',
+                data: function () {
+                    return {
+                        visible: false,
+                        radio: true,
+                        checkList: ['选中且禁用', '复选框 A'],
+                        input: '',
+                    }
+                },
+                provide () {
+
+                },
+                methods: {
+
+                }
+
+
+            });
+
+        </script>
+    </body>
+</html>

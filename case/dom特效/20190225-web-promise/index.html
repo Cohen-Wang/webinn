@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+
+        <script>
+
+
+            function p1 () {
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function () {
+                        console.log('p1 setTimeout');
+                        resolve();
+                        reject('p1 出错');
+                    }, 3000);
+                })
+            }
+
+            function p2 () {
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function () {
+                        console.log('p2 setTimeout');
+                        resolve();
+                        reject('p2 出错');
+                    }, 2000);
+                })
+            }
+
+            function p3 () {
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function () {
+                        console.log('p3 setTimeout');
+                        resolve('p3 success');
+                        reject('p3 出错');
+                    }, 1000);
+                })
+            }
+
+            function p4 () {
+                return new Promise(function (resolve, reject) {
+                    setTimeout(function () {
+                        console.log('p4 setTimeout');
+                        resolve('p4 success');
+                        reject('p4 出错');
+                    }, 500);
+                })
+            }
+
+            if (!true) {
+                // 执行p1
+                //p1();
+                // 查看p1结果 是否为Promise实例
+                //console.log(p1());// Promise {<pending>}
+            }
+
+            if (true) {
+                // then
+                // 3秒打印'p1 setTimeout'，再2秒打印'p2 setTimeout'
+                // 注意是p2，不是p2()
+                // 注意p1，必须要有resolve，没有，则不执行p2
+                //p1().then(p2);
+                //
+                p1().then(p2).then(p3).then(function (data) {
+                    console.log(data);
+                }).catch(function (error) {
+                    console.log("出错的地方：" + error);
+                    if (error === 'p1 出错') {
+                        p3().then(p4);
+                    }
+                });
+            }
+
+
+
+
+
+
+
+
+        </script>
+    </body>
+</html>

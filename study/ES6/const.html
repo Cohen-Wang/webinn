@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+
+        <script>
+
+            /**
+             * 同一个作用于下面，不能重复声明
+             */
+            if (true) {
+                const A = 123;
+                const A = 123;
+                console.log(A);// Uncaught SyntaxError: Identifier 'A' has already been declared
+            }
+
+
+            /**
+             * 不同作用于下面，可以重复声明
+             */
+            {
+                const A = 123;
+                console.log(A);
+            }
+
+            {
+                const A = 123;
+                console.log(A);
+            }
+
+        </script>
+    </body>
+</html>

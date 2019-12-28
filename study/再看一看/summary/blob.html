@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8" />
+    <title>下载文本文档</title>
+    <style>
+    	
+    </style>
+</head>
+	<body onselectstart="return false">
+		
+		
+		<script type="text/javascript">
+			
+			var json = {
+				a : '1',
+				b : '2',
+				c : '3',
+			};
+			var str = JSON.stringify(json);
+			
+	    	funDownload(str,'你好.txt');
+			function funDownload(content, filename) {
+			    var a = document.createElement('a');
+			    a.download = filename;
+			    
+			    var blob = new Blob([content]);
+			    a.href = URL.createObjectURL(blob);
+			    var event = new MouseEvent('click');
+			    a.dispatchEvent(event);
+			    //document.body.appendChild(a);
+			    //a.click();
+			    // 然后移除
+			    //document.body.removeChild(a);
+			    
+			    
+			};
+	    	
+		</script>
+	</body>
+</html>

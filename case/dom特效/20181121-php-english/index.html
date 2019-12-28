@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="../../res/images/logo/logo.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="../../res/images/logo/logo.png" type="image/x-icon"/>
+        <title>English</title>
+
+        <link href="../../css/lib/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/bootstrap-theme.min.css" rel="stylesheet">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <strong>
+                        <a href="../../index.html" class="navbar-brand">HOME</a>
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container" id="box">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>英文：</label>
+                                <input type="text" class="form-control" v-model="english">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>中文：</label>
+                                <input type="text" class="form-control" v-model="chinese">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>发音：</label>
+                                <input type="text" class="form-control" v-model="pronunciation">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button class="btn btn-default" @click="writeTxt()">确认</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <hr><hr><hr><hr><hr><hr><hr><hr>
+
+                <div class="col-md-12">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>英文</th>
+                                <th>中文</th>
+                                <th>发音</th>
+                                <th>日期</th>
+                            </tr>
+                            <tr v-for="(wordItem, wordIndex) in words">
+                                <td v-text="wordIndex + 1"></td>
+                                <td v-text="wordItem.english"></td>
+                                <td v-text="wordItem.chinese"></td>
+                                <td v-text="wordItem.pronunciation"></td>
+                                <td v-text="wordItem.date"></td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/vue.min.js"></script>
+        <script src="js/vue-resource.min.js"></script>
+        <script src="js/index"></script>
+
+    </body>
+</html>

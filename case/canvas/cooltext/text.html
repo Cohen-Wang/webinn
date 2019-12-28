@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>openShow</title>
+        <style>
+            * {margin: 0; padding: 0}
+            html {height: 100%;}
+            body {height: 100%; overflow: hidden;}
+        </style>
+    </head>
+    <body>
+        <audio autoplay>
+            <source src="open-show.mp3" type="audio/mp3">
+        </audio>
+
+        <canvas id="canvas" style="width: 100%; height: 100%; background-color: #0f0f0f"></canvas>
+
+
+        <script>
+
+            let can = document.getElementById("canvas");
+            let ctx = can.getContext("2d");
+            can.width = can.clientWidth;
+            can.height = can.clientHeight;
+
+            let centerX = can.width / 2;
+            let centerY = can.height / 2;
+
+
+
+            /**
+             * 文字canvas
+             */
+            let txtCanvas = document.createElement("canvas");
+            let txtCtx = txtCanvas.getContext("2d");
+            // 有了这些数据，才能有字体大小
+            let txt = "海涛";
+            let txtSize = 100;// 字体高度
+            txtCtx.font = txtSize + "px sans-serif";
+            txtCtx.textBaseline = "middle";
+            // 才能定义这个canvas的宽高
+            let txtW = ~~(txtCtx.measureText(txt).width);
+            txtCanvas.width = txtW;
+            txtCanvas.height = 1.2 * txtSize;
+
+            let rayColor1 = "#f50057";
+            let rayColor2 = "#e040fb";
+            let rayColor3 = "#ffff00";
+            let gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, txtW);
+            gradient.addColorStop(0, rayColor3);
+            gradient.addColorStop(.5, rayColor2);
+            gradient.addColorStop(1, rayColor1);
+            // 写字
+            txtCtx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+            txtCtx.fillRect(0, 0, txtCanvas.width, txtCanvas.height);
+            txtCtx.fillStyle = gradient;
+            txtCtx.font = txtSize + "px sans-serif";
+            txtCtx.textBaseline = "middle";
+            txtCtx.fillText(txt, 0, txtSize / 2);
+
+
+            let imageData = txtCtx.getImageData(0, 0, txtW, txtSize);
+
+
+            let startX = (can.width - txtW) / 2;// 图形位置的X
+            let startY = (can.height - txtSize) / 2;// 图形位置的Y
+            /**
+             * 创建 镭射线
+             */
+            let rays = [];
+            for (var i = 0; i < imageData.data.length; i += 4) {
+                let x       = i / 4;// 每4个值，代表一个像素
+                let r       = imageData.data[i];
+                let g       = imageData.data[i + 1];
+                let b       = imageData.data[i + 2];
+                let opacity = imageData.data[i + 3];
+
+                if (opacity >= 255) {// 透明度判断
+                    let color = "rgba(" + [r, g, b, opacity / 255] + ')';
+                    //rays.push(new Ray( ~~(x / txtW), x % txtW, color ));
+                    rays.push(new Ray( ~~(x / txtW) + (Math.random() - 0.5) * 3, x % txtW + (Math.random() - 0.5) * 3, color ));
+                }
+            }
+
+
+            /**
+             * 重新 写字的 canvas
+             */
+            let bufferCanvas = document.createElement("canvas");
+            let bufferCtx = bufferCanvas.getContext("2d");
+            bufferCanvas.width = txtW;
+            bufferCanvas.height = txtSize;
+
+
+            var nowWidth = 0;
+
+            startShow();
+
+            ctx.strokeStyle = gradient;
+            txtSize *= 1.5;
+
+            function startShow () {
+                ctx.clearRect(0, 0, can.width, can.height);
+                ctx.drawImage(bufferCanvas, 0, 0, nowWidth, txtSize, startX, startY, nowWidth, txtSize);// 画的是文字
+                ctx.save();
+                ctx.globalAlpha = .05;// 镭射线的颜色
+                ctx.globalCompositeOperation = "lighter";
+
+                //drawRays(nowWidth) ? (nowWidth++, nowWidth = Math.min(nowWidth, txtW), window.requestAnimationFrame(tick)) : ;
+                if (drawRays(nowWidth)) {// 如果不是所有镭射线都画完就继续，如果都画完了，就渐变消失
+                    nowWidth++;
+                    nowWidth = Math.min(nowWidth, txtW);
+                    window.requestAnimationFrame(startShow);
+                } else {
+                    fadeOut()
+                }
+
+                ctx.restore();
+            }
+
+            function fadeOut () {
+                // 清空
+                ctx.clearRect(0, 0, can.width, can.height);
+                // 通过透明度逐渐隐身
+                ctx.globalAlpha *= .95;
+                ctx.drawImage(bufferCanvas, 0, 0, nowWidth, txtSize, startX, startY, nowWidth, txtSize);
+
+                //ctx.globalAlpha > .01 ? window.requestAnimationFrame(fadeOut) : window.setTimeout(restart, 1000);
+                if (ctx.globalAlpha > .001) {
+                    window.requestAnimationFrame(fadeOut);
+                } else {
+                    window.setTimeout(restart, 1000);
+                }
+            }
+
+
+
+            function restart () {
+                // 清空
+                bufferCtx.clearRect(0, 0, txtW, txtSize);
+                //
+                nowWidth = 0;
+                //
+                for (let i = 0; i < rays.length; i++) {
+                    rays[i].reset();
+                }
+                //
+                ctx.globalAlpha = 1;
+                // 重新开始
+                startShow();
+            }
+
+
+
+            function drawRays (nowWidth) {
+                let len = 0;
+
+                ctx.beginPath();
+                for (let i = 0; i < rays.length; i++) {
+                    if (rays[i].y < nowWidth) {
+                        if (rays[i].draw()) {
+                            ++len;
+                        }
+                    }
+                }
+                ctx.stroke();
+
+                return len !== rays.length;
+            }
+
+
+
+            function Ray (x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.realX = startX + y;
+                this.realY = startY + x;
+                this.height = txtSize / 1.5;// 之前乘以了1.5
+                this.color = color;
+
+
+                // 使用值
+                this.o = Math.PI / 2 * (this.x - this.height / 2) / this.height;
+                if (this.o === 0) {
+                    this.o = (Math.random() - 0.5) * Math.PI / 2;// 恢复到 -90 ~ +90
+                }
+
+                this.s = 2 * Math.PI * (this.y - txtW / 2) / txtW;
+                if (this.s === 0) {
+                    this.s = (Math.random() - 0.5) * Math.PI
+                }
+                this.h = 0;
+
+                this.isFinish = false;
+
+                // 变化值
+                this.l = 0.02 * Math.sign(this.s);// 返回五种值：1, -1, 0, -0, NaN
+                this.c = 0.02 * Math.sign(this.o);// 返回五种值：1, -1, 0, -0, NaN
+                this.c += 0.005 * (Math.random() - 0.5);
+                this.d = 2 * Math.random() + 2;
+
+                // TODO
+                // console.log(this);
+                // this.reset();// this.reset is not a function
+            }
+            Ray.prototype.reset = function () {
+                this.o = Math.PI / 2 * (this.x - this.height / 2) / this.height;
+                if (this.o === 0) {
+                    this.o = (Math.random() - 0.5) * Math.PI / 2;
+                }
+
+                this.s = 2 * Math.PI * (this.y - txtW / 2) / txtW;
+                if (this.s === 0) {
+                    this.s = (Math.random() - 0.5) * Math.PI
+                }
+
+                this.h = 0;
+
+                this.isFinish = false;
+            };
+            Ray.prototype.draw = function () {
+                if (this.h < 0) {
+                    if (!this.isFinish) {
+                        bufferCtx.fillStyle = this.color;
+                        bufferCtx.fillRect(this.y, this.x, 1, 1);// 一个点一个点的画 文字
+
+                        this.isFinish = true;
+                    }
+                    return true;
+                } else {
+                    // render
+                    ctx.moveTo(this.realX, this.realY);
+                    ctx.quadraticCurveTo(this.realX + Math.cos(this.s) * this.h / 2, this.realY + Math.sin(this.s) * this.h / 2, this.realX + Math.cos(this.o) * this.h, this.realY + Math.sin(this.o) * this.h);
+                    // update
+                    this.o += this.c;
+                    this.s += this.l;
+                    this.h += Math.cos(this.o) * this.d;
+                    return false;
+                }
+            };
+            Ray.prototype.update = function () {
+                this.o += this.c;
+                this.s += this.l;
+                this.h += Math.cos(this.o) * this.d;
+            };
+
+        </script>
+    </body>
+</html>

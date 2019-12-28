@@ -1,0 +1,71 @@
+{
+	"_id" : 1,
+	"lastModifiedDate" : null,
+	"payments" : 
+	[
+		{
+			"id" : 1,
+			"date" : "2018-6-7",
+			"num" : 6,
+			"cost" : {
+				"water" : {
+					"volume" : 1,
+					"price" : 2,
+					"sum" : 3
+				},
+				"electricity" : {
+					"volume" : 2,
+					"price" : 4,
+					"sum" : 6
+				},
+				"gas" : {
+					"volume" : 3,
+					"price" : 6,
+					"sum" : 9
+				}
+			}
+		},{
+			"id" : 1,
+			"date" : "2018-6-7",
+			"num" : 6,
+			"cost" : {
+				"water" : {
+					"volume" : 1,
+					"price" : 2,
+					"sum" : 3
+				},
+				"electricity" : {
+					"volume" : 2,
+					"price" : 4,
+					"sum" : 6
+				},
+				"gas" : {
+					"volume" : 3,
+					"price" : 6,
+					"sum" : 9
+				}
+			}
+		},{
+			"id" : 1,
+			"date" : "2018-6-7",
+			"num" : 6,
+			"cost" : {
+				"water" : {
+					"volume" : 1,
+					"price" : 2,
+					"sum" : 3
+				},
+				"electricity" : {
+					"volume" : 2,
+					"price" : 4,
+					"sum" : 6
+				},
+				"gas" : {
+					"volume" : 3,
+					"price" : 6,
+					"sum" : 9
+				}
+			}
+		}
+	]
+}

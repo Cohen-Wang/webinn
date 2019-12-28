@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html onselectstart="return false">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="../../res/images/logo/logo.png" type="image/x-icon" />
+		<link rel="shortcut icon" href="../../res/images/logo/logo.png" type="image/x-icon"/>
+		<title>3d立体相册</title>
+		<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
+        <style>
+            *{margin:0;padding: 0}
+            body{background-color: #000;overflow: hidden;}
+            div.box{width:120px;height:180px;border:1px solid #000;margin:250px auto;position:relative;
+            transform-style: preserve-3d;
+            transform:perspective(800px) rotateX(0deg) rotateY(0deg)}                     /*难点：perspective写在里面*/
+            div.box img{position: absolute;border-radius: 5px;box-shadow: 0px 0px 10px #fff;
+            -webkit-box-reflect:below 10px -webkit-linear-gradient(top,rgba(0,0,0,0) 50%,rgba(0,0,0,0.5) 100%);
+            width:100%;height:100%}
+        </style>
+	</head>
+	<body>
+
+		<div class="box">
+			<img src="http://wx2.sinaimg.cn/mw690/005EAIaRgy1fkavohatnyj30ku0dwn1o.jpg"/>
+			<img src="http://wx4.sinaimg.cn/mw690/005EAIaRgy1fkavofm0qsj30ku0dwdlg.jpg"/>
+			<img src="http://wx4.sinaimg.cn/mw690/005EAIaRgy1fkavodyhmoj30ku0dwn2g.jpg"/>
+			<img src="http://wx3.sinaimg.cn/mw690/005EAIaRgy1fkavoc3xqoj30ku0dwjx8.jpg"/>
+			<img src="http://wx4.sinaimg.cn/mw690/005EAIaRgy1fkavoabc3xj30ku0dwtcy.jpg"/>
+			<img src="http://wx3.sinaimg.cn/mw690/005EAIaRgy1fkavo8qjgcj30ku0dw79n.jpg"/>
+			<img src="http://wx2.sinaimg.cn/mw690/005EAIaRgy1fkavo725o0j30ku0dwn17.jpg"/>
+			<img src="http://wx1.sinaimg.cn/mw690/005EAIaRgy1fkavo5mw5oj30ku0dwjwu.jpg"/>
+			<img src="http://wx4.sinaimg.cn/mw690/005EAIaRgy1fkavo3yt9vj30ku0dw42w.jpg"/>
+			<img src="http://wx3.sinaimg.cn/mw690/005EAIaRgy1fkavo2e77tj30ku0dwaev.jpg"/>
+			<img src="http://wx3.sinaimg.cn/mw690/005EAIaRgy1fkavo102mvj30ku0dwdn7.jpg"/>
+		</div>
+
+		<script>
+
+			var oBox = document.getElementsByClassName('box')[0];
+			var aImg = oBox.getElementsByTagName('img');
+			var deg = 360/aImg.length
+			/*设置属性*/
+			for(var i=0;i<aImg.length;i++){
+				aImg[i].style.transform='rotateY('+i*deg+'deg) translateZ(350px)'
+				aImg[i].ondragstart=function(){
+					return false;
+				};
+			};
+			var roX=0,
+				roY=0,
+				xN=0,
+				yN=0,
+				timer=null;
+			/*拖拽*/
+			document.onmousedown=function(e){
+				var x_=e.clientX,
+					y_=e.clientY;
+				document.onmousemove=function(e){
+					var x=e.clientX,
+						y=e.clientY;
+
+					xN=x-x_;
+					yN=y-y_;
+
+					roY+=xN*0.2;
+					roX-=yN*0.2,
+						oBox.style.transform='perspective(800px) rotateX('+roX+'deg) rotateY('+roY+'deg)';
+					x_=e.clientX,
+						y_=e.clientY;
+				};
+				document.onmouseup=function(){
+					document.onmousemove=null;
+					document.onmouseup=null;
+
+					timer=setInterval(function(){
+						xN*=0.95;
+						yN*=0.95;
+						if(Math.abs(xN)<1 && yN<1){
+							clearInterval(timer)
+						};
+
+						roY+=xN*0.2;
+						roX-=yN*0.2,
+							//console.log(xN)
+							oBox.style.transform='perspective(800px) rotateX('+roX+'deg) rotateY('+roY+'deg)';
+					},1000/60)
+				};
+			};
+
+		</script>
+	</body>
+</html>

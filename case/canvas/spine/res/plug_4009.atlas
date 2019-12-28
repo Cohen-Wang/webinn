@@ -1,0 +1,41 @@
+
+plug_4009.png
+size: 256,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bg
+  rotate: false
+  xy: 61, 8
+  size: 45, 50
+  orig: 45, 50
+  offset: 0, 0
+  index: -1
+circle
+  rotate: false
+  xy: 186, 33
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+item
+  rotate: false
+  xy: 0, 0
+  size: 59, 58
+  orig: 59, 58
+  offset: 0, 0
+  index: -1
+light002
+  rotate: false
+  xy: 146, 24
+  size: 38, 34
+  orig: 38, 34
+  offset: 0, 0
+  index: -1
+light01
+  rotate: false
+  xy: 108, 22
+  size: 36, 36
+  orig: 36, 36
+  offset: 0, 0
+  index: -1
