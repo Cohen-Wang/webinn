@@ -43,6 +43,16 @@
  * 答：
  */
 
+/**
+ * 问：开场动画，镭射线完毕后，是否删除
+ * 答：
+ */
+
+/**
+ * 问：缎带的动态数据，本身不需要，但是为了以后要动，提前写的数据，看起来好奇怪啊！
+ * 答：
+ */
+
 namespace lottery {
 
     let _w = window;
@@ -204,6 +214,19 @@ namespace lottery {
         interface Element {
             render (ctx: any): void;
         }
+
+        // +----------------------------------------------------------------------
+        // | 元素：点
+        // +----------------------------------------------------------------------
+        export class Point {
+            public x: number;
+            public y: number;
+            constructor (x: number, y: number) {
+                this.x = x;
+                this.y = y;
+            }
+        }
+
         // +----------------------------------------------------------------------
         // | 元素：圆
         // +----------------------------------------------------------------------
@@ -256,6 +279,7 @@ namespace lottery {
                 ctx.globalAlpha = 1;
             }
         }
+
         // +----------------------------------------------------------------------
         // | 元素：方形
         // +----------------------------------------------------------------------
@@ -314,29 +338,6 @@ namespace lottery {
                 ctx.globalAlpha = 1;
             }
         }
-
-        // export class Test extends Rect implements Element {
-        //     public lineWidth: number;
-        //     public r: number;
-        //     constructor (options: any) {
-        //         super(options);
-        //         this.lineWidth = options.lineWidth || 1;
-        //         this.r = options.r || 20;
-        //     }
-        //     public render (ctx: any): void {
-        //         ctx.save(); ctx.beginPath(); // draw top and top right corner'
-        //         ctx.strokeStyle = this.color;
-        //         ctx.lineWidth = 1;
-        //         ctx.moveTo(this.x + this.r, this.y);
-        //         ctx.arcTo(this.x + this.width, this.y, this.x + this.width, this.y + this.r, this.r); // draw right side and bottom right corner
-        //         ctx.arcTo(this.x + this.width, this.y + this.height, this.x + this.width - this.r, this.y + this.height, this.r); // draw bottom and bottom left corner
-        //         ctx.arcTo(this.x, this.y + this.height, this.x, this.y + this.height - this.r, this.r); // draw left and top left corner
-        //         ctx.arcTo(this.x, this.y, this.x + this.r, this.y, this.r);
-        //         ctx.stroke();
-        //         ctx.restore();
-        //     }
-        // }
-
 
         // +----------------------------------------------------------------------
         // | 元素：星星
@@ -409,6 +410,7 @@ namespace lottery {
                 ctx.globalAlpha = 1;// 恢复
             }
         }
+
         // +----------------------------------------------------------------------
         // | 元素：文字
         // +----------------------------------------------------------------------
@@ -425,9 +427,6 @@ namespace lottery {
             public fontFamily: string;
 
             protected constructor (options: any) {
-                this.init(options);
-            }
-            protected init (options) {
                 this.x = options.x || 100;
                 this.y = options.y || 100;
                 this.color = options.color || '#ccc';
@@ -479,6 +478,245 @@ namespace lottery {
                 ctx.restore();
             }
         }
+
+        // +----------------------------------------------------------------------
+        // | 元素：缎带
+        // +----------------------------------------------------------------------
+        export class Ribbon implements Element {
+            public startPoint: any;
+            public controlPoint: any;
+            public endPoint: any;
+            public color: string;
+            public lineWidth: number;
+            public globalAlpha: number;
+            // 动态数据
+            public speed: number;// 左右摇摆的速度
+            public range: number;// 左右摇摆的范围
+
+            constructor (options) {
+                this.startPoint = options.startPoint;
+                this.controlPoint = options.controlPoint;
+                this.endPoint = options.endPoint;
+                this.color = options.color || '#ccc';
+                this.lineWidth = options.lineWidth || 14;
+                this.globalAlpha = options.globalAlpha || 0.8;
+                // 动态数据
+                this.speed = options.speed || 10;// 左右摇摆的速度
+                this.range = options.range || 40;// 左右摇摆的范围
+            }
+
+            public render (ctx): void {
+                ctx.save();
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = this.lineWidth;
+                ctx.globalAlpha = this.globalAlpha;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+
+                ctx.beginPath();
+                ctx.moveTo(this.startPoint.x, this.startPoint.y);
+                // 弧度线：贝塞尔曲线
+                ctx.quadraticCurveTo(this.controlPoint.x, this.controlPoint.y, this.endPoint.x + 10, this.endPoint.y);
+                ctx.closePath();
+
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        // +----------------------------------------------------------------------
+        // | 元素：灯笼
+        // +----------------------------------------------------------------------
+        export class Lantern {
+            public lantern: any;// 包含属性 oImg，x，y
+            public ribbon: any;
+            //
+            public beta: number;
+            //
+            public ribbons: any;// 缎带实例的容器
+
+            constructor (options) {
+                // 灯笼
+                this.lantern = {};// ❤：注意这一步，一定要初始化
+                this.lantern.oImg = options.lantern.oImg;
+                this.lantern.x = options.lantern.x || 0;
+                this.lantern.y = options.lantern.y || 0;
+                this.lantern.width = options.lantern.width || 100;
+                // this.lantern.height = options.lantern.height || 100;// 不能给默认值
+                this.lantern.angle = options.lantern.angle || 0;
+                this.lantern.angleSpeed = options.lantern.angleSpeed || 10;
+                // 缎带
+                this.ribbon = {};// ❤：注意这一步，一定要初始化
+                this.ribbon.num = options.ribbon.num || 2;
+                this.ribbon.distance = options.ribbon.distance || 200;
+                this.ribbon.color = options.ribbon.color || '#ccc';
+                this.ribbon.lineWidth = options.ribbon.lineWidth || 1;
+                this.ribbon.globalAlpha = options.ribbon.globalAlpha || 1;
+                this.ribbon.bornRange = options.ribbon.bornRange || 10;
+                this.ribbon.speed = options.ribbon.speed || 10;
+                this.ribbon.range = options.ribbon.range || 10;
+                //
+                this.beta = 0;
+                //
+                this.ribbons = [];
+                //
+                this.initRibbon();
+            }
+
+            // 初始化缎带
+            public initRibbon (): void {
+                for (let i = 0; i < this.ribbon.num; i++) {
+                    let noRotateStartX = (this.lantern.x + this.lantern.width / 2) - this.ribbon.bornRange / 2 + (this.ribbon.bornRange / this.ribbon.num) * i;// 均匀生成缎带的起始点
+                    let startX = noRotateStartX + Math.cos(Math.PI / 180 * this.lantern.angle) * 87;
+                    let noRotateStartY = this.lantern.y + (this.lantern.height ? this.lantern.height : this.lantern.width * this.lantern.oImg.naturalHeight / this.lantern.oImg.naturalWidth);
+                    let startY = noRotateStartY + Math.sin(Math.PI / 180 * this.lantern.angle) * 87;
+
+                    let controlX = startX;
+                    let controlY = startY + this.ribbon.distance / 3;
+                    let endX = startX;// 结束点X坐标（变动）
+                    let endY = startY + _random(this.ribbon.distance - 20, this.ribbon.distance + 20);
+                    let speed = _random(0.02, 0.03);
+                    let range = _random(20, 30);
+                    let options = {
+                        startPoint: new Point(startX, startY),
+                        controlPoint: new Point(controlX, controlY),
+                        endPoint: new Point(endX, endY),
+                        color: this.ribbon.color,
+                        lineWidth: this.ribbon.lineWidth,
+                        globalAlpha: this.ribbon.globalAlpha,
+                        speed: speed,
+                        range: range,
+                    };
+
+                    this.ribbons.push(new element.Ribbon(options));
+                }
+            }
+            // 画灯笼
+            public drawLantern (ctx: any): void {
+                let oImg = this.lantern.oImg;
+                let imgWidth = this.lantern.oImg.naturalWidth;
+                let imgHeight = this.lantern.oImg.naturalHeight;
+                //
+                let x = this.lantern.x;
+                let y = this.lantern.y;
+                let width = this.lantern.width;
+                let height = this.lantern.height = width * imgHeight / imgWidth;
+                // TODO 分两个函数
+                ctx.save();
+                ctx.beginPath();
+                ctx.translate(x + width / 2, y);
+                ctx.rotate(this.lantern.angle * Math.PI / 180);
+
+
+                ctx.fillStyle = 'rgba(255, 255, 0, 0.2)';
+                ctx.fillRect(0, 0, 200, 200);
+
+                ctx.drawImage(oImg, 0, 0, imgWidth, imgHeight, -width / 2, 0, width, height);
+                ctx.drawImage(oImg, 0, 0, imgWidth, imgHeight, 0, 0, width, height);
+
+                ctx.fillStyle = '#f00';
+                ctx.fillRect(0, 0, 20, 20);
+
+                ctx.closePath();
+                ctx.restore();
+
+                ctx.translate(0, 0);
+                ctx.rotate(0);
+
+            }
+            // 画缎带
+            public drawRibbon (ctx: any): void {
+                this.ribbons.forEach(function (item) {
+                    item.render(ctx);
+                })
+            }
+
+            public render (ctx: any): void {
+                this.drawLantern(ctx);
+                this.drawRibbon(ctx);
+            }
+
+            public update (): void {
+                // 图片变动
+                if (this.lantern.angle <= -15 || this.lantern.angle >= 15) {
+                    this.lantern.angleSpeed = -this.lantern.angleSpeed;
+                }
+                this.lantern.angle += this.lantern.angleSpeed;
+
+                // 缎带变动
+                this.beta++;// Math.sin的应用
+                for (let i = 0, len = this.ribbons.length; i < len; i++) {
+                    // 改变起始点
+                    let noRotateStartX = (this.lantern.x + this.lantern.width / 2) - this.ribbon.bornRange / 2 + (this.ribbon.bornRange / this.ribbon.num) * i;// 均匀生成缎带的起始点
+                    this.ribbons[i].startPoint.x = noRotateStartX + Math.cos(Math.PI / 180 * this.lantern.angle) * this.lantern.height;
+                    let noRotateStartY = this.lantern.y + (this.lantern.height ? this.lantern.height : this.lantern.width * this.lantern.oImg.naturalHeight / this.lantern.oImg.naturalWidth);
+                    this.ribbons[i].startPoint.y = noRotateStartY + Math.sin(Math.PI / 180 * this.lantern.angle) * this.lantern.height;
+
+                    // 改变结束点
+                    this.ribbons[i].endPoint.x = this.ribbons[i].startPoint.x + Math.sin(this.beta * this.ribbons[i].speed) * this.ribbons[i].range;
+                }
+            }
+        }
+
+        // +----------------------------------------------------------------------
+        // | 元素：镭射线
+        // +----------------------------------------------------------------------
+        export class Ray {
+            public x: number;
+            public y: number;
+            public width: number;
+            public height: number;
+            //
+            public o: number;
+            public s: number;
+            public h: number;
+            public l: number;
+            public c: number;
+            public d: number;
+
+            constructor (x: number, y: number, width: number, height: number) {
+                this.x = x || 0;
+                this.y = y || 0;
+                this.width = width || 100;
+                this.height = height || 100;
+
+                // 使用值
+                this.o = Math.PI / 2 * (Math.random() * this.x - this.height / 2) / this.height;
+                if (this.o === 0) {
+                    this.o = (Math.random() - 0.5) * Math.PI / 2;// 恢复到 -90 ~ +90
+                }
+
+                this.s = 2 * Math.PI * (Math.random() * this.y - this.width / 2) / this.width;
+                if (this.s === 0) {
+                    this.s = (Math.random() - 0.5) * Math.PI
+                }
+                this.h = 0;
+
+                // 变化值
+                this.l = 0.02 * _sign(this.s);// 返回五种值：1, -1, 0, -0, NaN
+                this.c = 0.02 * _sign(this.o);// 返回五种值：1, -1, 0, -0, NaN
+                this.c += _random(-0.005, 0.005);
+                this.d = _random(2, 4);// 线长
+            }
+
+            public render (ctx: any): void {
+                let startX  = this.x + Math.cos(this.s) * this.h / 2;
+                let startY  = this.y + Math.sin(this.s) * this.h / 2;
+                let endX    = this.x + Math.cos(this.o) * this.h;
+                let endY    = this.y + Math.sin(this.o) * this.h;
+                ctx.moveTo(this.x, this.y);
+                ctx.quadraticCurveTo(startX, startY, endX, endY);
+            }
+
+            public update (): void {
+                this.o += this.c * 2;// 乘以2 是为了 消失快点
+                this.s += this.l * 2;// 乘以2 是为了 消失快点
+                this.h += Math.cos(this.o) * this.d;
+            }
+        }
+
+
+
     }/** namespace element **/
 
 
@@ -520,98 +758,12 @@ namespace lottery {
     }/** namespace Animation **/
 
 
-    // +----------------------------------------------------------------------
-    // | ImageData: 获取图片信息
-    // +----------------------------------------------------------------------
-    // export class ImageData {
-    //     public can: any;
-    //     public ctx: any;
-    //     constructor () {
-    //         this.can = document.createElement('canvas');
-    //         this.ctx = this.can.getContext('2d');
-    //     }
-    //     /**
-    //      * @param options
-    //      *      oImg: 加载好的图片对象
-    //      *      width: 期望以 什么样的宽，高来显示图片
-    //      *      height: 可选，填了就固定高度； 不填就是固定比列；
-    //      * @param callback
-    //      */
-    //     public getInfo (options, callback) {
-    //         // 获取图片信息
-    //         // 设置canvas宽高
-    //         this.can.width = options.width;
-    //         this.can.height = options.height || options.width * options.oImg.naturalHeight / options.oImg.naturalWidth;
-    //         // 绘制图像
-    //         this.ctx.drawImage(options.oImg, 0, 0, options.oImg.naturalWidth, options.oImg.naturalHeight, 0, 0, this.can.width, this.can.height);
-    //         // 获取图像的像素信息，并根据像素信息重新绘制出粒子效果轮廓图，
-    //         // canvas有一个叫getImageData的接口，通过该接口可以获取到画布上指定位置的全部像素的数据
-    //         let imageData = this.ctx.getImageData(0, 0, this.can.width, this.can.height);// 注意获取数据的范围
-    //         // 回调函数
-    //         callback && callback(imageData);
-    //     }
-    // }
 
 
 
 
 
-    /**
-     * 镭射线
-     */
-    export class Ray {
-        public x: number;
-        public y: number;
-        public width: number;
-        public height: number;
-        //
-        public o: number;
-        public s: number;
-        public h: number;
-        public l: number;
-        public c: number;
-        public d: number;
 
-        constructor (x: number, y: number, width: number, height: number) {
-            this.x = x || 0;
-            this.y = y || 0;
-            this.width = width || 100;
-            this.height = height || 100;
-
-            // 使用值
-            this.o = Math.PI / 2 * (Math.random() * this.x - this.height / 2) / this.height;
-            if (this.o === 0) {
-                this.o = (Math.random() - 0.5) * Math.PI / 2;// 恢复到 -90 ~ +90
-            }
-
-            this.s = 2 * Math.PI * (Math.random() * this.y - this.width / 2) / this.width;
-            if (this.s === 0) {
-                this.s = (Math.random() - 0.5) * Math.PI
-            }
-            this.h = 0;
-
-            // 变化值
-            this.l = 0.02 * _sign(this.s);// 返回五种值：1, -1, 0, -0, NaN
-            this.c = 0.02 * _sign(this.o);// 返回五种值：1, -1, 0, -0, NaN
-            this.c += _random(-0.005, 0.005);
-            this.d = _random(2, 4);// 线长
-        }
-
-        render (ctx: any): void {
-            let startX  = this.x + Math.cos(this.s) * this.h / 2;
-            let startY  = this.y + Math.sin(this.s) * this.h / 2;
-            let endX    = this.x + Math.cos(this.o) * this.h;
-            let endY    = this.y + Math.sin(this.o) * this.h;
-            ctx.moveTo(this.x, this.y);
-            ctx.quadraticCurveTo(startX, startY, endX, endY);
-        }
-
-        update (): void {
-            this.o += this.c * 2;// 乘以2 是为了 消失快点
-            this.s += this.l * 2;// 乘以2 是为了 消失快点
-            this.h += Math.cos(this.o) * this.d;
-        }
-    }
 
 
 
@@ -674,17 +826,51 @@ namespace lottery {
 
 
 
-    export class Show {
+
+
+    // abstract class Template {
+    //
+    //     // final
+    //     public init () {
+    //         this.loadAllResource()
+    //     }
+    //
+    //
+    //     protected abstract loadAllResource (loadedFn, loadedAllFn): void {
+    //         this.R = {};// 准备一个R对象
+    //         let loadedNumber = 0;
+    //         let _this = this;
+    //         // 逐一加载
+    //         for (let i = 0, len = this.config.length; i < len; i++) {
+    //             this.R[this.config[i].name] = new Image();// 创建一个同名的key
+    //             this.R[this.config[i].name].src = this.config[i].url;// 请求
+    //             this.R[this.config[i].name].onload = function () {// 监听
+    //                 ++loadedNumber;
+    //                 loadedFn && loadedFn(loadedNumber);
+    //                 //判断是否已经全部加载完毕
+    //                 if (loadedNumber === _this.config.length) {
+    //                     loadedAllFn && loadedAllFn();// callback.call(_this);// ❤
+    //                 }
+    //             };
+    //         }
+    //     };
+    // }
+
+
+
+
+
+    export class OpenShow {
         public config: any;
         public can: any;
         public ctx: any;
+        public canRect: any;
         public R: any;
 
         public isStart = false;
         public solid_circle_elements: any;// TODO
         public solid_main_text_elements: any;
         public user_list: any;
-
 
         constructor (options) {
             this.config = options.config || {};
@@ -693,9 +879,7 @@ namespace lottery {
             this.can = null;
             this.ctx = null;
 
-
             this.solid_circle_elements = [];
-
 
             // 执行
             let _this = this;
@@ -710,7 +894,11 @@ namespace lottery {
                 solidText.text = '资源加载中...' + '（' + loadedNumber + '/' + _this.config.length + '）';
                 solidText.render(_this.ctx);
             }, function () {
+
+
                 _this.openShow();
+
+
             })
         }
 
@@ -721,6 +909,7 @@ namespace lottery {
             let screenInfo = _screenInfo();
             this.can.width = screenInfo['width'];
             this.can.height = screenInfo['height'];
+            this.canRect = this.can.getBoundingClientRect();
             // 添加
             document.body.appendChild(this.can);
         }
@@ -751,22 +940,10 @@ namespace lottery {
 
         public openShow (): void {
             let _this = this;
-            let wantedWidth = 300;// 期望图片的宽度
-            let deviation = 1;// 期望图片像素点的偏差
-
-
-
-
-
             let openShowImageData = _getImageData({
                 oImg: this.R.tiefan,
                 width: 400,
             });
-
-            console.log(openShowImageData);
-
-
-
             let startX = (this.can.width - openShowImageData.width) / 2;// 图形位置的X
             let startY = (this.can.height - openShowImageData.height) / 2;// 图形位置的Y
             /**
@@ -782,7 +959,7 @@ namespace lottery {
                     let y = ~~(num / openShowImageData.width) + startY;
 
                     if (x % 2 && y % 2) {
-                        rays.push(new Ray( x, y, openShowImageData.width, openShowImageData.height));
+                        rays.push(new element.Ray( x, y, openShowImageData.width, openShowImageData.height));
                     }
                 }
             }
@@ -794,9 +971,6 @@ namespace lottery {
             let bufferCtx = bufferCan.getContext("2d");
             bufferCan.width = openShowImageData.width;
             bufferCan.height = openShowImageData.height;
-
-
-
             //
             let showHeight = startY;
             //
@@ -806,10 +980,7 @@ namespace lottery {
             gradient.addColorStop(0, rayColor1);
             gradient.addColorStop(1, rayColor2);
 
-
-
             let timer = null;
-
             // 执行
             (function v () {
                 let len = 0;
@@ -839,9 +1010,15 @@ namespace lottery {
                 }
 
                 if (len >= rays.length) {
+                    
+                    _this.can.style.cursor = 'pointer';
+
                     _this.can.addEventListener('click', function () {
                         console.log(2);
+                        _this.can.style.cursor = 'auto';
                     });
+
+
                     // 停止
                     window.cancelAnimationFrame(timer);// 没有用
                     timer = null;
@@ -853,55 +1030,26 @@ namespace lottery {
                 //
                 timer = window.requestAnimationFrame(v);
             }());
+        }
 
 
+        public canMouseMove (event): void {
+            let x = event.clientX - this.canRect.left;
+            let y = event.clientY - this.canRect.top;
+            //
+            if (this.isHover(x, y, 255)) {
+                this.can.style.cursor = 'pointer';
+            } else {
+                this.can.style.cursor = 'auto';
+            }
+        }
 
-
-            // 获取logo图片的数据
-            // let tiefanInfo = new ImageData();
-            //
-            // tiefanInfo.getInfo({
-            //     oImg: this.R.tiefan,
-            //     width: wantedWidth,
-            // }, function (imageData) {
-            //
-            //
-            //     // 进入开场动画
-            //     let logo_particle = calculate(imageData.data, imageData.width, imageData.height);// 处理数据
-            //     _this.ctx.clearRect(0, 0, _this.can.width, _this.can.height);
-            //     for (let i = 0; i < logo_particle.length; i++) {
-            //         let x = (_this.can.width - imageData.width) / 2 + logo_particle[i].x + _random(-deviation, deviation);
-            //         let y = (_this.can.height - imageData.height)  / 2 + logo_particle[i].y + _random(-deviation, deviation) - 100;// -100 是为了高点，好看
-            //
-            //
-            //         // TODO 优化
-            //         let rayColor1 = "#f50057",
-            //             rayColor2 = "#e040fb",
-            //             rayColor3 = "#ffff00";
-            //         let centerX = _this.can.width / 2;
-            //         let centerY = _this.can.height / 2;
-            //         let gradient = _this.ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, wantedWidth);
-            //         gradient.addColorStop(0, rayColor3);
-            //         gradient.addColorStop(.5, rayColor2);
-            //         gradient.addColorStop(1, rayColor1);
-            //         _this.ctx.fillStyle = gradient;
-            //         _this.ctx.fillRect(x, y, 0.5, 0.5);
-            //     }
-            //
-            //
-            //
-            //
-            //
-            //
-            //     // 开始抽奖
-            //     // window.setTimeout(function () {
-            //     //     _this.can.addEventListener('click', function () {
-            //     //         _this.isStart = !_this.isStart;
-            //     //     });
-            //     //     _this.gameRun();
-            //     // }, 5000);
-            //
-            // })
+        /**
+         * 判断当前鼠标所在点的canvas透明度
+         */
+        public isHover (x: number, y: number, alpha: number): boolean {
+            let imageData = this.ctx.getImageData(x, y, 1, 1);
+            return imageData.data[3] >= alpha;
         }
 
 
@@ -912,7 +1060,6 @@ namespace lottery {
             // this.ctx.fillStyle = 'rgba(0, 0, 0, 0.01)';
             // this.ctx.fillRect(0, 0, this.can.width, this.can.height);
             this.ctx.clearRect(0, 0, this.can.width, this.can.height);
-
 
             // +----------------------------------------------------------------------
             // | 背景动画
@@ -949,8 +1096,6 @@ namespace lottery {
                     lottery.animation.bigOut(item, this.ctx, animation_options);
                 }
             }
-
-
 
 
             // +----------------------------------------------------------------------
@@ -1012,12 +1157,7 @@ namespace lottery {
             //
             //     }
             // }
-
-
-
-
         }
-
 
         public gameRun () {
             let _this = this;
@@ -1041,8 +1181,113 @@ namespace lottery {
     }
 
 
+    /**
+     * 场景
+     */
+    abstract class Scene {
+        public can: any;
+        public ctx: any;
+
+        protected constructor (options: any) {
+            this.can = options.can || Scene._createCanvas();
+            this.ctx = options.ctx || this.can.getContext('2d');
+        }
+
+        static _createCanvas (): any {
+            let can = document.createElement('canvas');
+
+            can.width = window.innerWidth;
+            can.height = window.innerHeight;
+
+            can.style['backgroundColor'] = '#ccc';
+
+            document.body.appendChild(can);
+
+            return can;
+        }
+    }
 
 
+    /**
+     * 抽奖场景
+     */
+    export class LotteryScene extends Scene {
+        public backgroundImage: any;
+
+        //
+        public lanterns: any;// 灯笼实例容器
+
+        constructor (options: any) {
+            super (options);
+
+            this.backgroundImage = options.backgroundImage || '';
+            // 初始化
+            this.lanterns = [];
+            //
+            this._init();
+        }
+
+        private _init (): void {
+
+            this._setBackground();
+
+            // 画灯笼
+            let _this = this;
+            let oImg1 = new Image();
+            oImg1.src = './res/image/lantern_1.png';
+            oImg1.onload = function () {
+                let num = 2;
+                for (let i = 0; i < num; i++) {
+                    let x = _this.can.width / num * i + _random(-50, 50);
+                    let y = _random(-10, 10);
+                    let options = {
+                        lantern: {
+                            oImg: this,
+                            x: x,
+                            y: y,
+                            width: 100,
+                            angle: _random(-10, 10),
+                            angleSpeed: _random(0.05, 0.1),
+                        },
+                        ribbon: {
+                            num: 5,
+                            distance: 100 + _random(0, 20),
+                            color: '#ff0',
+                            lineWidth: 1.5,
+                            globalAlpha: 0.8,
+                        }
+                    };
+                    _this.lanterns.push(new element.Lantern(options));
+                }
+
+                _this.start();
+            };
+        }
+
+        private _setBackground () {
+            this.ctx.drawImage(this.backgroundImage, 0, 0, this.backgroundImage.naturalWidth, this.backgroundImage.naturalHeight, 0, 0, this.can.width, this.can.height);
+        }
+
+        public draw (ctx: any) {
+            for (let i = 0, len = this.lanterns.length; i < len; i++) {
+                this.lanterns[i].update();
+                this.lanterns[i].render(ctx);
+            }
+        }
+
+        public start () {
+            let _this = this;
+            (function v () {
+                //
+                //_this.ctx.clearRect(0, 0, _this.can.width, _this.can.height);
+                //
+                _this._setBackground();
+                //
+                _this.draw(_this.ctx);
 
 
+                window.requestAnimationFrame(v);
+            }())
+        }
+    }
 }

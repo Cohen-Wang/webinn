@@ -3,7 +3,16 @@ let options = {
     config: RESOURCE_CONFIG['image'],
     user_list: USER_LIST,
 };
-let show = new lottery.Show(options);
+
+//let show = new lottery.OpenShow(options);
+let oImg = new Image();
+oImg.src = './res/image/bg2.jpg';
+oImg.onload = function () {
+    let show = new lottery.LotteryScene({
+        backgroundImage: this,
+    });
+};
+
 
 
 

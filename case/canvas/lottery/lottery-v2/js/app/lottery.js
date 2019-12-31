@@ -48,6 +48,14 @@ var __extends = (this && this.__extends) || (function () {
  * 问：什么时候constructor ， 什么时候调用实例方法？ 如创建一个Point
  * 答：
  */
+/**
+ * 问：开场动画，镭射线完毕后，是否删除
+ * 答：
+ */
+/**
+ * 问：缎带的动态数据，本身不需要，但是为了以后要动，提前写的数据，看起来好奇怪啊！
+ * 答：
+ */
 var lottery;
 (function (lottery) {
     var _w = window;
@@ -203,6 +211,17 @@ var lottery;
     var element;
     (function (element) {
         // +----------------------------------------------------------------------
+        // | 元素：点
+        // +----------------------------------------------------------------------
+        var Point = /** @class */ (function () {
+            function Point(x, y) {
+                this.x = x;
+                this.y = y;
+            }
+            return Point;
+        }());
+        element.Point = Point;
+        // +----------------------------------------------------------------------
         // | 元素：圆
         // +----------------------------------------------------------------------
         var Circle = /** @class */ (function () {
@@ -315,27 +334,6 @@ var lottery;
             return HollowRect;
         }(Rect));
         element.HollowRect = HollowRect;
-        // export class Test extends Rect implements Element {
-        //     public lineWidth: number;
-        //     public r: number;
-        //     constructor (options: any) {
-        //         super(options);
-        //         this.lineWidth = options.lineWidth || 1;
-        //         this.r = options.r || 20;
-        //     }
-        //     public render (ctx: any): void {
-        //         ctx.save(); ctx.beginPath(); // draw top and top right corner'
-        //         ctx.strokeStyle = this.color;
-        //         ctx.lineWidth = 1;
-        //         ctx.moveTo(this.x + this.r, this.y);
-        //         ctx.arcTo(this.x + this.width, this.y, this.x + this.width, this.y + this.r, this.r); // draw right side and bottom right corner
-        //         ctx.arcTo(this.x + this.width, this.y + this.height, this.x + this.width - this.r, this.y + this.height, this.r); // draw bottom and bottom left corner
-        //         ctx.arcTo(this.x, this.y + this.height, this.x, this.y + this.height - this.r, this.r); // draw left and top left corner
-        //         ctx.arcTo(this.x, this.y, this.x + this.r, this.y, this.r);
-        //         ctx.stroke();
-        //         ctx.restore();
-        //     }
-        // }
         // +----------------------------------------------------------------------
         // | 元素：星星
         // +----------------------------------------------------------------------
@@ -414,9 +412,6 @@ var lottery;
         // +----------------------------------------------------------------------
         var Text = /** @class */ (function () {
             function Text(options) {
-                this.init(options);
-            }
-            Text.prototype.init = function (options) {
                 this.x = options.x || 100;
                 this.y = options.y || 100;
                 this.color = options.color || '#ccc';
@@ -427,7 +422,7 @@ var lottery;
                 this.fontWeight = options.fontWeight || 900;
                 this.fontSize = options.fontSize || 24;
                 this.fontFamily = options.fontFamily || 'arial';
-            };
+            }
             return Text;
         }());
         // 实体字
@@ -475,6 +470,194 @@ var lottery;
             return HollowText;
         }(Text));
         element.HollowText = HollowText;
+        // +----------------------------------------------------------------------
+        // | 元素：缎带
+        // +----------------------------------------------------------------------
+        var Ribbon = /** @class */ (function () {
+            function Ribbon(options) {
+                this.startPoint = options.startPoint;
+                this.controlPoint = options.controlPoint;
+                this.endPoint = options.endPoint;
+                this.color = options.color || '#ccc';
+                this.lineWidth = options.lineWidth || 14;
+                this.globalAlpha = options.globalAlpha || 0.8;
+                // 动态数据
+                this.speed = options.speed || 10; // 左右摇摆的速度
+                this.range = options.range || 40; // 左右摇摆的范围
+            }
+            Ribbon.prototype.render = function (ctx) {
+                ctx.save();
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = this.lineWidth;
+                ctx.globalAlpha = this.globalAlpha;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.beginPath();
+                ctx.moveTo(this.startPoint.x, this.startPoint.y);
+                // 弧度线：贝塞尔曲线
+                ctx.quadraticCurveTo(this.controlPoint.x, this.controlPoint.y, this.endPoint.x + 10, this.endPoint.y);
+                ctx.closePath();
+                ctx.stroke();
+                ctx.restore();
+            };
+            return Ribbon;
+        }());
+        element.Ribbon = Ribbon;
+        // +----------------------------------------------------------------------
+        // | 元素：灯笼
+        // +----------------------------------------------------------------------
+        var Lantern = /** @class */ (function () {
+            function Lantern(options) {
+                // 灯笼
+                this.lantern = {}; // ❤：注意这一步，一定要初始化
+                this.lantern.oImg = options.lantern.oImg;
+                this.lantern.x = options.lantern.x || 0;
+                this.lantern.y = options.lantern.y || 0;
+                this.lantern.width = options.lantern.width || 100;
+                // this.lantern.height = options.lantern.height || 100;// 不能给默认值
+                this.lantern.angle = options.lantern.angle || 0;
+                this.lantern.angleSpeed = options.lantern.angleSpeed || 10;
+                // 缎带
+                this.ribbon = {}; // ❤：注意这一步，一定要初始化
+                this.ribbon.num = options.ribbon.num || 2;
+                this.ribbon.distance = options.ribbon.distance || 200;
+                this.ribbon.color = options.ribbon.color || '#ccc';
+                this.ribbon.lineWidth = options.ribbon.lineWidth || 1;
+                this.ribbon.globalAlpha = options.ribbon.globalAlpha || 1;
+                this.ribbon.bornRange = options.ribbon.bornRange || 10;
+                this.ribbon.speed = options.ribbon.speed || 10;
+                this.ribbon.range = options.ribbon.range || 10;
+                //
+                this.beta = 0;
+                //
+                this.ribbons = [];
+                //
+                this.initRibbon();
+            }
+            // 初始化缎带
+            Lantern.prototype.initRibbon = function () {
+                for (var i = 0; i < this.ribbon.num; i++) {
+                    var noRotateStartX = (this.lantern.x + this.lantern.width / 2) - this.ribbon.bornRange / 2 + (this.ribbon.bornRange / this.ribbon.num) * i; // 均匀生成缎带的起始点
+                    var startX = noRotateStartX + Math.cos(Math.PI / 180 * this.lantern.angle) * 87;
+                    var noRotateStartY = this.lantern.y + (this.lantern.height ? this.lantern.height : this.lantern.width * this.lantern.oImg.naturalHeight / this.lantern.oImg.naturalWidth);
+                    var startY = noRotateStartY + Math.sin(Math.PI / 180 * this.lantern.angle) * 87;
+                    var controlX = startX;
+                    var controlY = startY + this.ribbon.distance / 3;
+                    var endX = startX; // 结束点X坐标（变动）
+                    var endY = startY + _random(this.ribbon.distance - 20, this.ribbon.distance + 20);
+                    var speed = _random(0.02, 0.03);
+                    var range = _random(20, 30);
+                    var options = {
+                        startPoint: new Point(startX, startY),
+                        controlPoint: new Point(controlX, controlY),
+                        endPoint: new Point(endX, endY),
+                        color: this.ribbon.color,
+                        lineWidth: this.ribbon.lineWidth,
+                        globalAlpha: this.ribbon.globalAlpha,
+                        speed: speed,
+                        range: range,
+                    };
+                    this.ribbons.push(new element.Ribbon(options));
+                }
+            };
+            // 画灯笼
+            Lantern.prototype.drawLantern = function (ctx) {
+                var oImg = this.lantern.oImg;
+                var imgWidth = this.lantern.oImg.naturalWidth;
+                var imgHeight = this.lantern.oImg.naturalHeight;
+                //
+                var x = this.lantern.x;
+                var y = this.lantern.y;
+                var width = this.lantern.width;
+                var height = this.lantern.height = width * imgHeight / imgWidth;
+                // TODO 分两个函数
+                ctx.save();
+                ctx.beginPath();
+                ctx.translate(x + width / 2, y);
+                ctx.rotate(this.lantern.angle * Math.PI / 180);
+                ctx.fillStyle = 'rgba(255, 255, 0, 0.2)';
+                ctx.fillRect(0, 0, 200, 200);
+                ctx.drawImage(oImg, 0, 0, imgWidth, imgHeight, -width / 2, 0, width, height);
+                ctx.drawImage(oImg, 0, 0, imgWidth, imgHeight, 0, 0, width, height);
+                ctx.fillStyle = '#f00';
+                ctx.fillRect(0, 0, 20, 20);
+                ctx.closePath();
+                ctx.restore();
+                ctx.translate(0, 0);
+                ctx.rotate(0);
+            };
+            // 画缎带
+            Lantern.prototype.drawRibbon = function (ctx) {
+                this.ribbons.forEach(function (item) {
+                    item.render(ctx);
+                });
+            };
+            Lantern.prototype.render = function (ctx) {
+                this.drawLantern(ctx);
+                this.drawRibbon(ctx);
+            };
+            Lantern.prototype.update = function () {
+                // 图片变动
+                if (this.lantern.angle <= -15 || this.lantern.angle >= 15) {
+                    this.lantern.angleSpeed = -this.lantern.angleSpeed;
+                }
+                this.lantern.angle += this.lantern.angleSpeed;
+                // 缎带变动
+                this.beta++; // Math.sin的应用
+                for (var i = 0, len = this.ribbons.length; i < len; i++) {
+                    // 改变起始点
+                    var noRotateStartX = (this.lantern.x + this.lantern.width / 2) - this.ribbon.bornRange / 2 + (this.ribbon.bornRange / this.ribbon.num) * i; // 均匀生成缎带的起始点
+                    this.ribbons[i].startPoint.x = noRotateStartX + Math.cos(Math.PI / 180 * this.lantern.angle) * this.lantern.height;
+                    var noRotateStartY = this.lantern.y + (this.lantern.height ? this.lantern.height : this.lantern.width * this.lantern.oImg.naturalHeight / this.lantern.oImg.naturalWidth);
+                    this.ribbons[i].startPoint.y = noRotateStartY + Math.sin(Math.PI / 180 * this.lantern.angle) * this.lantern.height;
+                    // 改变结束点
+                    this.ribbons[i].endPoint.x = this.ribbons[i].startPoint.x + Math.sin(this.beta * this.ribbons[i].speed) * this.ribbons[i].range;
+                }
+            };
+            return Lantern;
+        }());
+        element.Lantern = Lantern;
+        // +----------------------------------------------------------------------
+        // | 元素：镭射线
+        // +----------------------------------------------------------------------
+        var Ray = /** @class */ (function () {
+            function Ray(x, y, width, height) {
+                this.x = x || 0;
+                this.y = y || 0;
+                this.width = width || 100;
+                this.height = height || 100;
+                // 使用值
+                this.o = Math.PI / 2 * (Math.random() * this.x - this.height / 2) / this.height;
+                if (this.o === 0) {
+                    this.o = (Math.random() - 0.5) * Math.PI / 2; // 恢复到 -90 ~ +90
+                }
+                this.s = 2 * Math.PI * (Math.random() * this.y - this.width / 2) / this.width;
+                if (this.s === 0) {
+                    this.s = (Math.random() - 0.5) * Math.PI;
+                }
+                this.h = 0;
+                // 变化值
+                this.l = 0.02 * _sign(this.s); // 返回五种值：1, -1, 0, -0, NaN
+                this.c = 0.02 * _sign(this.o); // 返回五种值：1, -1, 0, -0, NaN
+                this.c += _random(-0.005, 0.005);
+                this.d = _random(2, 4); // 线长
+            }
+            Ray.prototype.render = function (ctx) {
+                var startX = this.x + Math.cos(this.s) * this.h / 2;
+                var startY = this.y + Math.sin(this.s) * this.h / 2;
+                var endX = this.x + Math.cos(this.o) * this.h;
+                var endY = this.y + Math.sin(this.o) * this.h;
+                ctx.moveTo(this.x, this.y);
+                ctx.quadraticCurveTo(startX, startY, endX, endY);
+            };
+            Ray.prototype.update = function () {
+                this.o += this.c * 2; // 乘以2 是为了 消失快点
+                this.s += this.l * 2; // 乘以2 是为了 消失快点
+                this.h += Math.cos(this.o) * this.d;
+            };
+            return Ray;
+        }());
+        element.Ray = Ray;
     })(element = lottery.element || (lottery.element = {})); /** namespace element **/
     // +----------------------------------------------------------------------
     // | Animation 动画: 所有需要渲染的元素
@@ -510,78 +693,6 @@ var lottery;
         }
         animation.moveSmallOut = moveSmallOut;
     })(animation = lottery.animation || (lottery.animation = {})); /** namespace Animation **/
-    // +----------------------------------------------------------------------
-    // | ImageData: 获取图片信息
-    // +----------------------------------------------------------------------
-    // export class ImageData {
-    //     public can: any;
-    //     public ctx: any;
-    //     constructor () {
-    //         this.can = document.createElement('canvas');
-    //         this.ctx = this.can.getContext('2d');
-    //     }
-    //     /**
-    //      * @param options
-    //      *      oImg: 加载好的图片对象
-    //      *      width: 期望以 什么样的宽，高来显示图片
-    //      *      height: 可选，填了就固定高度； 不填就是固定比列；
-    //      * @param callback
-    //      */
-    //     public getInfo (options, callback) {
-    //         // 获取图片信息
-    //         // 设置canvas宽高
-    //         this.can.width = options.width;
-    //         this.can.height = options.height || options.width * options.oImg.naturalHeight / options.oImg.naturalWidth;
-    //         // 绘制图像
-    //         this.ctx.drawImage(options.oImg, 0, 0, options.oImg.naturalWidth, options.oImg.naturalHeight, 0, 0, this.can.width, this.can.height);
-    //         // 获取图像的像素信息，并根据像素信息重新绘制出粒子效果轮廓图，
-    //         // canvas有一个叫getImageData的接口，通过该接口可以获取到画布上指定位置的全部像素的数据
-    //         let imageData = this.ctx.getImageData(0, 0, this.can.width, this.can.height);// 注意获取数据的范围
-    //         // 回调函数
-    //         callback && callback(imageData);
-    //     }
-    // }
-    /**
-     * 镭射线
-     */
-    var Ray = /** @class */ (function () {
-        function Ray(x, y, width, height) {
-            this.x = x || 0;
-            this.y = y || 0;
-            this.width = width || 100;
-            this.height = height || 100;
-            // 使用值
-            this.o = Math.PI / 2 * (Math.random() * this.x - this.height / 2) / this.height;
-            if (this.o === 0) {
-                this.o = (Math.random() - 0.5) * Math.PI / 2; // 恢复到 -90 ~ +90
-            }
-            this.s = 2 * Math.PI * (Math.random() * this.y - this.width / 2) / this.width;
-            if (this.s === 0) {
-                this.s = (Math.random() - 0.5) * Math.PI;
-            }
-            this.h = 0;
-            // 变化值
-            this.l = 0.02 * _sign(this.s); // 返回五种值：1, -1, 0, -0, NaN
-            this.c = 0.02 * _sign(this.o); // 返回五种值：1, -1, 0, -0, NaN
-            this.c += _random(-0.005, 0.005);
-            this.d = _random(2, 4); // 线长
-        }
-        Ray.prototype.render = function (ctx) {
-            var startX = this.x + Math.cos(this.s) * this.h / 2;
-            var startY = this.y + Math.sin(this.s) * this.h / 2;
-            var endX = this.x + Math.cos(this.o) * this.h;
-            var endY = this.y + Math.sin(this.o) * this.h;
-            ctx.moveTo(this.x, this.y);
-            ctx.quadraticCurveTo(startX, startY, endX, endY);
-        };
-        Ray.prototype.update = function () {
-            this.o += this.c * 2; // 乘以2 是为了 消失快点
-            this.s += this.l * 2; // 乘以2 是为了 消失快点
-            this.h += Math.cos(this.o) * this.d;
-        };
-        return Ray;
-    }());
-    lottery.Ray = Ray;
     /**
      * 获取一张图片的信息
      * @param options
@@ -629,8 +740,35 @@ var lottery;
         }
         return result;
     }
-    var Show = /** @class */ (function () {
-        function Show(options) {
+    // abstract class Template {
+    //
+    //     // final
+    //     public init () {
+    //         this.loadAllResource()
+    //     }
+    //
+    //
+    //     protected abstract loadAllResource (loadedFn, loadedAllFn): void {
+    //         this.R = {};// 准备一个R对象
+    //         let loadedNumber = 0;
+    //         let _this = this;
+    //         // 逐一加载
+    //         for (let i = 0, len = this.config.length; i < len; i++) {
+    //             this.R[this.config[i].name] = new Image();// 创建一个同名的key
+    //             this.R[this.config[i].name].src = this.config[i].url;// 请求
+    //             this.R[this.config[i].name].onload = function () {// 监听
+    //                 ++loadedNumber;
+    //                 loadedFn && loadedFn(loadedNumber);
+    //                 //判断是否已经全部加载完毕
+    //                 if (loadedNumber === _this.config.length) {
+    //                     loadedAllFn && loadedAllFn();// callback.call(_this);// ❤
+    //                 }
+    //             };
+    //         }
+    //     };
+    // }
+    var OpenShow = /** @class */ (function () {
+        function OpenShow(options) {
             this.isStart = false;
             this.config = options.config || {};
             this.user_list = options.user_list || [];
@@ -653,13 +791,14 @@ var lottery;
                 _this.openShow();
             });
         }
-        Show.prototype._init = function () {
+        OpenShow.prototype._init = function () {
             this.can = document.createElement('canvas');
             this.ctx = this.can.getContext('2d');
             // 设置
             var screenInfo = _screenInfo();
             this.can.width = screenInfo['width'];
             this.can.height = screenInfo['height'];
+            this.canRect = this.can.getBoundingClientRect();
             // 添加
             document.body.appendChild(this.can);
         };
@@ -668,7 +807,7 @@ var lottery;
          * @param loadedFn 每加载一个
          * @param loadedAllFn 当所有资源都加载完
          */
-        Show.prototype._loadAllResource = function (loadedFn, loadedAllFn) {
+        OpenShow.prototype._loadAllResource = function (loadedFn, loadedAllFn) {
             this.R = {}; // 准备一个R对象
             var loadedNumber = 0;
             var _this = this;
@@ -687,15 +826,12 @@ var lottery;
             }
         };
         ;
-        Show.prototype.openShow = function () {
+        OpenShow.prototype.openShow = function () {
             var _this = this;
-            var wantedWidth = 300; // 期望图片的宽度
-            var deviation = 1; // 期望图片像素点的偏差
             var openShowImageData = _getImageData({
                 oImg: this.R.tiefan,
                 width: 400,
             });
-            console.log(openShowImageData);
             var startX = (this.can.width - openShowImageData.width) / 2; // 图形位置的X
             var startY = (this.can.height - openShowImageData.height) / 2; // 图形位置的Y
             /**
@@ -710,7 +846,7 @@ var lottery;
                     var x = num % openShowImageData.width + startX;
                     var y = ~~(num / openShowImageData.width) + startY;
                     if (x % 2 && y % 2) {
-                        rays.push(new Ray(x, y, openShowImageData.width, openShowImageData.height));
+                        rays.push(new element.Ray(x, y, openShowImageData.width, openShowImageData.height));
                     }
                 }
             }
@@ -759,8 +895,10 @@ var lottery;
                     }
                 }
                 if (len >= rays.length) {
+                    _this.can.style.cursor = 'pointer';
                     _this.can.addEventListener('click', function () {
                         console.log(2);
+                        _this.can.style.cursor = 'auto';
                     });
                     // 停止
                     window.cancelAnimationFrame(timer); // 没有用
@@ -772,53 +910,26 @@ var lottery;
                 //
                 timer = window.requestAnimationFrame(v);
             }());
-            // 获取logo图片的数据
-            // let tiefanInfo = new ImageData();
-            //
-            // tiefanInfo.getInfo({
-            //     oImg: this.R.tiefan,
-            //     width: wantedWidth,
-            // }, function (imageData) {
-            //
-            //
-            //     // 进入开场动画
-            //     let logo_particle = calculate(imageData.data, imageData.width, imageData.height);// 处理数据
-            //     _this.ctx.clearRect(0, 0, _this.can.width, _this.can.height);
-            //     for (let i = 0; i < logo_particle.length; i++) {
-            //         let x = (_this.can.width - imageData.width) / 2 + logo_particle[i].x + _random(-deviation, deviation);
-            //         let y = (_this.can.height - imageData.height)  / 2 + logo_particle[i].y + _random(-deviation, deviation) - 100;// -100 是为了高点，好看
-            //
-            //
-            //         // TODO 优化
-            //         let rayColor1 = "#f50057",
-            //             rayColor2 = "#e040fb",
-            //             rayColor3 = "#ffff00";
-            //         let centerX = _this.can.width / 2;
-            //         let centerY = _this.can.height / 2;
-            //         let gradient = _this.ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, wantedWidth);
-            //         gradient.addColorStop(0, rayColor3);
-            //         gradient.addColorStop(.5, rayColor2);
-            //         gradient.addColorStop(1, rayColor1);
-            //         _this.ctx.fillStyle = gradient;
-            //         _this.ctx.fillRect(x, y, 0.5, 0.5);
-            //     }
-            //
-            //
-            //
-            //
-            //
-            //
-            //     // 开始抽奖
-            //     // window.setTimeout(function () {
-            //     //     _this.can.addEventListener('click', function () {
-            //     //         _this.isStart = !_this.isStart;
-            //     //     });
-            //     //     _this.gameRun();
-            //     // }, 5000);
-            //
-            // })
         };
-        Show.prototype.gameStart = function () {
+        OpenShow.prototype.canMouseMove = function (event) {
+            var x = event.clientX - this.canRect.left;
+            var y = event.clientY - this.canRect.top;
+            //
+            if (this.isHover(x, y, 255)) {
+                this.can.style.cursor = 'pointer';
+            }
+            else {
+                this.can.style.cursor = 'auto';
+            }
+        };
+        /**
+         * 判断当前鼠标所在点的canvas透明度
+         */
+        OpenShow.prototype.isHover = function (x, y, alpha) {
+            var imageData = this.ctx.getImageData(x, y, 1, 1);
+            return imageData.data[3] >= alpha;
+        };
+        OpenShow.prototype.gameStart = function () {
             // +----------------------------------------------------------------------
             // | 背景（用画方型的方法清空画布）
             // +----------------------------------------------------------------------
@@ -921,7 +1032,7 @@ var lottery;
             //     }
             // }
         };
-        Show.prototype.gameRun = function () {
+        OpenShow.prototype.gameRun = function () {
             var _this = this;
             if (!true) {
                 (function v() {
@@ -937,7 +1048,96 @@ var lottery;
                 }, 1000 / 60);
             }
         };
-        return Show;
+        return OpenShow;
     }());
-    lottery.Show = Show;
+    lottery.OpenShow = OpenShow;
+    /**
+     * 场景
+     */
+    var Scene = /** @class */ (function () {
+        function Scene(options) {
+            this.can = options.can || Scene._createCanvas();
+            this.ctx = options.ctx || this.can.getContext('2d');
+        }
+        Scene._createCanvas = function () {
+            var can = document.createElement('canvas');
+            can.width = window.innerWidth;
+            can.height = window.innerHeight;
+            can.style['backgroundColor'] = '#ccc';
+            document.body.appendChild(can);
+            return can;
+        };
+        return Scene;
+    }());
+    /**
+     * 抽奖场景
+     */
+    var LotteryScene = /** @class */ (function (_super) {
+        __extends(LotteryScene, _super);
+        function LotteryScene(options) {
+            var _this_1 = _super.call(this, options) || this;
+            _this_1.backgroundImage = options.backgroundImage || '';
+            // 初始化
+            _this_1.lanterns = [];
+            //
+            _this_1._init();
+            return _this_1;
+        }
+        LotteryScene.prototype._init = function () {
+            this._setBackground();
+            // 画灯笼
+            var _this = this;
+            var oImg1 = new Image();
+            oImg1.src = './res/image/lantern_1.png';
+            oImg1.onload = function () {
+                var num = 2;
+                for (var i = 0; i < num; i++) {
+                    var x = _this.can.width / num * i + _random(-50, 50);
+                    var y = _random(-10, 10);
+                    var options = {
+                        lantern: {
+                            oImg: this,
+                            x: x,
+                            y: y,
+                            width: 100,
+                            angle: _random(-10, 10),
+                            angleSpeed: _random(0.05, 0.1),
+                        },
+                        ribbon: {
+                            num: 5,
+                            distance: 100 + _random(0, 20),
+                            color: '#ff0',
+                            lineWidth: 1.5,
+                            globalAlpha: 0.8,
+                        }
+                    };
+                    _this.lanterns.push(new element.Lantern(options));
+                }
+                _this.start();
+            };
+        };
+        LotteryScene.prototype._setBackground = function () {
+            this.ctx.drawImage(this.backgroundImage, 0, 0, this.backgroundImage.naturalWidth, this.backgroundImage.naturalHeight, 0, 0, this.can.width, this.can.height);
+        };
+        LotteryScene.prototype.draw = function (ctx) {
+            for (var i = 0, len = this.lanterns.length; i < len; i++) {
+                this.lanterns[i].update();
+                this.lanterns[i].render(ctx);
+            }
+        };
+        LotteryScene.prototype.start = function () {
+            var _this = this;
+            (function v() {
+                //
+                //_this.ctx.clearRect(0, 0, _this.can.width, _this.can.height);
+                //
+                _this._setBackground();
+                //
+                _this.draw(_this.ctx);
+                window.requestAnimationFrame(v);
+            }());
+        };
+        return LotteryScene;
+    }(Scene));
+    lottery.LotteryScene = LotteryScene;
 })(lottery || (lottery = {}));
