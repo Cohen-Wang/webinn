@@ -26,10 +26,31 @@ const USER_LIST = [
 // +----------------------------------------------------------------------
 const RESOURCE_CONFIG = {
     image: [
-        {
-            name: 'tiefan',
-            url: './res/image/tiefan.png',
-        },
+        {name: 'tiefan', url: './res/image/scene/cut/tiefan/logo.png',},
+        {name: 'newYearBg', url: './res/image/scene/lottery/new_year/bg.jpg',},
+        {name: 'newYearLantern', url: './res/image/scene/lottery/new_year/lantern_1.png',},
+
+
+
+        {name: 'test1', url: './res/image/temp/a (1).jpg',},
+        {name: 'test2', url: './res/image/temp/a (2).jpg',},
+        {name: 'test3', url: './res/image/temp/a (3).jpg',},
+        {name: 'test4', url: './res/image/temp/a (4).jpg',},
+        {name: 'test5', url: './res/image/temp/a (5).jpg',},
+        {name: 'test6', url: './res/image/temp/a (6).jpg',},
+        {name: 'test7', url: './res/image/temp/a (7).jpg',},
+        {name: 'test8', url: './res/image/temp/a (8).jpg',},
+        {name: 'test9', url: './res/image/temp/a (9).jpg',},
+        {name: 'test10', url: './res/image/temp/a (10).jpg',},
+        {name: 'test11', url: './res/image/temp/a (11).jpg',},
+        {name: 'test12', url: './res/image/temp/a (12).jpg',},
+        {name: 'test13', url: './res/image/temp/a (13).jpg',},
+        {name: 'test14', url: './res/image/temp/a (14).jpg',},
+        {name: 'test15', url: './res/image/temp/a (15).jpg',},
+        {name: 'test16', url: './res/image/temp/a (16).jpg',},
+        {name: 'test17', url: './res/image/temp/a (17).jpg',},
+        {name: 'test18', url: './res/image/temp/a (18).jpg',},
+        {name: 'test19', url: './res/image/temp/a (19).jpg',},
     ],
     audio: [
         {
@@ -37,78 +58,4 @@ const RESOURCE_CONFIG = {
             url: './res/audio/open-show.mp3',
         }
     ],
-};
-
-// +----------------------------------------------------------------------
-// | 标题
-// +----------------------------------------------------------------------
-const TITLE_CONFIG = {
-    // 是否显示
-    // boolean
-    isShow: true,
-    // 实心字体: true 或 空心字体: false
-    // boolean
-    isSolid: false,
-    // 内容
-    // string
-    text: '铁帆游戏大转盘',
-    // 颜色
-    // string
-    color: '#3b3a38',
-    // 大小
-    // number
-    fontSize: 80,
-};
-
-
-// +----------------------------------------------------------------------
-// | 背景动画
-// +----------------------------------------------------------------------
-/**
- * 实心圆
- */
-const SOLID_CIRCLE_CONFIG = {
-    num: 4,// 个数
-    create_probability: 0.3,// 初始化速度概率
-};
-
-/**
- * 空心圆
- */
-const HOLLOW_CIRCLE_CONFIG = {
-    num: 6,// 个数
-    create_probability: 0.3,// 初始化速度概率
-};
-
-/**
- * 实心星星
- */
-const SOLID_STAR_CONFIG = {
-    num: 4,// 个数
-    create_probability: 0.3,// 初始化速度概率
-};
-
-/**
- * 空心星星
- */
-const HOLLOW_STAR_CONFIG = {
-    num: 6,// 个数
-    create_probability: 0.3,// 初始化速度概率
-};
-
-
-/**
- * 实心文字
- */
-const SOLID_TEXT_CONFIG = {
-    num: 20,// 个数
-    create_probability: 0.8,// 初始化速度概率
-};
-
-/**
- * 空心文字
- */
-const HOLLOW_TEXT_CONFIG = {
-    num: 20,// 个数
-    create_probability: 0.8,// 初始化速度概率
 };
