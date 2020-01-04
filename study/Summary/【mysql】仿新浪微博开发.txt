@@ -1,0 +1,286 @@
+﻿共20课
+
+
+
+***************************************************************************
+1.项目基础，需求
+	HTML, CSS, JS, AJAX, JQ;
+	PHP, ThinkPHP (下载完整包);
+	MYSQL（workbench）;
+
+
+***************************************************************************
+2.创建数据库
+
+	设置数据库
+		增删改多，就用innoDB;
+		查询多，就用Myisam;
+
+	用户账户表:
+		账号(code)
+			char(20);
+		密码(password)
+			char(32);// 注意md5
+		
+		注册时间(reg_time)
+			INT(10);// 时间戳	
+		
+		锁定状态(status);// 用户捣乱，要惩罚
+			TINYINT(1);// enumeration 0-没有惩罚；1-惩罚状态
+
+
+	用户信息表:		
+		用户昵称(username);
+		真实名称(name);
+		性别(sex);// enumeration			
+		所在地(location);
+		星座(constellation);// char(10);
+		简介(brief);// varchar(100);
+		头像60(face60);// varchar(60);
+		头像80(face80);// varchar(60);
+		头像120(face120);// varchar(60);
+		个性模板(style);// varchar();default
+		关注(follow);// int();
+		粉丝(fans);// int();
+		微博数(webo);// int();
+	
+	外键:
+		workbench:
+			虚线，一对一；
+			可以改名字，uid，自动改成外键
+
+		
+***************************************************************************	
+3.创建数据库
+
+	关注表(hd_blow):
+		不需要主键
+		follow(关注用户的id);//int not null unsigned index
+		fans(自己的粉丝);// int not null unsigned index
+
+	关注分组表(hd_group):
+		group_name(分组名称);// varchar() not null
+	外键：
+		一对多；先选多的；
+
+	私信表(hd_letter):
+		id;
+		from(发送人);// 发信人的id int 
+		content(发信内容);// varchar(255);
+		time(发送时间);// int(10)时间戳
+	外键：
+		一对多；
+
+	微博表(hd_weibo):
+		id;
+		content(微博内容);// varchar(255) not null
+		❤❤❤❤
+		isReprint(是否转发);// int() 存的是原来微博的id
+		❤❤❤❤
+		image();// 这里不建，因为图片可有可没有，且比较大;如果没有图片，就造成
+				冗余现象;所以我们要存入另外一张表;
+		time(微博发布时间);// int(10) 时间戳 not null unsigned
+		reprint(是否被转发);// int 默认0-没有被转发;1-被转发;
+		keep(收藏);// int 默认0;
+		comment(评论);// int
+		
+	外键：
+		一对多；uid；	
+		
+		
+	微博配图图片表(hd_img):
+		id:
+		img60;// varchar(60) not null 
+		img100;// varchar(60) not null
+		img120;// varchar(60) not null
+	外键：
+		与微博一对一;wid
+
+
+***************************************************************************	
+4.创建数据库
+	
+	评论表(hd_comment)
+		id;
+		content;// varchar(255) not null
+		time;// int(10) not null
+		uid(评论用户的id);// int
+		foreign key;//uid
+	
+	收藏表(hd_keep);
+		id;
+		uid(谁收藏的);// int not null
+		time(收藏时间);// int not null unsigned
+		foreign key;// 一对多 wid
+
+	❤❤❤❤
+	@提到我的微博表(hd_at_me);
+		id;
+		wid(提到用户的id);
+		
+	
+	导入数据库
+
+
+***************************************************************************	
+5.创建项目文件夹
+	❤❤❤❤
+	开启apache;
+
+	引入thinkPHP;
+	❤❤❤❤
+	define('APP_NAME' , 'Index');// 定义项目名称
+	define('APP_PATH' , './Index/);// 定义项目路径
+	define('APP_DEBUG' , true);// 关闭，每次都走编译文件；开发阶段就开启true;
+	❤❤❤❤
+	require './ThinkPHP/ThinkPHP.php'; // 严重区分大小写
+		include;// 错误，继续
+		include_once;// 节省资源，避免重复定义的错误
+		require;// 错误，停止(推荐)
+		require_once;// 避免重复定义的错误
+
+	thinkPHP 配置表;
+	return array(
+		'DB_HOST' => 'localhost',
+		'DB_USER' => 'root',
+		'DB_PWD' => 'qqqqqqqq',
+		'DB_NAME' => 'weibo',
+		'DB_PREFIX' => 'hd_',
+
+
+		'DEFAULT_THEME' => 'default',// 默认的模板主题
+	);
+
+
+***************************************************************************	
+6.验证码
+
+	用的thinkPHP的插件做的;
+
+	引入jq
+		<js src="../js/jquery.js" />
+
+	jquery-validate.js
+
+
+***************************************************************************
+7.注册功能
+
+	详细判断输入框
+		jquery-validate.js
+
+
+***************************************************************************
+8.注册功能
+
+	异步验证账号是否存在
+		thinkPHP的类
+
+	异步验证昵称是否存在
+		thinkPHP的类
+
+	异步验证验证码
+		thinkPHP的类
+
+
+***************************************************************************
+9.注册表单数据处理
+	
+	注册
+		error('验证码错误');// ❤❤❤❤
+		$_SESSION['verify'] === md5($_POST['verify'];// ❤❤❤❤
+		'account' === htmlspecialchars($_POST['account']);// ❤❤❤❤为了表单安全
+		'register_time' = $_SEVER['REQUEST_TIME'];// 注册时间为当前时间戳,time()也可以;
+		昵称;// 要插入两个表？？？用array();不懂
+
+	__TOKEN__;__NOTOKEN__
+
+		
+***************************************************************************
+10.注册表单数据处理（中）
+	
+	用户与用户关联表模型;
+		class Model
+		class RelationModel
+		Protected $tablename = 'user';// 定义主表
+		10min : 定义用户与用户信息表关联属性;
+
+		thinkPHP-redirect();
+
+
+
+***************************************************************************
+11.注册表单数据处理（下）
+
+
+***************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			

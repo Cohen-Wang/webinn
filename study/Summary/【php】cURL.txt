@@ -1,0 +1,166 @@
+cURL 共有【32】个内置函数
+
+
+
+--------------------------------------------------------------------------------------------
+【单个】
+// 初始化 cURL 会话
+$ch = curl_init();// 初始化 cURL 会话; 如果成功，返回 cURL 句柄，出错返回 FALSE。
+curl_copy_handle();// 复制一个cURL句柄和它的所有选项; 返回一个新的cURL句柄。
+
+// 设置
+curl_setopt();// 设置 cURL 传输选项; 成功时返回 TRUE， 或者在失败时返回 FALSE。
+curl_setopt_array ( resource $ch , array $options ) : bool ;// 如果全部的选项都被成功设置，返回TRUE。如果一个选项不能被成功设置，马上返回FALSE，忽略其后的任何在options数组中的选项。 
+
+
+
+// 编码URL发送get的字符串
+curl_escape();// $url = "http://example.com/add_location.php?location={$location}";
+curl_unescape();// $effective_url_decoded = curl_unescape($ch, $effective_url);
+
+//
+curl_file_create();//  创建一个 CURLFile 对象
+
+
+// 执行
+curl_exec();// 执行cURL会话。CURLOPT_RETURNTRANSFER 选项，函数执行成功时会返回执行的结果，失败时返回 FALSE 。
+
+// 
+curl_getinfo($ch);// 获取一个cURL连接资源句柄的信息
+
+// 错误
+curl_errno()
+curl_error()
+curl_strerror();// 返回错误代码的字符串描述; 返回错误信息描述，无效的错误代码返回 NULL 。
+
+// 关闭
+curl_close($ch);// 
+
+--------------------------------------------------------------------------------------------
+【其他】
+
+// 暂停
+curl_pause();// 暂停和取消暂停一个连接。 返回一个错误代码 (如果没有错误则返回CURLE_OK常量)。
+
+// 设置 CURLOPT_USERAGENT 选项
+curl_setopt($ch, CURLOPT_USERAGENT, "My test user-agent");
+curl_reset($ch);// 重置所有的预先设置的选项
+// 预先设置的 user-agent 不会被发送，它已经被 curl_reset 重置掉了
+
+//
+curl_version();// 
+
+--------------------------------------------------------------------------------------------
+【批处理】
+
+// 准备
+$ch1 = curl_init(); 
+curl_setopt($ch1, CURLOPT_URL, 'http://www.example.com/'); 
+curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true); 
+
+$ch2 = curl_init(); 
+curl_setopt($ch2, CURLOPT_URL, 'http://www.example.net/'); 
+curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true); 
+
+// 创建
+curl_multi_init();// 创建批处理cURL句柄; 成功时返回一个cURL批处理句柄，失败时返回FALSE。
+
+// 添加
+curl_multi_add_handle($mh, $ch1);
+curl_multi_add_handle($mh, $ch2);
+
+// 设置
+curl_multi_setopt($mh, CURLMOPT_PIPELINING, 3);// 为 cURL 并行处理设置一个选项; 成功时返回 TRUE， 或者在失败时返回 FALSE。
+
+
+// 执行
+do {
+    usleep(10000);
+    curl_multi_exec($mh, $running);// 运行当前 cURL 句柄的子连接;  still_running 一个用来判断操作是否仍在执行的标识的引用。
+} while ($running > 0);
+
+//
+curl_multi_select();// 等待所有cURL批处理中的活动连接
+
+//
+curl_multi_getcontent();// 如果设置了CURLOPT_RETURNTRANSFER，则返回获取的输出的文本流
+
+//
+curl_multi_info_read();// 获取当前解析的cURL的相关传输信息; 成功时返回相关信息的数组，失败时返回FALSE。
+
+
+// 错误
+curl_multi_errno($mh);// 返回上一次 curl 批处理的错误码； 返回一个整型数字，为上次 curl 批处理错误码。或者在失败时返回 FALSE
+// 
+curl_multi_strerror($status);// 返回字符串描述的错误代码
+例：
+do {
+    $status = curl_multi_exec($mh, $active);
+    // Check for errors
+    if($status > 0) {
+        // Display error message
+        echo "ERROR!\n " . curl_multi_strerror($status);
+    }
+} while ($status === CURLM_CALL_MULTI_PERFORM || $active);
+
+// 移除句柄
+curl_multi_remove_handle($mh, $ch1);//  移除cURL批处理句柄资源中的某个句柄资源; 成功时返回0，失败时返回CURLM_XXX中的一个。
+curl_multi_remove_handle($mh, $ch2);//  移除cURL批处理句柄资源中的某个句柄资源; 成功时返回0，失败时返回CURLM_XXX中的一个。
+
+// 关闭
+curl_multi_close($mh);// 关闭一组cURL句柄; 没有返回值
+
+
+--------------------------------------------------------------------------------------------
+【共享】共5个
+
+// 初始化 cURL 共享句柄
+curl_share_init();// 初始化一个 cURL 共享句柄。 返回类型为"cURL 共享句柄"的资源。
+
+// 设置 cURL 共享句柄
+curl_share_setopt($sh, CURLSHOPT_SHARE, CURL_LOCK_DATA_COOKIE);// 为 cURL 共享句柄设置选项。 成功时返回 TRUE， 或者在失败时返回 FALSE。
+例：
+$ch1 = curl_init("http://example.com/");
+curl_setopt($ch1, CURLOPT_SHARE, $sh);
+
+// 错误
+curl_share_errno();// 返回共享 curl 句柄的最后一次错误号; 返回一个整数，表示共享 curl 句柄的最后一次错误号， 或者在失败时返回 FALSE。
+
+// 
+
+// 关闭 cURL 共享句柄
+curl_share_close($sh);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

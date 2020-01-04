@@ -1,0 +1,38 @@
+三：
+	SHOW DATABASES; 		查看--服务器--所有数据库
+	CREATE DATABASE ...		创建数据库
+	SHOW CREATE DATABASE ...	查看刚创建的 数据库信息；
+	DROP DATABSE ... 		删除数据库；
+	SHOW ENGINES ...\G		显示引擎；
+	USE database_name...		选择 数据库；
+	
+	
+四：
+	CREATE TABLE table_name
+	(
+	id INT NOT NULL,
+	);				创建数据表
+
+	SHOW TABLES;			显示--数据库--所有数据表
+	DESC  table_name;		查看--数据表--结构（表格）；
+	SHOW CREATE TABLE table_name;	查看--数据表--详细结构；
+	ALTER TABLE old_table_name RENAME [TO] new_table_name;	修改--数据表--名称；
+	ALTER TABLE table_name MODIFY name VARCHAR(30);		修改--数据表--字段类型；
+	ALTER TABLE table_name CHANGE location loc VARCHAR(30);	修改--数据表--字段名和类型；
+	ALTER TABLE table_name ADD new_name VARCHAR(30);	添加--数据表--字段名和类型；
+		无约束添加：
+		完整约束添加：
+		添加第一列：
+		添加最后一列：
+			
+
+	删除字段：
+	修改字段	
+	
+	删除表中数据 DELEDE FROM table_name;
+
+
+
+	
+四。1：
+		

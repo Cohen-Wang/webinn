@@ -1,0 +1,75 @@
+
+
+/**
+ * JSON.stringify(value [, replacer] [, space])
+ */
+
+let obj = {
+	name : 'cohen',
+	age : 23
+};
+
+/******************************************************************************************
+ * 一个参数
+ *      value：是必选字段
+ */
+if (!true) {
+	let jsonstr = JSON.stringify(obj);
+	console.log(jsonstr);
+}
+
+/******************************************************************************************
+ * 两个参数
+ *      replacer：这个是可选的。它又分为2种方式，
+ *  可以为
+ *      数组:
+ *      方法:
+ */
+if (true) {
+	let obj = ['  aaaa   ', '  bbbb  ', '   cccc   1'];
+	let jsonstr = JSON.stringify(obj, function (key, value) {
+		return value.toString().toUpperCase();
+	});
+	console.log(jsonstr);
+}
+
+
+// 2 个数组
+if (true) {
+	let arr1 = ['arr1aaaa', 'arr1bbbb', 'arr1cccc'];
+	let arr2 = ['arr2aaaa', 'arr2bbbb'];
+	let jsonstr = JSON.stringify(arr1, arr2);
+	console.log(jsonstr);// ["arr1aaaa","arr1bbbb","arr1cccc"]
+}
+
+// 一个对象，一个数组
+if (!true) {
+	let obj = {
+		name : 'cohen',
+		age : 23
+	};
+	let arr2 = ['name', 'arr2bbbb'];
+	let jsonstr = JSON.stringify(obj, arr2);
+	console.log(jsonstr);// {"name":"cohen"}
+}
+
+/******************************************************************************************
+ * 三个参数：
+ *      space：就是用什么来做分隔符的。
+ * 可以为
+ *      省略：
+ *      数字：如果是一个数字的话，那么它就定义缩进几个字符，当然如果大于10 ，则默认为10，因为最大值为10。
+ *      字符串：就在每行输出值的时候把这些字符串附加上去。当然，最大长度也是10个字符。
+ *      转义字符：比如“\t”，表示回车，那么它每行一个回车。
+ */
+if (true) {
+	let jsonstr = JSON.stringify(obj, undefined, '\t');// 4和\t是一样的
+	console.log(jsonstr);
+}
+/**
+ * 输出带有格式的字符串
+ * {
+		"name": "cohen",
+		"age": 23
+	}
+ */

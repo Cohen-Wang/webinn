@@ -1,0 +1,182 @@
+-------------------------------------------------------------------------------------------------------------------------------
+vue-resource插件具有以下特点：
+	体积小:
+		vue-resource非常小巧，在压缩以后只有大约12KB，服务端启用gzip压缩后只有4.5KB大小，这远比jQuery的体积要小得多。
+	支持主流的浏览器:
+		和Vue.js一样，vue-resource除了不支持IE 9以下的浏览器，其他主流的浏览器都支持。
+	支持Promise API和URI Templates:
+		Promise是ES6的特性，Promise的中文含义为“先知”，Promise对象用于异步计算。
+		URI Templates表示URI模板，有些类似于ASP.NET MVC的路由模板。
+	支持拦截器:
+		拦截器是全局的，拦截器可以在请求发送前和发送请求后做一些处理。
+		拦截器在一些场景下会非常有用，比如请求发送前在headers中设置access_token，或者在请求失败时，提供共通的处理方式。
+	
+-------------------------------------------------------------------------------------------------------------------------------
+// 基于全局Vue对象使用http
+Vue.http.get('/someUrl', [options]).then(successCallback, errorCallback);
+Vue.http.post('/someUrl', [body], [options]).then(successCallback, errorCallback);
+	
+-------------------------------------------------------------------------------------------------------------------------------
+// 在一个Vue实例内使用$http
+this.$http.get('/someUrl', [options]).then(successCallback, errorCallback);
+this.$http.post('/someUrl', [body], [options]).then(successCallback, errorCallback);
+
+-------------------------------------------------------------------------------------------------------------------------------
+// 支持的HTTP方法
+vue-resource的请求API是按照REST风格设计的，它提供了7种请求API：
+get(url, [options])
+head(url, [options])
+delete(url, [options])
+jsonp(url, [options])
+post(url, [body], [options])
+put(url, [body], [options])
+patch(url, [body], [options])
+
+-------------------------------------------------------------------------------------------------------------------------------
+// options对象
+参数	类型	描述
+url	string	请求的URL
+method	string	请求的HTTP方法，例如：'GET', 'POST'或其他HTTP方法
+body	Object, FormData string	request body
+params	Object	请求的URL参数对象
+headers	Object	request header
+timeout	number	单位为毫秒的请求超时时间 (0 表示无超时时间)
+before	function(request)	请求发送前的处理函数，类似于jQuery的beforeSend函数
+progress	function(event)	ProgressEvent回调处理函数
+credentials	boolean	表示跨域请求时是否需要使用凭证
+emulateHTTP	boolean	发送PUT, PATCH, DELETE请求时以HTTP POST的方式发送，并设置请求头的X-HTTP-Method-Override
+emulateJSON	boolean	将request body以application/x-www-form-urlencoded content type发送	
+	
+-------------------------------------------------------------------------------------------------------------------------------
+// emulateHTTP的作用
+如果Web服务器无法处理PUT, PATCH和DELETE这种REST风格的请求，你可以启用enulateHTTP现象。
+启用该选项后，请求会以普通的POST方法发出，并且HTTP头信息的X-HTTP-Method-Override属性会设置为实际的HTTP方法。
+Vue.http.options.emulateHTTP = true;	
+	
+-------------------------------------------------------------------------------------------------------------------------------
+getCustomers: function() {
+	this.$http.get(this.apiUrl)
+	.then((response) => {
+		this.$set('gridData', response.data)
+	})
+	.catch(function(response) {
+		console.log(response)
+	})
+}
+这段程序的then方法只提供了successCallback，而省略了errorCallback。
+catch方法用于捕捉程序的异常，catch方法和errorCallback是不同的，errorCallback只在响应失败时调用，而catch则是在整个请求到响应过程中，只要程序出错了就会被调用。
+在then方法的回调函数内，你也可以直接使用this，this仍然是指向Vue实例的：
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+// vue axios
+vue2.0之后，就不再对vue-resource更新，而是推荐使用axios。基于 Promise 的 HTTP 请求客户端，可同时在浏览器和 Node.js 中使用。
+
+-------------------------------------------------------------------------------------------------------------------------------
+// 功能特性
+1、在浏览器中发送 XMLHttpRequests 请求
+2、在 node.js 中发送 http请求
+3、支持 Promise API
+4、拦截请求和响应
+5、转换请求和响应数据
+6、取消请求
+7、自动转换 JSON 数据
+8、客户端支持保护安全免受 CSRF/XSRF 攻击
+
+-------------------------------------------------------------------------------------------------------------------------------
+// 执行多个并发请求
+function getUserAccount() {
+	return axios.get('/user/12345');
+}
+function getUserPermissions() {
+	return axios.get('/user/12345/permissions');
+}
+axios.all([getUserAccount(), getUserPermissions()])
+	.then(axios.spread(function (acct, perms) {
+		//两个请求现已完成
+	}));
+// 拦截器: 你可以截取请求或响应在被 then 或者 catch 处理之前
+
+-------------------------------------------------------------------------------------------------------------------------------
+// 【请求拦截器】
+axios.【interceptors.request.use】（function（config）{
+	// 在发送请求之前做某事
+	return config;
+}，function（error）{
+	// 请求错误时做些事
+	return Promise.reject(error);
+}）;
+
+-------------------------------------------------------------------------------------------------------------------------------
+// 【响应拦截器】
+axios.【interceptors.response.use】（function（response）{
+	// 对响应数据做些事
+	return response;
+}，function（error）{
+	// 请求错误时做些事
+	return Promise.reject（error）;
+}）;
+
+-------------------------------------------------------------------------------------------------------------------------------
+// 如果你以后可能需要删除拦截器。
+var myInterceptor = axios.interceptors.request.use(function () {
+	/*....*/
+});
+axios.interceptors.request.【reject】(myInterceptor);
+
+
+
+// axios 改写为 Vue 的原型属性
+// 首先在主入口文件main.js中引用，之后挂在vue的原型链上
+import axios from 'axios'
+Vue.【prototype.$ajax】 = axios
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

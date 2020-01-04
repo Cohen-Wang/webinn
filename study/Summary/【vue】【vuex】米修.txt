@@ -1,0 +1,172 @@
+
+--------------------------------------------------------------------------------------------
+1.为什么要用vuex
+
+父组件传参prop 给子组件1，子组件2
+子组件1通过事件，改变父组件。再通过prop改变子组件2 ，这样很麻烦。
+所以直接通过全局store来控制
+
+
+--------------------------------------------------------------------------------------------
+2.课程资料
+
+--------------------------------------------------------------------------------------------
+3.vue原生如何实现父组件给子组件传参
+
+父组件
+	①引用2个子组件  import
+	②components: {
+		
+	},
+	③:products="products",
+	
+	
+子组件prop:['products']
+ 
+--------------------------------------------------------------------------------------------
+4.引入vuex
+	创建store 文件夹
+	创建store.js文件
+
+	import Vue from vue
+	import Vuex from vuex
+	
+	Vue.user(Vuex);
+	
+	export const Vue = new Vue.Store({
+		state,
+		getters,
+		mutations,
+		actions,
+	})
+	
+--------------------------------------------------------------------------------------------
+5.使用vuex
+	
+	main.js引入 store组件
+	
+	子组件
+		computed: {
+			products () {
+				return this.$store.state.products;
+			}
+		}
+
+--------------------------------------------------------------------------------------------
+6.getters
+	
+	原生改变 map，需要复制很多分，管理起来不方便，所以需要放在getters
+	
+	getters: {
+		saleProducts: (state) => {
+			return state.products.map();
+		}
+	}
+
+	调用：
+		salesProducts () {
+			return this.$state.getters.salesProducts;
+		}
+
+--------------------------------------------------------------------------------------------
+7.mutations
+
+	vue-devtool 翻墙安装
+	
+	vue原生methods
+		是可以写事件的，但是【严格模式】会报错strict: true    不方便调试
+	
+	vuex
+		mutations: {
+			reducePrice: (state) => {
+				state.products.forEach();
+			}
+		}
+		
+		调用
+		methods: {
+			reducePrice () {
+				this.$store.【commit】('reducePrice');
+			}
+		}	
+		
+		当触发事件，可以在vue-devtool中 查看
+
+--------------------------------------------------------------------------------------------
+7.actions 
+
+	异步
+	context
+	dispatch
+	payload
+	三秒之后触发，还是点击时触发
+	
+	actions: {
+		reducePrice: (context, payload) => {
+			setTimeout(function () {
+				context.commit('reducePrice', payload);
+			})
+		}
+	}
+	
+	调用
+		methods: {
+			reducePrice (amount) {
+				this.$store.【dispatch】('reducePrice', amount);
+			}
+		}	
+	
+--------------------------------------------------------------------------------------------
+8
+	store.js
+		import { mapGetters } from 'vuex';
+		import { mapActions } from 'vuex';
+		
+	computed : {
+		...mapGetters([
+			// ...
+		])
+	}
+	
+	
+	methosd: {
+		...mapAction{[
+			// ...
+		]}
+	}
+	
+	babel
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

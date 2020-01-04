@@ -1,0 +1,20 @@
+
+Ping是Windows、Unix和Linux系统下的一个命令。
+	Packet Internet Groper
+	因特网包探索器
+	ping也属于一个通信协议，是TCP/IP协议的一部分。利用“ping”命令可以检查网络是否连通，可以很好地帮助我们分析和判定网络故障。
+
+
+ipconfig
+ipconfig/all
+
+
+ping 192.69.69.1 -t
+	-t:一直ping下去
+
+
+
+
+
+
+

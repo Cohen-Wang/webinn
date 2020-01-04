@@ -1,0 +1,181 @@
+
+
+
+let xhr = new XMLHttpRequest();
+------------------------------------------------------------------------------------------------------------------
+【事件】
+
+// 原因是onreadystatechange事件有跨浏览器兼容性的问题，它必须放在在xhr.open()之前。
+xhr.onreadystatechange = function () {
+	console.log('onreadystatechange' + '----xhr.readyState :' + xhr.readyState);// 会执行4次
+
+	if (xhr.readyState === 4) {
+		if (xhr.status === 200) {
+		
+			// 
+			console.log('xhr.response:' + xhr.response);// 根据xhr.responseType返回不同值
+			console.log('xhr.responseText:' + xhr.responseText);// 只有当 responseType 为"text"、""时，xhr对象上才有此属性，此时才能调用xhr.responseText，否则抛错
+			console.log('xhr.responseXML:' + xhr.responseXML);// 只有当 responseType 为"text"、""、"document"时，xhr对象上才有此属性，此时才能调用xhr.responseXML，否则抛错
+			
+			//
+			console.log('xhr.responseURL:' + xhr.responseURL);// "http://localhost:63342/Tank-Tool/case/20190225-web-promise/promise1.json"
+				
+			// 	
+			console.log('xhr.status:' + xhr.status);// 响应中的数字状态码
+			console.log('xhr.statusText:' + xhr.statusText);// 返回状态对应的文本信息
+		}
+	}
+};
+
+------------------------------------------------------------------------------------------------------------------
+【属性】
+
+// 
+【xhr.timeout = 2000】;// 代表着一个请求在被自动终止前所消耗的毫秒数。默认值为 0，意味着没有超时。
+
+
+
+// 设置服务器返回类型
+// 若服务器返回类型与所设的返回值不兼容，则返回null
+// 若同步请求，不能设置此属性，否则抛出'InvalidAccessError'的异常
+// 参数："text" "text" "json" "arraybuffer" "blob" "document"
+【xhr.responseType = ''】;
+
+
+// 淘汰
+//将响应数据按照纯文本格式来解析，字符集替换为用户自己定义的字符集
+【xhr.overrideMimeType('text/plain; charset=x-user-defined')】;
+
+------------------------------------------------------------------------------------------------------------------
+【方法】
+// 
+【xhr.open('GET', './promise1.json', true)】;
+
+// 是设置HTTP请求头部的方法。此方法必须在 【open()方法和 send() 之间调用】,。
+// 如果多次对同一个请求头赋值，只会生成一个合并了多个值的请求头。
+// 如果没有设置 Accept 属性，则此发送出send() 的值为此属性的默认值*/* 。
+// header 大小写不敏感
+// setRequestHeader可以调用多次，最终的值不会采用覆盖override的方式，而是采用追加append的方式。
+【xhr.setRequestHeader(header, value)】; 
+xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");//发送合适的请求头信息
+
+
+// 方法用于发送 HTTP 请求。如果是异步请求（默认为异步请求），则此方法会在请求发送后立即返回；如果是同步请求，则此方法直到响应到达后才会返回。
+// 如果请求方法是 GET 或者 HEAD，则应将请求主体设置为 null。
+【xhr.send()】;
+xhr.send("foo=bar&lorem=ipsum"); 
+// 如果data是 Document 类型，同时也是HTML Document类型，则content-type默认值为text/html;charset=UTF-8;否则为application/xml;charset=UTF-8；
+// 如果data是 DOMString 类型，content-type默认值为text/plain;charset=UTF-8；
+// 如果data是 FormData 类型，content-type默认值为multipart/form-data; boundary=[xxx]
+// 如果data是其他类型，则不会设置content-type的默认值
+// 当然这些只是content-type的默认值，但如果用xhr.setRequestHeader()手动设置了中content-type的值，以上默认值就会被覆盖。
+
+
+/********************************************************************************************
+ * 在 readystate === 4 后再调用
+ */
+// 返回包含指定头文本的字符串
+【xhr.getResponseHeader(name)】;
+xhr.getResponseHeader("Content-type");// 'application/json'
+
+
+// 返回所有的响应头，以 CRLF 分割的字符串，或者 null 如果没有收到任何响应。
+【xhr.getAllResponseHeaders()】;
+
+//date: Mon, 25 Feb 2019 08:53:39 GMT
+//x-content-type-options: nosniff
+//last-modified: Mon, 25 Feb 2019 03:48:20 GMT
+//server: PhpStorm 2018.2.1
+//x-frame-options: SameOrigin
+//content-type: application/json
+//cache-control: private, must-revalidate
+//content-length: 24
+//x-xss-protection: 1; mode=block
+
+
+
+------------------------------------------------------------------------------------------------------------------
+// 必须写在后面的事件
+
+
+// 加载开始
+xhr.onloadstart = function () {
+	console.log('onloadstart');
+};
+
+// 加载进度
+xhr.onprogress = function () {
+	console.log('onprogress');
+};
+
+// 加载完成
+xhr.onload = function () {
+	console.log('onload');
+	// 
+	if(xhr.status >= 200 && xhr.status < 300 || xhr.status == 304){
+		alert(xhr.responseText);
+		alert("请求成功");
+	} else {
+		alert("失败原因："+xhr.status);
+	}
+};
+
+// 加载完成
+xhr.onloadend = function () {
+	console.log('onloadend');
+};
+
+// 终止
+xhr.ontimeout = function () {
+	console.log('ontimeout ');
+};
+
+// 加载中断
+xhr.onabort = function () {
+	console.log('onabort');
+};
+
+// 错误
+xhr.onerror = function () {
+	console.log(xhr.statusText);
+};
+
+// upload
+xhr.upload.onprogress = function () {
+	console.log('xhr.upload.onprogres');
+}
+
+
+xhr.onprogress = updateProgress;
+xhr.upload.onprogress = updateProgress;
+function updateProgress(event) {
+    if (event.lengthComputable) {
+      var completedPercent = event.loaded / event.total;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

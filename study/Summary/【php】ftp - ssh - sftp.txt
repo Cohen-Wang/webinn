@@ -1,0 +1,85 @@
+
+---------------------------------------------------------------------------------------
+【php - ssh2】共30个函数
+
+
+---------------------------------------------------------------------------------------
+ssh2_connect — Connect to an SSH server
+
+ssh2_auth_password — Authenticate over SSH using a plain password
+ssh2_auth_pubkey_file — Authenticate using a public key
+ssh2_auth_agent — Authenticate over SSH using the ssh agent
+ssh2_auth_hostbased_file — Authenticate using a public hostkey
+ssh2_auth_none — Authenticate as "none"
+// 信息
+ssh2_methods_negotiated — Return list of negotiated methods
+// 执行命令
+ssh2_exec — Execute a command on a remote server
+// 返回流
+ssh2_shell — Request an interactive shell
+ssh2_fetch_stream — Fetch an extended data stream
+
+ssh2_publickey_init — Initialize Publickey subsystem
+ssh2_publickey_add — Add an authorized publickey
+ssh2_publickey_list — List currently authorized publickeys
+ssh2_publickey_remove — Remove an authorized publickey
+
+ssh2_sftp — Initialize SFTP subsystem
+
+ssh2_scp_recv — Request a file via SCP
+ssh2_scp_send — Send a file via SCP
+
+ssh2_sftp_mkdir — Create a directory
+ssh2_sftp_chmod — Changes file mode
+ssh2_sftp_rmdir — Remove a directory
+ssh2_sftp_unlink — Delete a file
+
+ssh2_sftp_lstat — Stat a symbolic link
+ssh2_sftp_stat — Stat a file on a remote filesystem
+
+ssh2_sftp_readlink — Return the target of a symbolic link
+ssh2_sftp_realpath — Resolve the realpath of a provided path string
+ssh2_sftp_symlink — Create a symlink
+
+ssh2_sftp_rename — Rename a remote file
+
+ssh2_disconnect — Close a connection to a remote SSH server
+---------------------------------------------------------------------------------------
+ssh2_fingerprint — Retrieve fingerprint of remote server
+
+ssh2_tunnel — Open a tunnel through a remote server
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

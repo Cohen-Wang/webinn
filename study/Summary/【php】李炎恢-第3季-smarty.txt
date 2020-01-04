@@ -1,0 +1,272 @@
+
+
+
+-----------------------------------------------------------------------------
+01.[Smarty模版引擎] 引擎介绍[1]
+
+【功能】：
+	1.表现逻辑
+	2.模板编译
+	3.缓存
+	4.高度可配置和可扩展
+	5.安全
+
+【实现】：	
+	逻辑层 + 模板 经过 smarty模板引擎  得到模板编译文件 + 缓存文件（存静态html文件）
+
+-----------------------------------------------------------------------------
+02.[Smarty模版引擎] 使用Smarty[2]
+
+【安装】:
+【使用】：
+【注册变量】：
+
+配置文件
+smarty.inc.php
+
+global $_smarty;
+
+	 
+<?php
+require 'smarty/libs/Smarty.class.php';
+$smarty = new Smarty();//设置各个目录的路径，这里是安装的重点
+$smarty->template_dir ="smarty/templates/templates";
+$smarty->compile_dir ="smarty/templates/templates_c";
+$smarty->config_dir = "smarty/templates/config";
+$smarty->cache_dir ="smarty/templates/cache";
+//smarty模板有高速缓存的功能，如果这里是true的话即打开caching，但是会造成网页不立即更新的问题，当然也可以通过其他的办法解决
+$smarty->caching = false;
+$smarty->left_delimiter = "{#"; //重新定义边界，因为默认边界“{}“符，在html页面中嵌入js脚本文件编写代码段时使用的就是”{}“符，自定义边界符还可以是<{ }>, {/ /} 等
+$smarty->right_delimiter = "#}";
+$hello = "Hello World!";//赋值
+$smarty->assign("hello",$hello);//引用模板文件
+$smarty->display('index.tpl');?>
+
+
+-----------------------------------------------------------------------------
+03.[Smarty模版引擎] 分配变量[3]
+
+【变量】
+	String:
+		$name = "cohen";
+		$_smarty->assign("name", $name);
+
+	Array
+		索引数组
+			$name = array("周鸿祎", "马云", "马化腾");
+			使用：{name[1]}
+		
+		关联数组
+			$name = array("qihu" => "周鸿祎", "alibaba" => "马云", "baidu" => "马化腾");
+			使用：{name.qihu}
+			
+	Object
+		{$computer->_name}
+		{$computer->run()}
+		
+	配置文件的变量
+		文件：config.conf
+		引用：{config_load file="config.conf"}
+		调用：
+			{$smarty.config.webname}// 飘尘web俱乐部
+			{#webname#}
+		
+	超级全局变量
+			
+		调用：
+			{$smarty.get.id}	// url?id=10
+			{$smarty.server.REMOTE_ADDR}
+				
+	常量
+		只需要 define("name", "cohen");
+		不需要$smarty->assign("name", "cohen"}
+				
+			
+			
+-----------------------------------------------------------------------------
+04.[Smarty模版引擎] 自定义函数[上][4]
+内置函数
+	assign()
+		{assign var="name" value="lee"}
+		{$name}
+	
+	counter()
+		{counter start=5 skip=2 direction=down print=true}
+	
+	cycle()
+		<p> style="background:{cycle values='red,green'};"</p>
+		<p> style="background:{cycle values='red,green'};"</p>
+		<p> style="background:{cycle values='red,green'};"</p>
+
+	debug()
+		{debug}:弹出新窗口
+			
+	eval()
+		
+	fetch()
+		{fetch file="http://www.baidu.com"}
+		
+	html_image()
+		{html_image file="http://www.baidu.com/images/logo.jpg" alt="百度"}
+	
+	html_table()
+		{html_table loop=$data}
+		
+	math()
+		{math equation=$width*$height}
+		
+	mailto()
+		{mailto address="yc60.com@gmail.con" text="李炎恢的邮件"}
+		
+	textformat()
+		{textformat}
+			Lee
+		{/textformat}
+	
+-----------------------------------------------------------------------------
+05.[Smarty模版引擎] 自定义函数[中][5]
+
+	html_checkboxes()// 自动生成  checkbox
+		{html_checkboxes options=$cust selected=$id labels=false}
+		
+	html_radios()// 自动生成  radio
+		{html_radios options=$cust selected=$id labels=false}	
+		
+	html_options()// 自动生成  option
+		<select>
+			{html_options options=$cust selected=$id labels=false}
+		</select>
+
+	html_select_date
+		{html_select_date month_format=%m start_year=1999 end_year=2050 field_order=YMD}
+		
+	html_select_time
+		
+	popup_init
+	
+	popup
+	
+-----------------------------------------------------------------------------
+06.[Smarty模版引擎] 自定义函数[下][6]
+	
+	注册函数:register_function()
+		function fn_info ($_arr) {
+			return '年龄：'.{$_arr['age']}.'身高是：'.{$_arr['height']};
+		}
+		
+		$smarty->register_function('info', 'fn_info');
+		
+		
+		调用函数	
+			{info age=28 height=178}
+	
+	
+	注册块：register_block()
+		
+		function fn_info ($_arr) {
+			return '年龄：'.{$_arr['age']}.'身高是：'.{$_arr['height']};
+		}
+		
+		$smarty->register_block('info', 'fn_info');
+		
+		
+		调用函数	
+			{text}
+				.........
+			{/text}
+			
+			
+-----------------------------------------------------------------------------
+07.[Smarty模版引擎] 变量调节器[7]
+	
+	变量调节器
+		truncate
+		
+		capitallize
+		
+		count_characters
+		
+		cat：链接 字符串
+		
+		count_paragraphs
+		
+		count_sentences：统计句子数量
+		
+		count_words:统计英文单词
+		
+		date_format：
+		
+		now：
+		
+		default:默认情况
+		
+		escape:可以编码字符串
+		
+		indent:缩进
+		
+		lower:
+		
+		nl2br:
+		
+		regex_replace:
+		replace:
+		
+		spacify:
+		
+		string_format:
+		
+		strip:
+		
+		strip_tags
+		
+		upper
+		
+		wordwrap
+		
+	自定义变量调节器
+		modifier.lee.php
+
+-----------------------------------------------------------------------------
+08.[Smarty模版引擎]-内置函数[上][8]
+	
+	内置函数
+		
+		{literal}
+			body {
+				background : red
+			}
+		{/literal}
+		
+		
+		{if $flag}
+			真的
+		{else}
+			假的
+		{/if}
+	
+
+
+
+
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

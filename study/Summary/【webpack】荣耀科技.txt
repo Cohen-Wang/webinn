@@ -1,0 +1,140 @@
+
+--------------------------------------------------------------------------------------
+1.webpack需要nodejs环境
+
+node -v
+npm -v
+
+npm install webpack -g
+
+优点：当打开一个网页的时候，只需要请求加载一个文件，即bundle.js。而无需加载一堆文件。
+
+--------------------------------------------------------------------------------------
+2.直接打包
+
+webpack a.js bundle.js // 将a.js打包成bundle.js
+
+
+--------------------------------------------------------------------------------------
+3.多文件内部依赖关系
+
+a.js 
+	module.exports = 5;
+	
+b.js 
+	let a = require(./a.js);
+	document.write(a);
+	
+webpack b.js bunle.js	
+
+
+--------------------------------------------------------------------------------------
+4.样式的打包
+
+需要安装加载器。
+
+比如
+css-loader
+	如果css内部有@import,则引入。
+	
+style-loader
+	将css打包到html文件的头部
+	
+npm	install css-loader style-loader
+
+require('!style-loader!css-loader!./style.css');
+	感叹号 是因为 style.css是静态资源
+
+--------------------------------------------------------------------------------------
+5.如何打包样式
+
+npm init
+生成package.json文件
+
+package.json又包括dependencies和devDependencies
+
+
+--------------------------------------------------------------------------------------
+6.配置文件 webpack.config.js
+
+module.exports = {
+	entry : './src/js/a.js',// 输入的文件
+	
+	output: {// 输出文件
+		path: __dirname+'dist',// 路径
+		filename: 'bundle.js',// 文件名称
+	},
+	
+	module: {
+		loaders: [
+			{
+				test: /\.css$/,// 正则表达式
+				loader: 'style-loader!css-loader',// 加载器模块是什么
+			}
+		]
+	}
+};
+
+
+--------------------------------------------------------------------------------------
+7.修改配置，然后直接输入命令webpack，不用webpack a.js bunle.js
+
+
+--------------------------------------------------------------------------------------
+8.安装第三方库
+
+npm install jquery --save-dev
+
+let $ = require('jquery');
+
+--------------------------------------------------------------------------------------
+9.服务器环境安装
+
+通过webpack将我们的项目打包到指定ip地址
+
+webpack-dev-server模块
+	npm install webpack-dev-server --save-dev
+	
+	package.json
+		script: {
+			"start": "webpack-dev-server --entry ./src/js/a.js  --output-filename ./dist/bundle.js",
+			"build": "webpack"
+		}
+		
+	之前要webpack一下，才能查看修改的代码
+	现在一次性 npm run build 就可以了
+	
+	npm start
+		就可以用http://localhost:8080服务器了
+
+--------------------------------------------------------------------------------------
+10.如何实现文件打包的自动监测、修改端口方法
+
+一旦修改，则自动build，不要每次都webpack
+
+package.json
+	script: {
+		"start": "webpack-dev-server --entry ./src/js/a.js  --output-filename ./dist/bundle.js",
+		"build": "webpack --watch",
+	}
+	
+添加--watch	
+		
+修改默认端口:		
+devServer: {
+	port: 8081,
+	
+}
+		
+		
+
+
+
+
+
+
+
+
+
+
+

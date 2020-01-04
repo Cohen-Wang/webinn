@@ -1,0 +1,365 @@
+【PHP类】
+----------------------------------------------------------------------------------------------
+137.[PHP] 第18章 面向对象基础[1]
+
+0min
+什么是面向对象
+
+8min
+封装，继承，多态
+
+18min
+类，对象，字段，属性
+
+----------------------------------------------------------------------------------------------
+138.[PHP] 第18章 面向对象基础[2]
+
+1min
+类的创建
+class {
+
+}
+
+4min
+生成对象,实例
+new Object
+
+10min
+var_dump();
+
+14min
+属性
+public $_name = "cohen";
+
+21min
+方法
+public function show () {
+
+}
+// public 是默认，可以省略，但是不要省略
+
+25min
+函数传参
+
+26min：
+❤❤❤❤
+构造方法：也是方法，只是特殊的方法，而方法名和类名一直；
+并且不需要普通方法一样（必须通过调用执行），只需要实例化即完成调用过程；
+一般来说，构造方法总是在做一些初始化的工作；
+
+class Computer {
+	public function Computer () {
+		echo "我是构造方法，实例即调用";
+	}
+}
+
+29min
+public function __construct () {
+
+}
+
+----------------------------------------------------------------------------------------------
+139.[PHP] 第19章 面向对象特性[1]
+
+4min
+public, private, protected
+
+10min
+公共方法调用私有属性
+例：
+class Computer {
+	private $_name = "cohen";
+	public function show () {
+		echo $this->_name;
+	}
+}
+
+14min
+拦截器: 公共方法，设置和获取私有属性
+private _name;
+private _age;
+
+public function __set ($_key, $_value) {<<-------------方法是private 或 public都一样
+	$this->$_key = $_value;// <<-------------注意是$_key
+}
+
+public function __get ($_key) {<<-------------方法是private 或 public都一样
+	return $this->$_key;// <<-------------注意是$_key
+}
+
+----------------------------------------------------------------------------------------------
+140.[PHP] 第19章 面向对象特性[2]
+
+5min
+常量
+class Computer {
+	const NAME = "cohen";
+	
+}
+echo Computer::NAME;
+
+6min
+静态类属性和方法：有时候需要创建供所有类的实例共享的字段和方法，这些字段和方法
+与所有的类实例有关，但不能由特定对象调用；
+class Computer {
+	public static $_count = 0;
+}
+echo Computer::$_count;
+
+一般来说，必须将字段做成私有化，所以可能需要这样做：
+class Computer {
+	private static $_count = 0;
+	public static function setRun () {
+		self::$_count++;
+	}
+	public static function getRun () {
+		return self::$_count;
+	}
+}
+
+
+18min
+instanceof 关键字
+class Computer {
+	//
+}
+$computer = new Computer();
+echo ($computer instanceof Computer);
+
+----------------------------------------------------------------------------------------------
+141.[PHP] 第19章 面向对象特性[3]
+
+0min
+继承
+extends
+class NoteComputer extends Computer {
+
+}
+
+4min
+子类的重写和修改父类的方法
+
+11min
+protected
+
+14min
+重写父类的方法
+父类名::方法();
+parent::方法();
+
+16min
+final关键字
+有时候想做个独立的类，不想被其他的类继承使用，就必须使用这个关键字
+例：
+final class Computer {// 无法被继承的类
+	final public function run () {// 无法被继承的方法
+		// 
+	}
+}
+
+----------------------------------------------------------------------------------------------
+142.[PHP] 第19章 面向对象特性[4]
+
+0min
+抽象类和方法（abstract）
+	规则：
+		1.抽象类不能被实例化，只能被继承
+		2抽象方法必须被子类方法重写
+
+		
+
+----------------------------------------------------------------------------------------------
+144.[PHP] 第20章 面向对象工具[1]
+	OOP的魔术方法
+	
+	0min:
+			__autoload():引入类文件
+				目的：
+					解决了一一引入（require）的问题
+					解决了多引入的浪费，和少引入的遗漏问题
+				
+				例子：
+					function __autoload ($className) {
+						require 'class.' . $className . '.php';
+					}
+	9min:
+			__call(): 屏蔽错误
+				目的:
+					当调用一个对象不存在的方法时，会自动调用__call()方法；
+				
+				例子:
+					private function __call ($_methodName, $_args) {// ❤ 为了防止外部调用，要加上private // ❤ 必须要有两个参数 
+						echo $_methodName . '方法不存在';
+						print_r($_args);
+					}
+					
+	13min：
+			__toString():
+				目的：
+					echo new Class;// 直接打印对象会直接报错, 要求必须转换为字符串
+					如果有 __toString()方法，不会直接报错
+					
+				例子：
+					class Computer {
+						private function __toString () {// ❤ 为了防止外部调用，要加上private
+							return '打印对象'；// ❤ 必须要返回一个字符串；
+						}
+					}
+					
+					echo new Computer();
+				
+	16min:
+			__clone()：内中定义一个__clone()内置方法来调整对象的克隆行为；当一个对象被克隆的时候，自动执行__clone()方法；
+				基础：
+					引用实例❤：指向同一个堆
+						$computer1 = new Computer();
+						$computer2 = $computer1;
+					独立实例：指向不同的堆
+						$computer1 = new Computer();
+						$computer2 = new Computer();
+					克隆实例（对象克隆）：复制后，指向不同的堆
+						$computer1 = new Computer();
+						$computer2 = clone $computer1;
+						
+				目的：
+					
+				例子：
+				class Computer {
+					public $name;
+					private function __clone () {// ❤ 为了防止外部调用，要加上private
+						// ❤ 调用后此时的$this已经指向被克隆的对象，即$computer2
+						$this->name = 'apple';
+					}
+				}
+				
+				$computer1 = new Computer();
+				$computer1->name = 'dell';
+				$computer2 = clone $computer2;
+				echo $computer2->name;// 会输出 dell  还是 apple
+				
+----------------------------------------------------------------------------------------------					
+145.[PHP] 第20章 面向对象工具[2]
+
+	类函数 和 对象函数
+	
+	1min
+		class_exists($className); // 存在返回1，不存在返回'';
+		echo class_exists(Computer);
+		
+	2min
+		get_class($obj);// 返回对象的类名，不是对象返回false
+		get_class($computer1);// Computer
+		
+	3min
+		get_class_methods();// 以（❤数组）形式，返回类中的（❤公共方法）；
+		
+	4min	
+		get_class_vars();// 以（❤数组）形式，返回类中的（❤公共变量）；
+		
+	5min
+		get_parent_class();// 返回对象的父类，如果没有返回false
+		get_parent_class($noteComputer);// Computer
+		
+	6min 
+		interface_exists();// 判断接口是否存在；存在返回1，不存在返回'';
+		
+	7min
+		is_a();// 判断对象是否是这个类的; 或者判断是否是类的父类
+		echo is_a($computer, 'Computer');
+		echo is_a($noteComputer, 'Computer');
+		
+	8min:
+		is_subclass_of();// 判断对象是否是这个类的子类；成功返回1， 失败返回'';
+		echo is_subclass_of($noteComputer, 'Computer');// 1
+		
+	9min：
+		method_exists();// 判断方法是否存在
+		echo method_exists($computer, '_run');
+		
+		
+	10min:
+		反射
+		$rc = new ReflectionClass('handleMysql');
+		ReflectionClass::export($rc);
+		
+		echo $rc1->getFileName();
+		echo $rc1->getName();
+		
+		
+	
+		
+		
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+				
+				
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+					 

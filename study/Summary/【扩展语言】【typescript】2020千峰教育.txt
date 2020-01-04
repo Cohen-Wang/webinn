@@ -1,0 +1,287 @@
+网易云课堂
+《2020千锋TypeScript全套视频》
+------------------------------------------------------------------------------
+第一课
+
+安装： npm install
+
+------------------------------------------------------------------------------
+第二课
+
+【数据类型】
+let str: string = 'hello';
+let num: number = 1;
+let flag: boolean = true;
+let un: undefined = undedfined;
+let nul: null = null;
+
+【❤❤❤❤】
+let enu: enum = 1;
+let sym: symbol = ??;
+
+【任意类型 => any】
+let thing: any = 1;
+let thing;// 也是任意值类型
+
+【倒推类型】
+let b = 1;// 给变量赋初始值的时候，如果没有指定类型，那么将根据初始值倒推类型
+
+
+【函数返回值】
+function show (): 【void】 {
+	// 不能return
+}
+
+------------------------------------------------------------------------------
+第三课
+
+【联合类型 => 符号: | 】
+let a: string | number = 'hello';
+a = 123;
+
+【对象类型 - 接口 - 强约束】
+interface Person {
+	name: string;
+	age: number;
+}
+
+【可选属性 => ?:】
+interface Person {
+	name: string;
+	age【?:】 number;
+}
+
+【属性个数不确定】
+interface Person {
+	name: string;
+	age: number;
+	【[propName: string]: any】  <= 这里的 any必须是any
+}
+
+【只读属性】
+interface Person {
+	name: string;
+	【readonly】 age: number;
+}
+
+------------------------------------------------------------------------------
+第四课： 数组类型
+
+【类型 + 方括号】
+let arr: number[] = [1, 2, 3];
+let arr: string[] = ['1', '2', '3'];
+let arr: any[] = [1, 2, 'hello', true];
+
+【数组泛型】
+let arr: Array<number> = [1, 2, 3];
+let arr: Array<string> = ['1', '2', '3'];
+let arr: Array<any> = [1, 2, 'hello', true];
+
+【接口表示】
+interface IsArray {
+	[index: numbner]: number
+}
+let arr: IsArray = [1, 2, 3];
+
+interface IsPerson {
+	name: string,
+	age: number,
+}
+let arr: IsPerson = [{name: '张三', age: 10}];
+OR
+let arr: Array<IsPerson> = [{name: '张三', age: 10}];
+OR
+let arr: IsPerson[] = [{name: '张三', age: 10}];
+
+
+------------------------------------------------------------------------------
+第五课： 函数类型
+
+function show (name: string, age: number): number {
+	return 123;
+}
+
+【函数：可选参数】
+function show (name: string, age: number, sex【?:】 string): number {
+	return 123;
+}
+
+【函数：默认值】
+function show (name: string 【=】 '张三', age: number 【=】 12, ): number {
+	return 123;
+}
+
+【表达式类型的函数】
+let show【: (name: string, age: number) => number】 = function (name: string, age: number): number {
+	return 123;
+}
+OR
+interface ShowModel {
+	(name: string, age: number): number
+}
+let show【: ShowModel】 = function (name: string, age: number): number {
+	return 123;
+}
+
+【对于联合类型的函数，可以采用【重载方式】 】
+function getValue (value: number): number;
+function getValue (value: string): string;
+function getValue (value: number | string): number | string {
+	return value;
+}
+let a: number = getValue(1);
+let b: string = getValue('1');
+
+------------------------------------------------------------------------------
+第六课：类型断言
+
+function getAssert (name: string | number) {
+	return name.length;// 报错，因为number没有length属性
+}
+改为
+function getAssert (name: string | number) {
+	return 【(<string>name)】.length;// 只有当参数是字符串类型的时候，返回length
+}
+OR 【在jsx语言（React的jsx语法的ts版），必须采用第二种方法】
+function getAssert (name: string | number) {
+	return 【(name as string)】.length;
+}
+
+注意： 【只能断言联合类型中存在的类型，不像java会强制类型转换】
+
+------------------------------------------------------------------------------
+第七课： 类型别名
+
+// 原始
+let str: string | number = '10';
+【类型别名】
+【type】 strType = string | number | boolean;
+let str: strType = '10';
+str: strType = 10;
+str: strType = true;
+
+【接口也可采用类型别名】
+interface muchType1 {
+	name: string
+}
+interface muchType2 {
+	age: number
+}
+【type muchType = muchType1 | muchType2】;
+// 以下都可以
+let obj: muchType = {name: '张三', age: 23};
+let obj: muchType = {name: '张三'};
+let obj: muchType = {age: 23};
+
+【限制字符串的选择】
+type sex = '男' | '女'
+function getSex(s: sex): string {
+	return s;
+}
+
+------------------------------------------------------------------------------
+第八课：枚举
+
+// 使用枚举可以定义一些有名字的数字常量
+enum Days {
+	Sun,
+	Mon,
+	Tue,
+	Wed,
+	Thu,
+	Fri,
+	Sat,
+}
+console.log(Days.Sun);// 0
+console.log(Days.Sat);// 6
+
+注意：【编译结果是什么？ 相互指向， 反向映射】
+
+【定义常量，依次累加】
+enum Days {
+	Sun = 3,
+	Mon,
+	Tue,
+	Wed,
+	Thu,
+	Fri,
+	Sat,
+}
+console.log(Days.Sun);// 3
+console.log(Days.Sat);// 9
+
+------------------------------------------------------------------------------
+第九课：类的修饰符
+
+public
+
+protected
+
+private
+
+static
+内部不允许this
+
+------------------------------------------------------------------------------
+第十课：泛型
+
+定义：泛型是指在定义函数，接口，类的时候，不预先指定具体类型，而是在使用的时候再指定类型的一种特性。
+
+【函数】
+// 不用泛型例子
+// 此例子：参数类型不确定，所以不能确定返回类型
+function createArray (length: number, value: 【any】): 【Array<any>】 {
+	let arr = [];
+	for (let i = 0; i < length; i++) {
+		arr[i] = value;
+	}
+	return arr;
+}
+
+// 泛型例子
+function createArray【<T>】 (length: number, value: 【T】): 【Array<T>】 {
+	let arr = [];
+	for (let i = 0; i < length; i++) {
+		arr[i] = value;
+	}
+	return arr;
+}
+// 使用
+let strArr: string[] = createArray<string>(3, '1');
+let numArr: number[] = createArray<number>(3, 1);
+let numArr: number[] = createArray(3, 1);// 可以根据传入参数，反推类型
+
+
+【接口】
+// 接口中的泛型
+interface ICreate {
+	<T>(name: string, value: T): Array<T>
+}
+
+let fn:ICreate = function<T>(name: string, value: T): Array<T> {
+	return [];
+}
+
+------------------------------------------------------------------------------
+第十一课
+
+React 使用示例
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

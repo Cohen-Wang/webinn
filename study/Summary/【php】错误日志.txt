@@ -1,0 +1,85 @@
+// 1，工欲善其事，必先利其器
+Happy and carefree logging
+
+log.debug("Found {} records matching filter: '{}'", records, filter);// 正确的拼写变量
+log.debug("Found " + records + " recordsmatching filter: '" + filter + "'");// 错误的拼写变量
+
+// 2, 不要忘了日志级别
+// 大概有90%的程序员都不太注意日志的级别，都是用一个级别来记录日志，通常不是INFO就是DEBUG。
+
+ERROR	发生了严重的错误，必须马上处理。这种级别的错误是任何系统都无法容忍的。
+	比如：空指针异常，数据库不可用，关键路径的用例无法继续执行。
+	
+WARN	还会继续执行后面的流程，但应该引起重视。
+	其实在这里我希望有两种级别：一个是存在解决方案的明显的问题（比如，"当前数据不可用，使用缓存数据"），
+	另一个是潜在的问题和建议（比如“程序运行在开发模式下”或者“管理控制台的密码不够安全”）。
+	应用程序可以容忍这些信息，不过它们应该被检查及修复。
+	
+DEBUG	开发人员关注的事。后面我会讲到什么样的东西应该记录到这个级别。
+
+TRACE	更为详尽的信息，只是开发阶段使用。
+	在产品上线之后的一小段时间内你可能还需要关注下这些信息，不过这些日志记录只是临时性的，最终应该关掉。
+	DEBUG和TRACE的区别很难区分，不过如果你加了一行日志，在开发测试完后又删了它的话，这条日志就应该是TRACE级别的。
+
+// log.isDebugEnabled():应该避免在代码里加入这个乱哄哄的东西，性能看起来没有什么提升。
+
+
+// 3. 你清楚你在记录什么吗？
+
+// 4.避免副作用
+
+// 5. 描述要清晰
+// 个日志记录都会包含数据和描述。
+
+// 错误
+log.debug("Message processed");
+log.debug(message.getJMSMessageID());
+
+// 正确
+log.debug("Message with id '{}' processed", message.getJMSMessageID());
+
+
+// 6. 调整你的格式
+// 从我的经验来看，理想的日志格式应当包括（当然除了日志信息本身了）：
+当前时间（无日期，毫秒级精度），
+日志级别，
+线程名，
+简单的日志名称（不用全称）
+还有消息。
+
+
+// 7. 记录方法的参数和返回值
+public String printDocument(Document doc, Mode mode) {
+    log.debug("Entering printDocument(doc={}, mode={})", doc, mode);
+    
+	// TODO
+	
+    log.debug("Leaving printDocument(): {}", id);
+    return id;
+}
+
+// 8. 观察外部系统
+// 如果你和一个外部系统通信的话，记得记录下你的系统传出和读入的数据。
+
+
+// 9. 正确的记录异常
+log.error("IO exception", e);
+throw new MyCustomException(e); 
+
+
+// 10. 日志应当可读性强且易于解析
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

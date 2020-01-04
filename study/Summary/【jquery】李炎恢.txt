@@ -1,0 +1,980 @@
+
+-------------------------------------------------------------------------------------------
+01.[jQuery] 第1章 jQuery入门[上]
+2013年5月 jquery-1.10
+2013年4月 jquery-2.0：不再支持IE6/7/8
+
+-------------------------------------------------------------------------------------------
+02.[jQuery] 第1章 jQuery入门[下]
+对兼容IE6/7/8的理解
+
+-------------------------------------------------------------------------------------------
+03.[jQuery] 第2章 基础核心
+
+1.代码风格：
+$(function () {
+    $('#box').css('color', 'red');// 行内的css样式
+});
+
+alert($ === jQuery);// true
+
+注意：返回值：永远是jQuery对象，所以才可以连缀
+
+2.加载模式
+window.onload = function () {};// 只加载完DOM；不包括加载图片；并且会被覆盖；
+$(function () {});// 不仅加载完DOM；包括加载图片；不会被覆盖；
+
+3.对象互换：获取原生的DOM对象
+// 获取DOM节点
+❤get()
+$('#box').get(0);// [object HTMLDivElement]；即当前的节点元素；
+// 获取jquery对象
+$(document.getElementById('box')).css('color', 'red');
+
+4.多个库之间的冲突
+
+
+-------------------------------------------------------------------------------------------
+04.[jQuery] 第3章 常规选择器[1]
+
+1、简单选择器（模拟了CSS 选择器）
+$('#box').css('color', 'red');//  CSS会对多个ID添加样式，而JQ只会对第一个
+$('.pox').css('color', 'blue');// 返回多个元素
+
+❤size();
+$('.pox').size();// 方法：返回个数
+$('.pox').length;// 属性：返回个数
+document.getElementsByClassName('pox').length;// 想等
+
+❤eq();
+$('div').eq(1).css('color', 'red');
+
+子节点
+#box>p{color:red;}// 不兼容IE6
+$('#box>p').css('color', 'red');// 兼容IE6
+
+容错功能
+$('.pox').css('color', 'red');// 如果页面没有 .pox元素，也不会报错
+document.getElementsByClassName('pox').style.color = 'red';// 会报错
+
+
+$('#box').get(0) === $('#box')[0];// 简写方式
+
+-------------------------------------------------------------------------------------------
+05.[jQuery] 第3章 常规选择器[2]----进阶选择器
+
+1.群组选择器
+$('div, p, strong').css('color', 'red');//
+$('#box, .pox, strong').css('color', 'red');//
+
+2.后代选择器
+$('ul li a').css('color', 'red');//
+
+3.通配选择器
+$('*').css('color', 'red');//
+$('*').size();// 返回所有标签节点，全局用，会消耗很大的资源
+$('ul li *').css('color', 'red');// 常规用法
+
+
+.box,.pox{color:red}// .box和.pox的字体都设为红色
+.box.pox{color:red}// <div class="box pox"></div>，包括.box和.pox的字体设为红色
+$('.box .pox').css('color', 'red');// 兼容IE6
+
+4.过于复杂的选择器会影响速度
+
+-------------------------------------------------------------------------------------------
+06.[jQuery] 第3章 常规选择器[3]----高级选择器：IE6 不支持高级选择器，IE7以后才逐渐开始支持
+
+1.后代选择器
+❤find()
+$('#box p').css('color', 'red');
+$('#box').find('p').css('color', 'red');// 兼容IE6
+
+2.子选择器
+❤children()
+$('#box > p').css('color', 'red');
+$('#box').children('p').css('color', 'red');// 兼容IE6
+
+3.兄弟选择器
+❤next(): 同级的下一个
+<p>1<p>
+<p>2<p>
+<div></div>
+<p>3<p>
+<p>4<p>
+$('#box + p').css('color', 'red');// 同级的下一个
+$('#box').next('p').css('color', 'red');
+
+❤nextAll(): 同级的所有
+#box ~ p{color:red}
+$('#box ~ p').css('color', 'red');
+$('#box').nextAll('p').css('color', 'red');
+
+CSS只提供了 某个元素的下面元素的选取方式，并没有向上选取的方法，jq提供了
+❤prev()
+$('#box').prev('p').css('color', 'red');
+
+❤prevAll()
+$('#box').prevAll('p').css('color', 'red');
+
+❤siblings()
+$('#box').siblings('p').css('color', 'red');
+
+❤nextUntil(), prevUntil()
+nextUntil('p');// 向下遇到p元素，就停止
+
+-------------------------------------------------------------------------------------------
+07.[jQuery] 第3章 常规选择器[4]
+选择器的
+    速度选择
+    语义化选择
+
+总结：实战中，应该用下面方法
+let box = $('#box');
+let p = box.find('p')
+
+13min：属性选择器
+$('a[title]').css('color', 'red');
+$('a[title=num1]').css('color', 'red');
+$('a[title^=num]').css('color', 'red');// title属性的值以num开头，例：title=num1
+$('a[title$=num]').css('color', 'red');// title属性的值以num结尾，例：title=1num
+$('a[title|=num]').css('color', 'red');
+$('a[title!=num]').css('color', 'red');
+$('a[title~=num]').css('color', 'red');
+$('a[title*=num]').css('color', 'red');// title属性的值包含num，例：title=aaanumbbb
+$('a[bbb][title=num]').css('color', 'red');// title属性的值包含num，例：title=aaanumbbb
+
+// 常用
+$('form input[name=user]').autocomplete(user);
+
+-------------------------------------------------------------------------------------------
+08.[jQuery] 第4章 过滤选择器[上]----模仿CSS3中的伪类
+
+【基本过滤器】
+$('li:first').css('color', 'red');
+$('li').first().css('color', 'red');
+
+$('li:last').css('color', 'red');
+$('li').last().css('color', 'red');
+
+$('li:not(.red)').css('color', 'red');
+$('li').not('red').css('color', 'red');
+
+$('li:even').css('color', 'red');// 0,2,4...
+$('li:odd').css('color', 'red');// 1,3,5...
+$('li:eq(2)').css('color', 'red');// 索引第二个
+$('li:eq(-2)').css('color', 'red');// 倒数第二个
+$('li:gt(2)').css('color', 'red');// 大于索引2
+$('li:gt(-2)').css('color', 'red');//
+$('li:lt(2)').css('color', 'red');// 小于索引2
+$('li:lt(-2)').css('color', 'red');//
+$(':header)').css('color', 'red');// 全局标题
+$('div :header').css('color', 'red');// div下的标题，注意空格
+
+$(':animated').css('color', 'red');// 正在执行的动画元素
+$(':focus').css('color', 'red');// 表单用的多
+
+【内容过滤器】
+$('div:container("ycku.com")').css('color', 'red');
+$('div:empty').css('color', 'red');// div内部能有内容
+
+$('div:has(.red)').css('color', 'red');// div的子元素中有class="red"的元素
+$('div').has('.red').css('color', 'red');// div的子元素中有class="red"的元素
+
+$(':parent').css('color', 'red');//
+$('li').parent();// 返回到li 的父元素，不是查找子元素
+$('li').parents();// 返回到li 的所有元素，包括<html>
+$('li').parentUntil('body');// 返回到li 的所有元素，包括<html>
+
+【可见性过滤器】
+$('div:hidden').css('color', 'red');//
+$('div:visible').css('color', 'red');//
+show(400);
+
+-------------------------------------------------------------------------------------------
+09.[jQuery] 第4章 过滤选择器[下]
+【子元素过滤器】：通过父元素和子元素的关系来获取相应的元素
+$('li:first-child').css('color', 'red');// 每个ul下的第一个li元素都会被选中
+$('li:last-child').css('color', 'red');// 每个ul下的最后一个li元素都会被选中
+$('li:only-child').css('color', 'red');// 选中只有一个子元素li的ul元素
+$('li:nth-child(odd/even/eq(index))').css('color', 'red');// 选中只有一个子元素li的ul元素
+
+【其它方法】
+❤is()
+$('.red').is('li');// true;class是red的元素，是否为li元素
+$('.red').is($('li'));// true
+
+$('.red').is(function () {
+    return $(this).attr('title') === '列表4';
+})
+
+❤hasClass()
+$('li').eq(2).hasClass('red');// true 注意：不用加'.'
+
+❤slice()
+$('li').slice(2, 4).css('color', 'red');//
+$('li').slice(2).css('color', 'red');//
+$('li').slice(0, -2).css('color', 'red');//
+
+❤end()
+$('#box').next('ul').end().css('color','red');// 找到前一个ul
+
+❤contains
+$('div').contents().size();// 返回子节点（包括文本）数量
+
+❤filter()
+$('li').filter('.red, :first, :last').css('color', 'red');
+
+$('li').filter(function () {
+    return $(this).attr('class') === 'red' && $(this).attr('title') === '列表3';
+})
+
+-------------------------------------------------------------------------------------------
+10.[jQuery] 第5章 基础DOM和CSS操作[上]
+
+【元素内容】
+❤html()
+$('#box').html();// 没有参数，代表获取元素内部html内容
+$('#box').html('<strong>123</strong>');// 替换，添加html内容
+$('#box').html(function (index, value) {
+    return  value + '<strong>123</strong>';
+});
+
+❤text()
+$('#box').text();// 没有参数，代表获取元素内部文本内容，会清理掉html标签
+$('#box').text('<strong>123</strong>');// 替换，添加被转义的文本内容
+
+❤val()
+$('input').val();// 没有参数，代表获取
+$('input').val('北风网');// 替换，添加内容
+如过是，下拉列表，单选复选框，可以通过传递数组操作
+$('input').val(["check1", "check2", "radio1"]);// value值是这些的将被选定
+
+【元素属性操作】
+❤获取：attr(key);
+❤设置：attr(key, value);
+❤多个：attr({key1:value1, key2:value2, ...});
+注意：class 不要用attr 来设置
+$('#box').attr('title');// 获取title属性值
+$('#box').attr('title', 'name');// 设置title属性值
+$('#box').attr('title', function (index, value) {// value代表原来的title中的值
+    return "我是" +(index+1)+ "号域名";
+}
+
+❤removeAttr()
+$('#box').removeAttr('title');
+
+-------------------------------------------------------------------------------------------
+11.[jQuery] 第5章 基础DOM和CSS操作[中]
+【元素样式操作】
+❤css()
+$('#box').css('color');// 获取
+$('#box').css(['color', 'height', 'width']);// 获取多个
+$('#box').css('color', 'red');// 设置
+$('#box').css({// 设置多个
+    'color' : 'red',
+    'background-color' : 'blue',
+    'font-size' : '20px',
+});
+$('div').css('wdith', function (index, value) {
+    // 局部操作
+    return parseInt(value - 500) + 'px';
+};
+
+each()
+$('#box').each(index, element);
+$.each($('div'), function (attr, value) {})
+
+❤addClass()
+$('#box').addClass('red');// 添加一个
+$('#box').addClass('red bg active');// 添加多个
+
+❤removeClass()
+$('#box').removeClass('red');// 删除一个
+$('#box').removeClass('red bg active');// 删除多个
+
+❤toggleClass()：类别切换功能
+$('#box').click(function () {
+    $(this).toggleClass('red size');// 切换多个class
+})
+
+$('#box').click(function () {
+    $(this).toggleClass('red size', count++ % 3 === 0);// 切换多个class
+})
+
+❤hasClass()
+$('#box').click(function () {
+    $(this).toggleClass('red');
+    if ($(this).hasClass('red')) {
+        $(this).removeClass('green');
+    } else {
+        $(this).toggleClass('green');
+    }
+})
+
+$('#box').click(function () {
+    $(this).toggleClass(function () {
+        return $(this).hasClass('red') ? 'blue' : 'red';
+    });
+})
+
+-------------------------------------------------------------------------------------------
+12.[jQuery] 第5章 基础DOM和CSS操作[下]
+❤width();// 获取 或 设置
+$(window).width();// 100
+$(document).css('width');// '100px'
+
+$('#box').width(500) === $('#box').width(500px);
+
+$('#box').width(function (index, width) {
+    return width + 500 + 'px';
+})
+
+❤height();
+同上
+
+【内外边距和边框尺寸方法】
+❤innerWidth():包含padding 的元素宽度
+❤innerHeight():包含padding 的元素高度
+
+❤outterWidth():包含border和padding的元素宽度
+❤outterHeight():包含border和padding的元素高度
+
+❤outterWidth(true):包含border和padding和margin的元素宽度
+❤outterHeight(true):包含border和padding和margin的元素高度
+
+【元素偏移方法】
+❤offset():获取某个元素相对于视口（body，window）的位置
+$('#box').offset().left;//
+$('#box').offset().top;//
+
+❤position():获取相对于父元素（div）的位置
+$('#box').position().left;//
+$('#box').position().top;//
+
+❤scrollTop():获取垂直滚动条的值
+scrollTop(value):设置垂直滚动条的值
+$(window).scrollTop();// 返回滚动条距离
+
+❤scrollLeft():获取水平滚动条的值
+scrollLeft(value):设置水平滚动条的值
+
+-------------------------------------------------------------------------------------------
+13.[jQuery] 第6章 DOM节点操作[上]
+【创建节点】
+$('<div id="box">节点</box>');// 就这样，已经创建好了
+let box = $('<div id="box">节点</box>');// 通过赋值一个变量
+$('body').append(box);
+
+【插入节点：内部插入】
+❤append():向 指定元素的内部，的后面插入元素
+append(content);
+append(function (index, html) {})
+$('<strong>123</strong>').appendTo(content);// 将指定元素移入到content内部后面
+
+❤prepend():向 指定元素的内部，的前面插入元素
+prepend(content);
+prepend(function (index, html) {})
+prependTo();
+
+【插入节点：外部插入】
+❤after():向指定元素的外部（同级），的后面插入content
+after();
+after(function (index, html) {});
+$('#box').after('<strong>123</strong>');
+
+❤before();
+before(content);
+before(function (index, html) {});
+$('#box').before('<strong>123</strong>');
+
+❤insertAfter(content);
+$('strong').insertAfter('div');
+
+❤insertBefore(content);
+$('strong').insertBefore('div');
+
+-------------------------------------------------------------------------------------------
+14.[jQuery] 第6章 DOM节点操作[下]
+【包裹节点】：指定元素的 外层，或者内层，包裹一层指定的节点
+
+❤wrap():指定元素外层包裹html
+$('#box').wrap('<strong>123</strong>');
+
+❤unwrap();
+❤wrapAll();// 所有div都被一个<strong>包裹着
+❤wrapInner(html);// 向指定元素的子内容包裹一层html
+❤wrapInner(element);
+❤wrapInner(function (index) {});
+
+【节点操作】
+
+❤clone()：赋值节点
+$('body').append('div').clone(true);// true代表克隆事件
+$('div').clone(true).appendTo('body');
+
+❤remove():
+$('div').remove('.box');// 删除含有class为box的div
+$('div').remove().appendTo('body');// 注意：当删除div后，再添加，不会保留原来的事件的
+
+❤detach():删除元素，但保留事件
+
+❤empty():清空节点，只剩一个空标签
+
+❤replaceWith():替换节点
+$('div').replaceWith('<span>节点</span>');// 将div替换成span元素
+❤replaceAll()
+$('<span>节点</span>').replaceWith('div');
+
+-------------------------------------------------------------------------------------------
+15.[jQuery] 第7章 表单选择器
+
+❤  :input:所有表单元素，包括input， textarea， select， button
+$('input[name=pass]') === $(':input[name=pass]');
+
+❤  :text:所有的单行文本框
+<input type="text">
+
+❤  :password:所有的密码框
+<input type="password">
+
+❤  :radio
+❤  :submit
+❤  :reset
+❤  :image
+❤  :file
+❤  :hidden
+$(':hidden').size();// 返回6，所以以后做一定要限定范围$('form :hidden').size()
+
+【4种：表单过滤器】：验证方面用的多
+❤  :enabled : 选取所有可用元素
+❤  :disabled ：选取所有不可用元素
+❤  :checked ：选取所有被选中的元素，包括单选和复选
+❤  :selected ：选取所有被选中的元素，下拉列表
+
+-------------------------------------------------------------------------------------------
+16.[jQuery] 第8章 基础事件[上]
+
+❤bind():绑定事件
+$('input').bind('mouseover mouseout', function () {// 绑定并且可以是多个事件
+    alert('123');
+})
+
+键值对写法
+$('input').bind({
+    mouseover : function () {
+        alert('进');
+    },
+    mouseout : function () {
+        alert('出');
+    }
+})
+
+❤unbind()：删除事件
+$('input').unbind();// 删除全部事件
+$('input').unbind('click');// 只删除click事件
+$('input').unbind('click', fn2);// 只删除click 事件，触发的fn2函数
+
+【简写事件】
+
+❤click(function () {
+
+})
+
+❤dbclick()
+❤mouseup()
+❤mouseover()
+等等
+
+❤submit()
+$('input').submit();// 错误写法
+$('form').submit();// 以表单为单位，提交
+
+-------------------------------------------------------------------------------------------
+17.[jQuery] 第8章 基础事件[下]
+
+❤mouseover()，mouseout() : 移入子节点，会触发
+❤mouseenter()，mouseleave() ： 移入子节点，不会触发
+
+$('#box').mouseover(function () {
+    alert('进去');
+}).mouseout(function () {
+    alert('出来');
+})
+
+❤keydown()，keyup() ：返回建码
+❤keypress(): 返回字符编码
+如果颠倒：都会返回0
+$('input').keydown(function (e) {
+    console.log(e.keyCode);
+})
+
+$('input').keypress(function (e) {
+    console.log(e.charCode);
+})
+
+❤focus()，❤blur()： 必须是当前元素，一般就是input元素
+❤focusin()，❤focusout()：可以是子元素触发
+// 当事件主体是div，而不是input 的时候，就有区别了
+$('div').focus(functon () {
+    alert();
+})
+
+【复合事件】
+
+❤hover():
+注意：此移入移除用的方法是 mouseenter(),mouseleave()
+$('#box').hover(function () {
+    $(this).css('background', 'red');
+}, function () {
+    $(this).css('background', 'green');
+})
+
+❤toggle():已经被废弃
+可以用jquery-migrate.js向下兼容
+也可以自己写个模拟方法
+let flag = 1;
+$('div').click(function () {
+    if (flag === 1) {
+        $(this).css('background', 'red');
+        flag = 2;
+    } else if (flag === 2) {
+        $(this).css('background', 'green');
+        flag = 3;
+    } else if (flag === 3) {
+        $(this).css('background', 'blue');
+        flag = 1;
+    }
+})
+
+-------------------------------------------------------------------------------------------
+18.[jQuery] 第9章 事件对象[上]
+
+e.type;// 'click';
+e.target;// 返回触发元素的DOM（点了哪个就是哪个）
+e.currentTarget;// ❤等于this，返回监听元素的DOM（绑定的哪个就是哪个）
+e.relatedTarget;// 触发mouseenter，mouseover事件的时候，临近的元素类型[object HTMLDivElement]
+e.relatedTarget;// 触发mouseenter，mouseover事件的时候，临近的元素类型
+e.data;// 额外数据
+    $('input').bind('click', 'abc', function () {
+        alert(e.data);// 'abc'
+    })
+e.pageX/pageY;// 相对于【页面原点】的坐标
+e.screenX/screenY;// 相对于【显示屏】的坐标
+e.clientX/clientY;// 相对于【页面视口】的坐标
+❤e.which;// 鼠标点击，判断鼠标的左（1），中（2），右（3）键
+❤e.altKey/e.shiftKey/e.ctrlKey
+
+-------------------------------------------------------------------------------------------
+19.[jQuery] 第9章 事件对象[下]
+
+【阻止冒泡】
+e.stopPropagation();
+例：
+//阻止事件冒泡的兼容写法
+function stopBubble(e){
+    //如果提供了事件对象，则是一个非IE浏览器
+    if(e && e.stopPropagation)
+        //因此它支持W3C的stopPropagation()方法
+        e.stopPropagation();
+    else
+        //否则，我们需要使用IE的方式来取消事件冒泡
+        window.event.cancelBubble = true;
+}
+
+【阻止默认行为】
+e.preventDefault();
+例：
+if (e) {
+    e.stopPropagation();
+    e.preventDefault();
+} else {
+    window.event.returnValue = false;
+    window.event.cancelBubble = true;
+}
+
+【同时阻止】
+return false;
+例：
+$('a').click(function (e) {
+
+    // ❤兼容IE
+    e.stopPropagation();
+    e.preventDefault();
+
+    // ❤判断是否阻止了冒泡和默认行为
+    alert(e.isDefaultPrevented());
+    alert(e.isPropagationStopped());
+
+    // ❤或
+    return false;
+})
+
+
+【补】
+e.stopImmediatePropagation();
+e.isImmediatePropagationStopped();
+
+-------------------------------------------------------------------------------------------
+20.[jQuery] 第10章 高级事件[上]
+
+【模拟操作】
+❤trigger():window.onload后执行一次，应该常用语ajax获取数据；举例容易让人看不懂；
+$('input').trigger('click');
+
+❤trigger的额外数据
+
+10min：【自定义事件】
+
+❤triggerHandler();// 自带阻止默认行为
+
+23min 【事件：命名空间】
+$('input').bind('click.first', function () {
+    alert('first');
+})
+
+$('input').bind('click.second', function () {
+    alert('second');
+})
+
+$('input').unbind('click.first');// 这样只会移除第一个
+
+-------------------------------------------------------------------------------------------
+21.[jQuery] 第10章 高级事件[中]
+
+【事件委托】
+
+❤live()，die();// jq-1.4.3就废弃：淘汰原因：①传到document太长，太冗余；②不支持连缀调用
+// 使用live绑定的是document，而不是button
+// 所以只会绑定一个事件
+$('.button').live('click', function () {
+    alert(1);
+})
+
+
+❤delegate()，undelegate();// jq-1.7
+①语义清晰：能知道绑定了谁，即$('#box');
+②实现了事件委托；（注意事件委托和 复制事件的区别）
+
+$('#box').delegate('.button', 'click', function () {
+    $(this).clone().appendTo('#box');
+})
+
+-------------------------------------------------------------------------------------------
+22.[jQuery] 第10章 高级事件[下]
+
+普通绑定：bind
+普通解绑：unbind
+
+事件委托：live，delegate
+解除委托：die，undelegate
+
+新绑定：on ：jquery-1.7+
+新解绑：off
+
+【on，off】
+// 替代live，delegate
+$('#box').on('click', '.button', function () {
+    $(this).clone().appendTo('#box');
+})
+
+【one】：不管是bind()，或on()绑定事件后都不是自动移除事件的要通过unbind()，off()来手动移除
+
+-------------------------------------------------------------------------------------------
+23.[jQuery] 第11章 动画效果[上]
+
+【显示，隐藏】
+❤show([time, callback])
+❤hide([time, callback])
+
+// 列队动画
+$('.show').click(function () {
+    $('.test').eq(0).show('slow', function () {
+        $('.test').eq(1).show('slow', function () {
+            $('.test').eq(2).show('slow', function () {
+                $('.test').eq(3).show('slow', function () {
+
+                })
+            })
+        })
+    })
+})
+
+$('.show').click(function () {
+    $('.test').first().show('fast', function testShow () {
+        $(this).next().show('fast', testShow());
+    })
+})
+
+❤toggle()：切换div
+$('#box').click(function () {
+    $(this).toggle('slow');// jq内部判断，隐藏和显示间切换
+});
+
+【滑动】
+❤slideUp([time, callback])
+❤slideDown([time, callback])
+❤slideToggle()
+
+【淡入，淡出】
+❤fadeIn([time, callback])
+❤fadeOut([time, callback])
+❤fadeToggle()
+❤fadeTo('slow', 0.33)
+
+-------------------------------------------------------------------------------------------
+24.[jQuery] 第11章 动画效果[中]
+
+【自定义动画】
+❤animate(params [, time, callback])
+
+$('#box').animte({
+    width : '200px',
+    height : '300px',
+    background : 'red',
+
+    //注意：如果要位移运动，CSS要设置position：absolute
+    left : '+= 100px';
+
+    // 回调函数的列队动画
+
+
+}, 400, function () {
+    alert('完成了')
+})
+
+
+20min :❤queue();//
+dequeue();
+
+-------------------------------------------------------------------------------------------
+25.[jQuery] 第11章 动画效果[下]
+
+【相关方法】
+❤stop(clearQueue, gotoEnd);
+clearQueue boolean// 如果有列队动画，那么停止的是当前的动画
+gotoEnd boolean//
+
+❤delay();// 动画延迟效果
+$('#box')
+    .animate({
+    width : '300px',
+})
+    .delay(2000)
+    .animate({
+    height : '200px',
+})
+
+linear，swing
+-------------------------------------------------------------------------------------------
+26.[jQuery] 第12章 Ajax[上]
+
+0min：介绍ajax
+
+11min：
+【局部方法】
+❤load(URL, params, callback(response, status, xhr));
+
+-------------------------------------------------------------------------------------------
+27.[jQuery] 第12章 Ajax[中]
+
+❤$.get()
+例:
+$.get('test.php', 'url=abc', function (response, status, xhr) {
+    $('#box').html(response);
+})
+
+❤$.post()
+例：
+$.post('test.php', {
+    url : 'abc',
+}, function (response, status, xhr) {
+    $('#box').html(response);
+})
+
+17min
+❤$.getScript()
+
+❤$.getJSON()
+
+-------------------------------------------------------------------------------------------
+28.[jQuery] 第12章 Ajax[下]
+
+【$.ajax()】：jq最底层的
+例:
+$.ajax({
+    url : './abc.php',
+    type : 'POST',
+    data : {
+        action : 'something',
+    },
+    dataType : // 返回的数据类型， application/json
+    success : function (response, status, xhr) {
+        $('#box').html(response);
+    },
+})
+
+6min
+❤serialize():表单序列化
+data : $('#form-1').serialize();// 返回数据的键值对字符串，并且已经被编码
+
+❤serializeArray(): json格式
+
+❤$.ajaxSetup():初始化重复的属性
+
+❤$.param()
+
+-------------------------------------------------------------------------------------------
+29.[jQuery] 第13章 Ajax进阶[上]
+
+【加载请求】
+❤ajaxStart();
+❤ajaxStop();
+注意：jquery-1.8之前是可以绑定在元素上面的，1.8之后，必须绑定在$(document)上
+例：
+$(document).ajaxStart(function () {
+    $('loading').show();
+}).ajaxStop(function () {
+    $('loading').hide();
+});
+
+❤ timeout : 4000,// 超时属性，4秒内没有收到返回，就自动退出
+❤ global : false,// 不想触发全局事件，可以设置取消
+❤ error : function (xhr, errorText, errorStatus) {}
+❤ .error();// 局部的error()方法
+❤ .ajaxError();// 全局的
+
+❤ ajaxSend()  ajaxComplete()   ajaxSuccess()    ajaxError()
+$(document).ajaxSend(function () {
+    alert('发送请求之前执行');
+}).ajaxComplete(function () {
+    alert('请求完成之后，不管成功 或 失败');
+}).ajaxSuccess(function () {
+    alert('请求成功后，执行');
+}).ajaxError(function () {
+    alert('请求失败后，执行');
+});
+
+-------------------------------------------------------------------------------------------
+30.[jQuery] 第13章 Ajax进阶[下]
+
+【json 和 jsonp】
+
+<?php
+    $arr = array("a" => 1, "b" => 2, "c"= >3);
+    $result = json_encode($arr);
+    $callback = $_GET['callback'];
+    echo $callback.$result;
+?>
+
+15min
+❤ jqXHR 对象，是原生XHR对象的一个超级
+❤ 还有点点知识点 ，没什么意思
+
+-------------------------------------------------------------------------------------------
+31.[jQuery] 第14章 工具函数[上]
+❤$.trim():去掉两边空格
+
+❤$.each():遍历数组 和 对象
+array
+$.each(arr, function (index, value) {
+    $('#box').html($('#box').html() + (index + 1) + ':' + value + '<br>';// 连续加
+}
+
+object
+$.each($.ajax(), function (name, fn) {
+    $('#box').html($('#box').html() + name + ':' + fn + '<br>';// 连续加
+}
+
+❤$.grep()：数据筛选
+let arr = [4,2,6,9,11,25,38,59];
+let arrGrep = $.grep(arr, function (element, index) {
+    return index < 5 && element < 6;
+}
+
+❤$.map()：修改数据
+let arr = [4,2,6,9,11,25,38,59];
+let arrMap = $.map(arr, function (element, index) {
+    if (index < 5 && element < 6) {
+        return element + 1;
+    }
+}
+
+❤$.inArray()：在数组中的位置
+let arr = [4,2,6,9,11,25,38,59];
+$.inArray(11, arr);// 返回：4
+
+❤$.merge():合并数组
+let arr1 = [1,2,3,4];
+let arr2 = [100, 200];
+$.merge(arr1, arr2);// [1,2,3,4,100,200]
+
+❤$.unique():删除重复的DOM元素
+
+❤$.toArray():合并多个DOM元素组成的数组
+
+-------------------------------------------------------------------------------------------
+32.[jQuery] 第14章 工具函数[下]
+
+测试操作
+❤$.isArray(obj):判断是否为数组对象（原生javascript返回object）
+let arr = [1,2,3];
+$.isArray(arr);// true
+
+❤$.isFunction(obj):判断是否为函数（原生javascript返回object）
+let fn = function () {};
+$.isFunction(fn);// true
+
+❤$.isEmptyObject(obj):判断是否为空对象
+let obj = {};
+$.isEmptyObject(obj);// true
+
+❤$.isPlainObject(obj):判断是否由{}或new Object()创造出来的对象
+let obj = window;// 内置对象
+$.isPlainObject(obj);// false
+
+let obj = new Object('name');// 已经是个字符串了
+$.isPlainObject(obj);// false
+
+❤$.contains(obj):判断DOM节点是否含有另一个DOM节点
+注意：参数为js原生节点
+$.contains(document.getElementsByClassName('box')[0], document.getElementsByClassName('pox')[0]);// true
+
+❤$.type(data):判断数据类型
+let arr = [1,2,3];
+$.type(arr);// array
+
+❤$.isNumeric(data):判断数据是否为数值
+let num = 123;
+$.isNumeric(num);// true
+
+❤$.isWindow(data):判断数据是否为window对象
+$.isWindow(window);// true
+
+【URL操作】
+$.param():将对象的键值对，转化为URL键值对的字符串形式
+let obj = {
+    name : 'cohen',
+    age : 23,
+}
+$.param(obj);// name=cohen&age=23
+
+
+【浏览器检测】：早期jQuery提供$.browser对象，来区分IE和W3C浏览器
+❤$.browser：（已经废弃）
+$.browser.mozilla + ':' + $.browser.version;
+
+$.support:已废弃
+$.support.opacity === true;
+
+【其它操作】
+❤$.proxy():预备绑定上下文的工具函数，可以解决外部事件触发调用对象方法时this指向问题
+let obj = {
+    name : 'cohen',
+    show : function () {
+        console.log(this.name);
+    }
+}
+obj.show();// this指向obj
+$('#box').click(obj.show());// this指向$('#box');
+$('#box').click($.proxy(obj, 'show');// 指向obj

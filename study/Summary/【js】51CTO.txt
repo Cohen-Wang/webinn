@@ -1,0 +1,320 @@
+【js】51CTO
+
+	学习网址：https://edu.51cto.com/center/course/lesson/index?id=264570
+
+--------------------------------------------------------------------------
+1-1
+
+对象：拥有属性和方法的集合
+
+js：一切皆对象
+	用ECMA语法去操作对象
+	
+全局对象：浏览器：window  node：gloabl	
+内置对象：
+自定义对象：
+
+window.Object === Object;
+
+
+--------------------------------------------------------------------------
+1-2
+
+构造函数：就是函数，用来生成对象的函数，（表面上看因为有this）
+
+所有对象都有构造函数创建
+constructor
+	[].constructor === Array
+instanceof
+	[] instanceof === Array
+	
+继承
+[].push(123);// 因为构造函数原型有push方法。所以能继承。（父亲和儿子关系）
+[].toString();// （父亲和干儿子关系）
+
+构造函数的属性和方法（私有）
+	Array.of(5);
+	
+实力的属性和方法（共有）
+	[].push(); // 放在prototype的属性和方法
+	Array.prototype.push();
+	
+	
+--------------------------------------------------------------------------
+1-3
+prototype 和 __proto__ （浏览器的属性，不是js的）
+
+prototype是构造函数的属性
+__proto__是实力的属性
+	String.prototype 
+	
+	str.constructor === String;// true
+	str.constructor.prototype === String.prototype;// true
+	str.__proto__ === String.prototype;// true
+	
+	所以 :
+	__proto__ === constructor.prototype;// true
+	
+15min
+console.dir(String); 
+	构造函数内 也有__protot__属性。因为构造函数是函数，函数是对象
+	
+	所以：
+	String.__proto__ === Function.prototype;// true
+	String.__proto__.__proto__ === Object.prototype;// true
+
+
+--------------------------------------------------------------------------
+1-4
+
+0~6min
+任何和对象实力的__proto__最终指向 Object.prototype
+
+10min
+
+【包装对象】：
+	
+	let [num, s, b, nul, un] =[12, 'abc', true, null, undefined];// 解构赋值
+
+	console.log( new Object(num), typeof new Object(num) );// Number {12}; 
+	console.log( new Object(s), typeof new Object(s) );// String {abc};
+	console.log( new Object(b), typeof new Object(b) );// Boolean {true};
+	console.log( new Objectnul), typeof new Object(nul) );// {} 注意：没有包装对象
+	console.log( new Object(un), typeof new Object(un) );// {} 注意：没有包装对象
+
+12min
+
+Object 
+
+	私有方法
+	1.Object.getOwnPropertyDescriptor()		ES5存在，ES6修改
+	2.Object.getOwnPropertyDescriptors()	ES7新增
+	3.Object.defineProperty()				ES5存在，ES6修改
+		o = {};
+		Object.defineProperty(o, "baz", {
+			value: 1233444,
+			writable: false,
+			enumerable: false
+		});
+	
+	4.Object.defineProperties()				ES5存在，ES6修改
+	5.Object.getOwnPropertyNames()			ES5存在，ES6修改
+	6.Object.getOwnPropertySymbols()		ES6新增
+	7.Object.getPrototypeOf()				ES5存在，ES6修改
+	8.Object.setPrototyoeOf()				ES6新增
+	9.Object.preventExtensions()			ES5存在，ES6修改
+	10.Object.isExtensible()				ES5存在，ES6修改
+	11.Object.seal()
+	12.Object.isSealed()					ES5存在，ES6修改
+	13.Object.freeze()						ES5存在，ES6修改
+	14.Object.isFrozen()					ES5存在，ES6修改
+	15.Object.is()							ES6新增
+	16.Object.assign()						ES6新增
+	17.Object.create()						
+	18.Object.keys()
+	19.Object.values()						ES7新增
+	20.Object.entries()						ES7新增
+	
+	共享方法
+	1.valueOf()
+	2.toString()
+	3.constructor()
+	4.hasOwnProperty()
+	5.isPrototypeOf()
+	6.propertyIsEnumerable()
+
+--------------------------------------------------------------------------
+1-5 面向对象
+
+	ES5的类
+	function Person (name, age) {
+		this.name = name;
+		this.age = age;
+	}
+
+	Person.prototype.showName = function () {
+		return this.name;
+	}
+	
+	ES6的类 class （语法糖）
+	class Person {
+		constructor (name, age) {
+			this.name = name;
+			this.age = age;
+		}
+		showName () {
+			return this.name;
+		}
+	}
+	
+	console.log(Person);// class Person; 会有一个class 的提醒
+	
+
+--------------------------------------------------------------------------
+1-6
+
+ES6的 class 点开后和 ES5的构造函数 一模一样
+
+	typeof Person;// function
+
+内置属性 不可枚举
+
+	Object.keys(ES5.prototype);// 返回属性和方法
+	Object.keys(ES6.prototype);// 返回空，不可枚举
+	
+注意：
+	不能重复声明类：
+	class Person{}
+	class Person{};// 报错
+	
+	表达式声明方式： 类名 是 Person 不是 my
+	const Person = my {}
+	
+	直接生成实例
+	let p = new Class{
+		move () {
+		
+		}
+	}
+
+--------------------------------------------------------------------------
+1-7 属性和方法
+
+	constructor 
+	如果没有constructor ， 会默认添加一个
+	
+	ES6
+	class Person {};
+	Person();// 报错
+	
+	ES5
+	function Persson() {};
+	Person();// 不报错
+	
+	
+	this.属性最好放在constructor
+	因为：方法一般不会变，属性会变
+	思考PHP 属性的位置 和 JS CLASS 属性位置的区别
+	
+15min
+		
+	【静态static】	
+	static gohome () {}
+
+--------------------------------------------------------------------------
+1-8
+
+	【new.target】
+	class Person {
+		constructor () {
+			if (new.target === Person) {
+				throw new Error("不能直接new Person，需要继承引用")
+			}
+		}
+	}
+	
+	作用：react组件？
+	
+	【get与set】
+	class Pop {
+		get attr () {
+			return "你获取了";
+		}
+		
+		set attr () {
+			console.log("你设置了一个属性");
+		}
+	}
+	
+--------------------------------------------------------------------------
+1-9 继承
+
+	ES5继承是通过各种方式操作prototype
+	ES6继承是通过extends
+	
+	super(arguments)
+	
+	class Child extends Person{
+		constructor () {
+			super(name, age, school);
+			this.school = school;
+		}
+		
+	}
+
+	ES6 子类是没有this对象的，而是继承父类的this对象
+	
+--------------------------------------------------------------------------
+1-10
+
+	super()作用
+	1.执行父类的constructor方法
+	2.把父级的this 指向子类
+	
+	
+	
+	
+	
+	
+
+--------------------------------------------------------------------------
+1-11
+
+	/**
+	 * 难点。。。
+	 */
+	super.showName();
+
+--------------------------------------------------------------------------
+1-12
+
+	super 私有方法用
+	
+	
+	super 一定要制定其作为对象使用 ，还是作为函数使用
+	
+	
+
+--------------------------------------------------------------------------
+1-13 子类继承关系
+
+	ES5
+	ChildClass.__proto__ === Function.prototype;// true
+	
+	ES6
+	ChildClass.__proto__ === SuperClass;// true
+	
+	
+--------------------------------------------------------------------------
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

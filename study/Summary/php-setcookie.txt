@@ -1,0 +1,73 @@
+
+setcookie(name, value, expire, path, domain, secure)；
+
+******************************************************
+setCookie('friend', '张三，你好吗');
+	// 发送一个简单的 cookie
+
+
+******************************************************
+setrawcookie('girl', '你好，世界');	
+	//在发送 cookie 时，cookie 的值会自动进行 URL 编码。接收时会进行 URL 解码。如果你不需要这样，可以使用 setrawcookie() 代替。
+
+
+******************************************************
+setcookie("TestCookie",$value, time()+3600*24);
+	// 发送一个 24 小时候过期的 cookie
+
+
+******************************************************
+// 输出个别的 cookie
+echo $_COOKIE["TestCookie"];
+echo "<br />";
+echo $HTTP_COOKIE_VARS["TestCookie"];
+echo "<br />";
+
+
+******************************************************
+// 输出所有 cookie
+print_r($_COOKIE);
+
+
+******************************************************
+setcookie ("TestCookie", "", time() - 3600);
+	// 把失效日期设置为一小时前
+
+
+******************************************************
+创建一个数组 cookie
+
+setcookie("cookie[three]","cookiethree");
+setcookie("cookie[two]","cookietwo");
+setcookie("cookie[one]","cookieone");
+
+// 输出 cookie （在重载页面后）
+if (isset($_COOKIE["cookie"]))
+{
+	foreach ($_COOKIE["cookie"] as $name => $value)
+    {
+		echo "$name : $value <br />";
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

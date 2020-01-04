@@ -1,0 +1,169 @@
+******************************Session详解，共26个******************************
+
+session_name — 读取/设置会话名称
+session_start — 启动新会话或者重用现有会话
+session_id — 获取/设置当前会话 ID
+session_regenerate_id — 使用新生成的会话 ID 更新现有会话 ID
+session_destroy — 销毁一个会话中的全部数据
+session_abort — Discard session array changes and finish session
+session_cache_expire — 返回当前缓存的到期时间
+session_cache_limiter — 读取/设置缓存限制器
+
+session_create_id — Create new session id
+session_encode — 将当前会话数据编码为一个字符串
+session_decode — 解码会话数据
+session_gc — Perform session data garbage collection
+session_get_cookie_params — 获取会话 cookie 参数
+session_module_name — 获取/设置会话模块名称
+session_reset — Re-initialize session array with original values
+session_save_path — 读取/设置当前会话的保存路径
+session_set_cookie_params — 设置会话 cookie 参数
+session_set_save_handler — 设置用户自定义会话存储函数
+session_status — 返回当前会话状态
+session_unset — 释放所有的会话变量
+
+session_write_close — Write session data and end session
+session_commit — session_write_close 的别名
+
+session_is_registered — 检查变量是否在会话中已经注册
+session_register — Register one or more global variables with the current session
+session_unregister — Unregister a global variable from the current session
+session_register_shutdown — 关闭会话
+
+
+
+
+************************************************
+1.session
+	打电话时从拿起电话拨号到挂断电话这中间的一系列过程可以称之为一个session。
+	例如我们打电话，从拨通的那一刻起到挂断电话期间，因为电话一直保持着接通的状态，所以把这种接通的状态叫做session。
+
+	它又往往隐含了“面向连接”和/或“保持状态”这样两个含义：
+		“面向连接”指的是在通信双方在通信之前要先建立一个通信的渠道，比如打电话，直到对方接了电话通信才能开始。
+		“保持状态”则是指通信的一方能够把一系列的消息关联起来，使得消息之间可以互相依赖，比如一个服务员能够认出再次光临的老顾客并且记得上次这个顾客还欠店里一块钱。	
+
+
+************************************************
+2.session_start()
+开始一个会话或者返回已经存在的会话。
+在使用session_start()之前浏览器不能有任何输出，否则会发生错误。
+可以在php.ini里启动session.auto_start=1，这样就无需每次使用session之前都要调用session_start()。
+
+作用：
+	1.开启后才能用 $_SESSION[]
+	2.开启后，浏览器cookie中自动获取 SESSIONID
+	
+	3.
+	// 设置 cookie 的有效时间为 1 天
+	session_start([
+		'cookie_lifetime' => 86400,
+		'read_and_close'  => true,
+	]);
+	
+	4.浏览器第一次打开有session_start()的文件，在response header里面有个 Set-Cookie: PHPSESSID=6vi5a6ngnmeaqhtvdncfqvpbbi; path=/
+				相当于：PHP执行 ： header("Set-Cookie: PHPSESSID=" . session_id() . "; path=/");
+			第二次打开有session_start()的文件，在request header里面有个 Cookie: PHPSESSID=6vi5a6ngnmeaqhtvdncfqvpbbi 
+	
+************************************************
+3.注册SESSION变量：
+	$_SESSION[‘xxx’]=xxx；
+	
+	过时：
+		session_register()，
+		session_unregister，
+		session_is_registered在php5下不再使用，
+		除非在php.ini里把register_globle设为on，不过出于安全考虑，强烈建议关闭register_globle。
+		HTTP_SESSION_VARS也不提倡使用了，官方建议用$_SESSION代替之。
+	
+	推荐：
+		$_SESSION[‘name’]=”我是黑旋风李逵!”;   //注册一个SESSION变量
+		$_SESSION[‘passwd’]=”mynameislikui”;
+		
+
+
+************************************************
+4.session_id()
+	以前注册：session_register()
+	以前判断：session_is_register()
+
+	现在注册：$_SESSION[‘xxx’]=xxx；
+	现在判断：isset($_SESSION[‘xxx’])；
+	现在更改： session_regenerate_id() 更改成功则返回true，失败则返回false。
+
+
+************************************************
+5.session_name
+	session_name不能只由数字组成，它至少包含一个字母。否则会在每时每刻都生成一个新的session id.
+	返回当前session的name或改变当前session的name。如果要改变当前session的name，必须在session_start()之前调用该函数。
+
+		session_name('PHPSESSION');// 先写
+		session_start();// 后写
+
+************************************************
+6. 删除session
+
+	删除单个：
+		以前删除：session_unregister()
+		现在删除：unset ($_SESSION['xxx'])删除单个session
+
+	删除全局：
+		unset($_SESSION)  
+		此函数千万不可使用，它会将全局变量$_SESSION销毁，而且还没有可行的办法将其恢复。用户也不再可以注册$_SESSION变量。
+
+	$_SESSION=array()删除多个session
+
+	session_destroy()
+		此函数没有参数，且返回值均为true。
+		结束当前的会话，并清空会话中的所有资源。
+
+
+************************************************
+7.session_encode()和session_decode()
+
+	session_encode()---------------captcha|s:4:"Odnc";school|s:6:"北大";wujun1234haha|s:8:"12345678";
+	session_decode()---------------1
+
+
+************************************************
+8.session_cache_expire()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
