@@ -9,13 +9,14 @@
 【版本介绍】
 	当前讲的3.0，最新版本4.0
 	
-【默认安装最新版本】
+【默认安装最新版本】【缺点：每个项目的webpack是不一样的，所以不要全局安装】
 	npm install webpack -g
 
 【安装指定版本】
 	npm install -g webpack@3.10.0
 	
 【本地安装指定版本】
+	项目目录下
 	npm install webpack@3.10.0 --save-dev
 
 
@@ -94,7 +95,7 @@
 
 
 +--------------------------------------------------------------------------------------------------------------------------
-|第5课：devserver
+|第5课：devServer
 +--------------------------------------------------------------------------------------------------------------------------
 【介绍】
 	简单的web服务器，并且能够实时重新加载（live reloading）【当保存的时候，自动的加载】
@@ -115,7 +116,7 @@
 【使用】		
 	直接 npm start，而不是npm run start
 	
-【自动打开，不要手动复制localhost:8080】
+【配置】
 	webpack.config.js
 		// 引入插件
 		const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -138,7 +139,7 @@
 			
 			【
 			devServer: {【打包到内存的，而不是真正的文件，假如没有index.html文件，也可以显示。】
-				open: true,// 当输入npm start后，直接打开
+				open: true,// 当输入npm start后，直接打开（自动打开，不要手动复制localhost:8080）
 				port: 1234,// 修改端口
 				contentBase: './dist',// 修改服务器访问的根目录，默认：'./'
 			}
@@ -147,24 +148,124 @@
 
 
 +--------------------------------------------------------------------------------------------------------------------------
-|第 课
+|第6课：css-loader； style-loader
 +--------------------------------------------------------------------------------------------------------------------------
+【什么是loader】
+	webpack自身只理解javascript的语法，还是es5的语法。如果要解释es6的语法，需要转换工具
+	
+【例子】	
+	// index.js 引入
+	import 'index.css';// 报错，无法解析，需要css-loader。【css-loader，让webpack知道怎么处理css文件】
+
+【安装】
+	npm install 【css-loader】 --save-dev
+	
+	npm install 【style-loader】 --save-dev // style-loader的作用：把已经打包好的css代码插入到html中
+
+【配置】
+	webpack.config.js
+		// 引入插件
+		const HtmlWebpackPlugin = require('html-webpack-plugin');
+		
+		module.export = {
+			// 入口文件
+			extry: './src/index.js',
+			
+			// 输出目录（打包的js文件）
+			output: {
+				path: path.resolve(__dirname, 'dist'),// 目录的绝对路径
+				filrname: 'app.js', // 输出的文件
+			},
+			plugins: [
+				new HtmlWebpackPlugin({
+					filename: 'main.html',// 指定打包出来的html文件的名字，默认：index.html
+					template: 'src/index.html',// 指定一个html模板，也就是我们需要的html文件里的内容
+				})
+			],
+			devServer: {
+				open: true,// 当输入npm start后，直接打开（自动打开，不要手动复制localhost:8080）
+				port: 1234,// 修改端口
+				contentBase: './dist',// 修改服务器访问的根目录，默认：'./'
+			},
+			
+			【
+			module: {
+				rules: [
+					{
+						test: /\.css$/,// 匹配.css文件
+						use: ['style-loader', 'css-loader'],// 【注意先后，这里是从后向前处理的顺序】
+					}
+				]
+			}
+			】
+		}	
 
 
 +--------------------------------------------------------------------------------------------------------------------------
-|第 课
+|第7课：使用图片：file-loader
 +--------------------------------------------------------------------------------------------------------------------------
+【当引用了图片的时候，打包会报错】
+	body {
+		background: url('../abc.jpg');
+	}
 
+【安装】
+	npm install 【file-loader】 --save-dev
+	
+【配置】	
+	webpack.config.js
+		// 引入插件
+		const HtmlWebpackPlugin = require('html-webpack-plugin');
+		
+		module.export = {
+			// 入口文件
+			extry: './src/index.js',
+			
+			// 输出目录（打包的js文件）
+			output: {
+				path: path.resolve(__dirname, 'dist'),// 目录的绝对路径
+				filrname: 'app.js', // 输出的文件
+			},
+			plugins: [
+				new HtmlWebpackPlugin({
+					filename: 'main.html',// 指定打包出来的html文件的名字，默认：index.html
+					template: 'src/index.html',// 指定一个html模板，也就是我们需要的html文件里的内容
+				})
+			],
+			devServer: {
+				open: true,// 当输入npm start后，直接打开（自动打开，不要手动复制localhost:8080）
+				port: 1234,// 修改端口
+				contentBase: './dist',// 修改服务器访问的根目录，默认：'./'
+			},
+			
+			module: {
+				rules: [
+					{
+						test: /\.css$/,// 匹配.css文件
+						use: ['style-loader', 'css-loader'],// 【注意先后，这里是从后向前处理的顺序】
+					},
+					【
+					{
+						test: /\.jpg$/,
+						use: ['file-loader'],
+					}
+					】
+				]
+			}
+		}	
 
 
 +--------------------------------------------------------------------------------------------------------------------------
-|第 课
+|第8课: file-loader做的事情
 +--------------------------------------------------------------------------------------------------------------------------
+【把图片复制到输出目录（dist）中】
 
-
-
+【打包后，图片被重命名了】
+	nodeing.jpg => f87923rbih42h958h3g93h9tnt536.jpg
+	
+	
 +--------------------------------------------------------------------------------------------------------------------------
-|第 课
+|第9课：支持多种图片类型
 +--------------------------------------------------------------------------------------------------------------------------
 
 
