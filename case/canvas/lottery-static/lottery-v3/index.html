@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="shortcut icon" href="./res/image/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="./css/lib/minireset.css">
+        <title>铁帆游戏</title>
+        <style>
+            html{
+                height: 100%;
+            }
+            body{
+                height: 100%;
+                overflow: hidden;
+                background-color: #0f0f0f;/*加颜色，是为了加载动画开始之前，没有白到黑的闪烁*/
+            }
+        </style>
+    </head>
+    <body>
+
+        <audio preload="auto" id="open-show">
+            <source src="./res/audio/open-show.mp3" type="audio/mp3" />
+        </audio>
+        <audio preload="auto" id="renxi">
+            <source src="./res/audio/renxi.mp3" type="audio/mp3" />
+        </audio>
+        <audio preload="auto" loop id="new-year">
+            <source src="./res/audio/new-year.wav" type="audio/mp3" />
+        </audio>
+        <audio preload="auto" id="a-ou">
+            <source src="./res/audio/a-ou.wav" type="audio/mp3" />
+        </audio>
+
+
+        <script src="./js/config.js"></script>
+        <script src="./js/lib/Stats.js"></script>
+
+        <script src="./js/lib/jscex.min.js"></script>
+        <script src="./js/lib/jscex-parser.js"></script>
+        <script src="./js/lib/jscex-jit.js"></script>
+        <script src="./js/lib/jscex-builderbase.min.js"></script>
+        <script src="./js/lib/jscex-async.min.js"></script>
+        <script src="./js/lib/jscex-async-powerpack.min.js"></script>
+
+        <script src="js/app/tiefan.js"></script>
+        <script>
+
+            // document.getElementById('open-show').play();
+            // document.getElementById('renxi').play();
+            // document.getElementById('new-year').play();
+
+
+
+            let config = RESOURCE_CONFIG.image;
+            let sceneController = new tiefan.SceneController({
+                resConfig: config,
+                LoadScene: tiefan.scene.loading.Text,
+                CutScene: tiefan.scene.animationBackground.RayLogo,
+                LotteryScene: tiefan.scene.animationBackground.NewYear,
+                LotteryShow: tiefan.scene.lotteryShow.NameBlink,
+                allowOvertime: 5000,
+                isShowStats: false,
+            });
+
+        </script>
+    </body>
+</html>
