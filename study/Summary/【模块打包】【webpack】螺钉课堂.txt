@@ -60,9 +60,9 @@
 
 	const path = require('path');// nodejs自带包
 	
-	module.export = {
+	module.exports = {
 		// 入口文件
-		【extry】: './src/index.js',
+		【entry】: './src/index.js',
 		
 		// 输出目录（打包的js文件）
 		【output】: {
@@ -84,10 +84,12 @@
 	webpack.config.js
 		// 引入插件
 		const HtmlWebpackPlugin = require('html-webpack-plugin');
+		// nodeJs自带模块
+		const path = require('path');// nodejs自带包
 		
-		module.export = {
+		module.exports = {
 			// 入口文件
-			extry: './src/index.js',
+			entry: './src/index.js',
 			
 			// 输出目录（打包的js文件）
 			output: {
@@ -132,10 +134,12 @@
 	webpack.config.js
 		// 引入插件
 		const HtmlWebpackPlugin = require('html-webpack-plugin');
+		// nodeJs自带模块
+		const path = require('path');// nodejs自带包
 		
-		module.export = {
+		module.exports = {
 			// 入口文件
-			extry: './src/index.js',
+			entry: './src/index.js',
 			
 			// 输出目录（打包的js文件）
 			output: {
@@ -152,7 +156,7 @@
 			【
 			devServer: {【打包到内存的，而不是真正的文件，假如没有index.html文件，也可以显示。】
 				open: true,// 当输入npm start后，直接打开（自动打开，不要手动复制localhost:8080）
-				port: 1234,// 修改端口
+				port: 8080,// 修改端口
 				contentBase: './dist',// 修改服务器访问的根目录，默认：'./'
 			}
 			】
@@ -178,10 +182,12 @@
 	webpack.config.js
 		// 引入插件
 		const HtmlWebpackPlugin = require('html-webpack-plugin');
+		// nodeJs自带模块
+		const path = require('path');// nodejs自带包
 		
-		module.export = {
+		module.exports = {
 			// 入口文件
-			extry: './src/index.js',
+			entry: './src/index.js',
 			
 			// 输出目录（打包的js文件）
 			output: {
@@ -196,7 +202,7 @@
 			],
 			devServer: {
 				open: true,// 当输入npm start后，直接打开（自动打开，不要手动复制localhost:8080）
-				port: 1234,// 修改端口
+				port: 8080,// 修改端口
 				contentBase: './dist',// 修改服务器访问的根目录，默认：'./'
 			},
 			
@@ -232,10 +238,12 @@
 	webpack.config.js
 		// 引入插件
 		const HtmlWebpackPlugin = require('html-webpack-plugin');
+		// nodeJs自带模块
+		const path = require('path');// nodejs自带包
 		
-		module.export = {
+		module.exports = {
 			// 入口文件
-			extry: './src/index.js',
+			entry: './src/index.js',
 			
 			// 输出目录（打包的js文件）
 			output: {
@@ -250,7 +258,7 @@
 			],
 			devServer: {
 				open: true,// 当输入npm start后，直接打开（自动打开，不要手动复制localhost:8080）
-				port: 1234,// 修改端口
+				port: 8080,// 修改端口
 				contentBase: './dist',// 修改服务器访问的根目录，默认：'./'
 			},
 			
@@ -292,10 +300,12 @@
 	webpack.config.js
 		// 引入插件
 		const HtmlWebpackPlugin = require('html-webpack-plugin');
+		// nodeJs自带模块
+		const path = require('path');// nodejs自带包
 		
-		module.export = {
+		module.exports = {
 			// 入口文件
-			extry: './src/index.js',
+			entry: './src/index.js',
 			
 			// 输出目录（打包的js文件）
 			output: {
@@ -310,7 +320,7 @@
 			],
 			devServer: {
 				open: true,// 当输入npm start后，直接打开（自动打开，不要手动复制localhost:8080）
-				port: 1234,// 修改端口
+				port: 8080,// 修改端口
 				contentBase: './dist',// 修改服务器访问的根目录，默认：'./'
 			},
 			module: {
@@ -338,10 +348,12 @@
 	webpack.config.js
 		// 引入插件
 		const HtmlWebpackPlugin = require('html-webpack-plugin');
+		// nodeJs自带模块
+		const path = require('path');// nodejs自带包
 		
-		module.export = {
+		module.exports = {
 			// 入口文件
-			extry: './src/index.js',
+			entry: './src/index.js',
 			
 			// 输出目录（打包的js文件）
 			output: {
@@ -356,7 +368,7 @@
 			],
 			devServer: {
 				open: true,// 当输入npm start后，直接打开（自动打开，不要手动复制localhost:8080）
-				port: 1234,// 修改端口
+				port: 8080,// 修改端口
 				contentBase: './dist',// 修改服务器访问的根目录，默认：'./'
 			},
 			module: {
@@ -400,10 +412,12 @@
 	webpack.config.js
 		// 引入插件
 		const HtmlWebpackPlugin = require('html-webpack-plugin');
+		// nodeJs自带模块
+		const path = require('path');// nodejs自带包
 		
-		module.export = {
+		module.exports = {
 			// 入口文件
-			extry: './src/index.js',
+			entry: './src/index.js',
 			
 			// 输出目录（打包的js文件）
 			output: {
@@ -418,7 +432,7 @@
 			],
 			devServer: {
 				open: true,// 当输入npm start后，直接打开（自动打开，不要手动复制localhost:8080）
-				port: 1234,// 修改端口
+				port: 8080,// 修改端口
 				contentBase: './dist',// 修改服务器访问的根目录，默认：'./'
 			},
 			module: {
@@ -525,10 +539,12 @@
 	webpack.config.js
 		// 引入插件
 		const HtmlWebpackPlugin = require('html-webpack-plugin');
+		// nodeJs自带模块
+		const path = require('path');// nodejs自带包
 		
-		module.export = {
+		module.exports = {
 			// 入口文件
-			extry: './src/index.js',
+			entry: './src/index.js',
 			
 			// 输出目录（打包的js文件）
 			output: {
@@ -543,7 +559,7 @@
 			],
 			devServer: {
 				open: true,// 当输入npm start后，直接打开（自动打开，不要手动复制localhost:8080）
-				port: 1234,// 修改端口
+				port: 8080,// 修改端口
 				contentBase: './dist',// 修改服务器访问的根目录，默认：'./'
 			},
 			module: {
@@ -594,11 +610,13 @@
 	webpack.config.js
 		// 引入插件
 		const HtmlWebpackPlugin = require('html-webpack-plugin');
+		// nodeJs自带模块
+		const path = require('path');// nodejs自带包
 		
-		module.export = {
+		module.exports = {
 			// 入口文件
-			extry: './src/index.js',
-			【extry: './src/assets/js/index.js',】
+			entry: './src/index.js',
+			【entry: './src/assets/js/index.js',】
 			
 			// 输出目录（打包的js文件）
 			output: {
@@ -613,10 +631,12 @@
 	webpack.config.js
 		// 引入插件
 		const HtmlWebpackPlugin = require('html-webpack-plugin');
+		// nodeJs自带模块
+		const path = require('path');// nodejs自带包
 		
-		module.export = {
+		module.exports = {
 			// 入口文件
-			extry: './src/assets/js/index.js',
+			entry: './src/assets/js/index.js',
 			
 			// 输出目录（打包的js文件）
 			output: {
@@ -635,16 +655,18 @@
 	webpack.config.js
 		// 引入插件
 		const HtmlWebpackPlugin = require('html-webpack-plugin');
-		const CleanWebpackPlugin = require('clean-webpack-plugin');
+		【const  { CleanWebpackPlugin } = require('clean-webpack-plugin');】
+		// nodeJs自带模块
+		const path = require('path');// nodejs自带包
 		
-		module.export = {
+		module.exports = {
 			// 入口文件
-			extry: './src/assets/js/index.js',
+			entry: './src/assets/js/index.js',
 			
 			// 输出目录（打包的js文件）
 			output: {
 				path: path.resolve(__dirname, 'dist/assets'),// 目录的绝对路径
-				filename: 'js/app.js', // 输出的文件
+				filename: 'js/[name].bundlejs', // 输出的文件
 			},
 			plugins: [
 				new HtmlWebpackPlugin({
@@ -665,11 +687,13 @@
 	webpack.config.js
 		// 引入插件
 		const HtmlWebpackPlugin = require('html-webpack-plugin');
-		【const CleanWebpackPlugin = require('clean-webpack-plugin');】
+		const  { CleanWebpackPlugin } = require('clean-webpack-plugin');
+		// nodeJs自带模块
+		const path = require('path');// nodejs自带包
 		
-		module.export = {
+		module.exports = {
 			// 入口文件
-			extry: './src/assets/js/index.js',
+			entry: './src/assets/js/index.js',
 			
 			// 输出目录（打包的js文件）
 			output: {
@@ -691,11 +715,13 @@
 	webpack.config.js
 		// 引入插件
 		const HtmlWebpackPlugin = require('html-webpack-plugin');
-		const CleanWebpackPlugin = require('clean-webpack-plugin');
+		const  { CleanWebpackPlugin } = require('clean-webpack-plugin');
+		// nodeJs自带模块
+		const path = require('path');// nodejs自带包
 		
-		module.export = {
+		module.exports = {
 			// 入口文件
-			extry: './src/index.js',
+			entry: './src/index.js',
 			
 			// 输出目录（打包的js文件）
 			output: {
@@ -711,7 +737,7 @@
 			],
 			devServer: {
 				open: true,// 当输入npm start后，直接打开（自动打开，不要手动复制localhost:8080）
-				port: 1234,// 修改端口
+				port: 8080,// 修改端口
 				contentBase: './dist',// 修改服务器访问的根目录，默认：'./'
 			},
 			module: {
@@ -763,15 +789,17 @@
 	webpack.config.js
 		// 引入插件
 		const HtmlWebpackPlugin = require('html-webpack-plugin');
-		const CleanWebpackPlugin = require('clean-webpack-plugin');
+		const  { CleanWebpackPlugin } = require('clean-webpack-plugin');
 		【const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');】
 		【const extractcss = new ExtractTextWebpackPlugin({
 			filename: 'assets/css/index.css',// index.css -> 打包出来的文件名
 		});】
+		// nodeJs自带模块
+		const path = require('path');// nodejs自带包
 		
-		module.export = {
+		module.exports = {
 			// 入口文件
-			extry: './src/index.js',
+			entry: './src/index.js',
 			
 			// 输出目录（打包的js文件）
 			output: {
@@ -788,7 +816,7 @@
 			],
 			devServer: {
 				open: true,// 当输入npm start后，直接打开（自动打开，不要手动复制localhost:8080）
-				port: 1234,// 修改端口
+				port: 8080,// 修改端口
 				contentBase: './dist',// 修改服务器访问的根目录，默认：'./'
 			},
 			module: {
@@ -797,7 +825,7 @@
 						test: /\.css$/,// 匹配.css文件
 						// use: ['style-loader', 'css-loader'],
 						【
-						use: extractcsss.extract({
+						use: extractcss.extract({
 							fallback: 'style-loader',
 							use: ['css-loader'],
 						})
@@ -875,7 +903,7 @@
 
 【区别】
 	不再需要webpack.config.js【？？？？】
-	文件导出的方式变为nodeJS的【module.export】，引入的方式变为 let a = 【require('./a.js')】;
+	文件导出的方式变为nodeJS的【module.exports】，引入的方式变为 let a = 【require('./a.js')】;
 	
 【区分 开发环境 和 生产环境】	
 	开发环境（development）：打包不会被压缩（代码不会被压缩）
@@ -900,15 +928,17 @@
 	webpack.config.js
 		// 引入插件
 		const HtmlWebpackPlugin = require('html-webpack-plugin');
-		const CleanWebpackPlugin = require('clean-webpack-plugin');
+		const  { CleanWebpackPlugin } = require('clean-webpack-plugin');
 		const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 		const extractcss = new ExtractTextWebpackPlugin({
 			filename: 'assets/css/index.css',// index.css -> 打包出来的文件名
 		});
+		// nodeJs自带模块
+		const path = require('path');// nodejs自带包
 		
-		module.export = {
+		module.exports = {
 			// 入口文件
-			extry: './src/index.js',
+			entry: './src/index.js',
 			
 			// 输出目录（打包的js文件）
 			output: {
@@ -925,7 +955,7 @@
 			],
 			devServer: {
 				open: true,// 当输入npm start后，直接打开（自动打开，不要手动复制localhost:8080）
-				port: 1234,// 修改端口
+				port: 8080,// 修改端口
 				contentBase: './dist',// 修改服务器访问的根目录，默认：'./'
 			},
 			module: {
@@ -933,7 +963,7 @@
 					{
 						test: /\.css$/,// 匹配.css文件
 						// use: ['style-loader', 'css-loader'],
-						use: extractcsss.extract({
+						use: extractcss.extract({
 							fallback: 'style-loader',
 							use: ['css-loader'],
 						})
