@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="http://wx1.sinaimg.cn/large/005EAIaRgy1fun345b9edj304v03lmxk.jpg" type="image/x-icon" />
+        <link rel="shortcut icon" href="http://wx1.sinaimg.cn/large/005EAIaRgy1fun345b9edj304v03lmxk.jpg" type="image/x-icon"/>
+        <title>canvas学习-save和restore</title>
+
+        <style>
+            *{margin:0;padding: 0}
+            body{overflow: hidden}
+        </style>
+    </head>
+    <body>
+
+        <canvas id="canvas">您的浏览器不支持canvas！</canvas>
+
+
+        <script>
+
+            // 获取
+            let can = document.getElementById('canvas');
+            let ctx = can.getContext('2d');
+            // 设置
+            can.width = window.innerWidth;
+            can.height = (window.innerHeight > 900) ? window.innerHeight : 900;
+            can.style.backgroundColor = '#ccc';
+            // 变量
+
+
+            /**
+             * canvas.save()
+             *      用来保存先前状态的
+             *      也就是save 上面的代码
+             *
+             * canvas.restore()
+             *      用来恢复之前保存的状态
+             *      恢复save 上面设置的 样式，等
+             *
+             * 多次save ，restore
+             *      就是内存中栈的概念–栈存储的规律：先保存的，后恢复，后保存的，先恢复，
+             */
+
+            /**
+             * 案例一：样式
+             *
+             */
+            if (true) {
+                ctx.lineWidth = 10;
+                /**
+                 * 保存了 ：线宽，并没有颜色
+                 */
+                ctx.save();
+                /**
+                 * 再设置：颜色
+                 */
+                ctx.strokeStyle = 'red';
+                ctx.strokeRect(50, 50, 300, 300);
+
+                // 恢复
+                if (true) {
+                    ctx.restore();// 状态的恢复
+                }
+
+                // 样式取决于上面
+                // 下面作图的具体设置，取决于上面是否恢复设置
+                ctx.arc(400, 300, 150, 0, 2*Math.PI);
+                ctx.stroke();
+            }
+
+            /**
+             * 案例二：平移
+             */
+            if (!true) {
+                ctx.save();// 状态的保存
+                ctx.translate(200, 200);
+                ctx.lineWidth = 10;
+                ctx.strokeStyle = 'red';
+                ctx.strokeRect(200, 200, 300, 300);
+
+                // 恢复
+                if (true) {
+                    ctx.restore();// 状态的恢复
+                }
+
+                ctx.strokeRect(200, 200, 400, 400);
+                ctx.stroke();
+            }
+
+        </script>
+    </body>
+</html>

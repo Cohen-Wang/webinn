@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <style>
+            * {margin: 0; padding: 0;}
+            html {height: 100%;}
+            body {height: 100%; overflow: hidden;}
+        </style>
+    </head>
+    <body>
+
+        <canvas id="canvas" style="width: 100%; height: 100%; background-color: #0f0f0f;"></canvas>
+
+        <script src="Particle.js"></script>
+        <script>
+
+            let can = document.getElementById('canvas');
+            let ctx = can.getContext('2d');
+
+            can.width = window.innerWidth;
+            can.height = window.innerHeight;
+
+            let point = {
+                x: can.width / 2,
+                y: can.height / 2,
+            };
+
+            canvas.addEventListener('mousemove', function (e) {
+                point = {
+                    x: e.clientX,
+                    y: e.clientY,
+                };
+            });
+            canvas.addEventListener('mouseout', function () {
+                point = {
+                    x: can.width / 2,
+                    y: can.height / 2,
+                };
+            });
+
+            let particleShow = new cyber.ParticleShow();
+
+
+
+            (function show () {
+
+                ctx.clearRect(0, 0, can.width, can.height);
+
+                ctx.globalCompositeOperation = 'lighter';
+
+                let num = _random(1, 4);
+                let force = _random(2, 8);
+                let theta = _random(0, 2 * Math.PI);
+
+                particleShow.createParticle(num, point, theta, force);
+
+                particleShow.render(ctx);
+                particleShow.update();
+                //
+                window.requestAnimationFrame(show);
+            })();
+
+
+
+
+
+
+            function _random (min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+        </script>
+    </body>
+</html>

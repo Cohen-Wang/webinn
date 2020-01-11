@@ -4,10 +4,9 @@
         <meta charset="UTF-8">
         <title>Title</title>
         <style>
-            body {
-                background: #000;
-                position: relative;
-            }
+            * {margin: 0; padding: 0}
+            html {height: 100%}
+            body {height: 100%; overflow: hidden; background: #000; position: relative; }
 
             .canvas {
                 bottom: 0;
@@ -17,23 +16,6 @@
                 top: 0;
             }
 
-            #wrapper {
-                display: flex;
-                height: 100vh;
-                width: 100vw;
-            }
-
-            .content {
-                background: rgba(0,0,0,0.8);
-                color: #f4f4f4;
-                height: 200px;
-                margin: auto;
-                padding: 2rem;
-                position: relative;
-                overflow: hidden;
-                width: 400px;
-                z-index: 1;
-            }
 
             a {
                 color: #999;
@@ -43,9 +25,6 @@
     <body>
 
         <div id="wrapper">
-            <div class="content">
-                In photography,   is the aesthetic quality of the blur produced in the out-of-focus parts of an image produced by a lens. Bokeh has been defined as "the way the lens renders out-of-focus points of light". Differences in lens aberrations and aperture shape cause some lens designs to blur the image in a way that is pleasing to the eye, while others produce blurring that is unpleasant or distracting―"good" and "bad" bokeh, respectively. Bokeh occurs for parts of the scene that lie outside the depth of field.
-            </div>
         </div>
 
         <script>
@@ -60,7 +39,9 @@
             var canvasHeight;
             var sizeBase;
             var count;
+
             var hue;
+
             var options;
             var parts = [];
 
@@ -159,6 +140,7 @@
 
                 parts.length = 0; //clear parts array
                 for (var i = 0; i < Math.floor((canvasWidth + canvasHeight) * 0.03); i++) {
+
                     parts.push({
                         radius: rand(1, sizeBase * 0.03),
                         x: rand(0, canvasWidth),
@@ -167,12 +149,13 @@
                         vel: rand(0.1, 0.5),
                         tick: rand(0, 10000)
                     });
+
                 }
             }
 
             function resize() {
-                canvasWidth = c1.width = c2.width = parentEl.offsetWidth;
-                canvasHeight = c1.height = c2.height = parentEl.offsetHeight;
+                canvasWidth = c1.width = c2.width = window.innerWidth;
+                canvasHeight = c1.height = c2.height = window.innerHeight;
             }
 
             function animate() {
@@ -224,9 +207,8 @@
                 c2 = createCanvas();
                 ctx1 = c1.getContext('2d');
                 ctx2 = c2.getContext('2d');
-                parentEl = document.getElementById('wrapper');
-                parentEl.insertBefore(c2, parentEl.firstChild);
-                parentEl.insertBefore(c1, c2);
+                document.body.appendChild(c2);
+                document.body.insertBefore(c1, c2);
 
                 resize();
                 createAnimation();
@@ -239,6 +221,8 @@
             }
 
             init();
+
+
         </script>
     </body>
 </html>

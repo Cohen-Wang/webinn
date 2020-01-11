@@ -26,7 +26,7 @@ const USER_LIST = [
 // +----------------------------------------------------------------------
 const RESOURCE_CONFIG = {
     image: [
-        {name: 'tiefan', url: './res/image/tiefan.png',},
+        {name: 'tiefan', url: './res/images/tiefan.png',},
     ],
     audio: [
 

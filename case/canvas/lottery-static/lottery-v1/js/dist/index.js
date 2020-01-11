@@ -97,7 +97,7 @@ let logo_particle = [];
 
 let myImageData = new lottery.ImageData();
 myImageData.getInfo({
-    src: './res/image/tiefan.png',
+    src: './res/images/tiefan.png',
     width: 300,
 }, function (imageData) {
     let data = imageData.data;

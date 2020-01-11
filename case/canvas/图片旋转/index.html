@@ -2,12 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <link rel="icon" href="../../res/images/logo/logo.png" type="image/x-icon" />
-        <link rel="shortcut icon" href="../../res/images/logo/logo.png" type="image/x-icon"/>
         <title>canvas-图片旋转</title>
-
-        <link href="../../css/lib/bootstrap.min.css" rel="stylesheet">
-        <link href="../../css/bootstrap-theme.min.css" rel="stylesheet">
         <style>
             *{margin:0;padding: 0}
             body{min-height: 800px;overflow: hidden}
@@ -15,21 +10,7 @@
     </head>
     <body>
 
-        <div class="navbar navbar-default">
-            <div class="container">
-                <div class="navbar-header">
-                    <strong>
-                        <a href="../../index.html" class="navbar-brand">HOME</a>
-                    </strong>
-                </div>
-            </div>
-        </div>
-
-        <div class="container-fluid">
-            <div id="box" style="height:800px;">
-                <canvas id="canvas" style="background-color: #000">您的浏览器不支持canvas!</canvas>
-            </div>
-        </div>
+        <canvas id="canvas" style="background-color: #000">您的浏览器不支持canvas!</canvas>
 
 
 
@@ -38,8 +19,8 @@
             let can = document.getElementById('canvas');
             let ctx = can.getContext('2d');
             //
-            can.width = can.parentNode.offsetWidth;
-            can.height = can.parentNode.offsetHeight;
+            can.width = window.innerWidth;
+            can.height = window.innerHeight;
             //
             let center = {
                 x : can.width/2,
@@ -55,8 +36,9 @@
                     //
                     ctx.clearRect(0, 0, can.width, can.height);
                     //
-                    drawImage(oImg, -151, -151, deg);
-                    deg ++;
+                    drawImage(oImg, -oImg.naturalWidth / 2, -oImg.naturalHeight / 2, deg);
+                    //
+                    deg++;
                 }, 1000/60)
             };
 
@@ -65,7 +47,12 @@
                 ctx.beginPath();
                 ctx.translate(center.x, center.y);
                 ctx.rotate(deg * Math.PI/180);
+                ctx.fillStyle = '#ff0';
+                ctx.fillRect(-oImg.naturalWidth / 2, 0, 300, 300);
                 ctx.drawImage(oImg, x, y);
+
+                ctx.fillStyle = '#f00';
+                ctx.fillRect(0, 0, 10, 10);
 
                 ctx.closePath();
                 ctx.restore();

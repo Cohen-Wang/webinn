@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>title</title>
+        <style>
+            * {margin:0; padding: 0}
+            html {height:100%}
+            body {height:100%; overflow: hidden;}
+        </style>
+    </head>
+    <body>
+
+        <script src="./HeartShow.js"></script>
+        <script>
+            // 创建canvas
+            let can = document.createElement('canvas');
+            let ctx = can.getContext('2d');
+            //
+            can.width = window.innerWidth;
+            can.height = window.innerHeight;
+            can.style['backgroundColor'] ='#f0f0f0';
+            //
+            document.body.appendChild(can);
+
+
+            // 初始化动画
+            let heartShow = new cyber.HeartShow({
+                probability: 0.1,
+                minX: 0,
+                maxX: can.width,
+                minY: 0,
+                maxY: can.height,
+            });
+
+            window.setInterval(function () {
+                ctx.clearRect(0, 0, can.width, can.height);
+                heartShow.update();
+                heartShow.render(ctx);
+            }, 1000 / 60);
+
+        </script>
+    </body>
+</html>

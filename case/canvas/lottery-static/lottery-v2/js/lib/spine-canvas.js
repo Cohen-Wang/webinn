@@ -1961,11 +1961,11 @@ var spine;
 					success(path, img);
 			};
 			img.onerror = function (ev) {
-				_this.errors[path] = "Couldn't load image " + path;
+				_this.errors[path] = "Couldn't load images " + path;
 				_this.toLoad--;
 				_this.loaded++;
 				if (error)
-					error(path, "Couldn't load image " + path);
+					error(path, "Couldn't load images " + path);
 			};
 			img.src = path;
 		};
@@ -1985,11 +1985,11 @@ var spine;
 					success(path, img);
 			};
 			img.onerror = function (ev) {
-				_this.errors[path] = "Couldn't load image " + path;
+				_this.errors[path] = "Couldn't load images " + path;
 				_this.toLoad--;
 				_this.loaded++;
 				if (error)
-					error(path, "Couldn't load image " + path);
+					error(path, "Couldn't load images " + path);
 			};
 			img.src = data;
 		};
@@ -3105,7 +3105,7 @@ var spine;
 				_this.rawAssets[path] = img;
 			};
 			img.onerror = function (ev) {
-				_this.errors[path] = "Couldn't load image " + path;
+				_this.errors[path] = "Couldn't load images " + path;
 			};
 		};
 		SharedAssetManager.prototype.get = function (clientId, path) {

@@ -50,14 +50,20 @@ S.Drawing = (function () {
                         };
 
     return {
+        // 获取， 管理 canvas
         init: function (el) {
             canvas = document.querySelector(el);
             context = canvas.getContext('2d');
-            this.adjustCanvas();
 
+            this.adjustCanvas();
             window.addEventListener('resize', function (e) {
                 S.Drawing.adjustCanvas();
             });
+        },
+
+        adjustCanvas: function () {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         },
 
         loop: function (fn) {
@@ -65,11 +71,6 @@ S.Drawing = (function () {
             this.clearFrame();
             renderFn();
             requestFrame.call(window, this.loop.bind(this));
-        },
-
-        adjustCanvas: function () {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
         },
 
         clearFrame: function () {
