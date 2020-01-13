@@ -30,7 +30,7 @@ enum animationStep {
 }
 
 
-export class NameBlink {
+export class TreasureBoxDown {
     protected can: any;
     public prizeLevel: Array<any>;
     public nameList: Array<string>;
@@ -48,6 +48,10 @@ export class NameBlink {
     // 爆炸
     public boom: any = {};
     public boomStep: number = 0;
+
+    // 第几等奖几个字
+    public levelTextPoints: any = [];
+    public levelTexts: any = [];
 
     // 文字
     public textInstance: any;// 文字实例
@@ -72,6 +76,8 @@ export class NameBlink {
 
     // 动画
     public animationStep: number = animationStep.noAnimation;
+    // 事件
+    public event: any = null;
 
     constructor (options: any) {
         this.can = options.can;
@@ -95,12 +101,12 @@ export class NameBlink {
         this.boom.oImg = options.boom.oImg;
 
         // 出生文字
-        this.textFontSize = options.textFontSize || 40;
-        this.textColor = options.color || '#ff0';
+        this.textFontSize = options.textFontSize || 60;
+        this.textColor = options.color || '#000000';
         //
         this.historiesX = options.historiesX || 0;
         this.historiesY = options.historiesY || 0;
-        this.historyFontSize = options.historyFontSize || 20;
+        this.historyFontSize = options.historyFontSize || 30;
         this.lastIndex = this.nameList.length - 1;
 
         // 检查用户名单和奖励等级长度
@@ -113,7 +119,10 @@ export class NameBlink {
         this.createTreasureBox();
         // 初始化文字
         this.createText();
+        // 创建第几等奖
+        this.createLevelText()
     }
+
     // 检查传入的名单 和 获奖等级是否一致
     private _checkLengthBetweenPrizeLevelAndNameList (): boolean {
         let nameListLength: number = this.nameList.length;
@@ -125,32 +134,57 @@ export class NameBlink {
         });
         return nameListLength === prizeLevelLength;
     }
+
     // 创建histories对象的出生点
     public createHistoryBornPoint () {
-        let margin = 20;// 每行之间的间距
+        let margin = 50;// 每行之间的间距
         for (let i = 0, rowLength = this.prizeLevel.length; i < rowLength; i++) {
-            for (let j = 0, colLength = this.prizeLevel[i]; j < colLength; j ++) {
-                let x = this.historiesX + j * 150;
+            for (let j = 0, colLength = ~~this.prizeLevel[i] + 1; j < colLength; j++) {// 注意：+1是为了写【第n等奖】
+                let x = this.historiesX + j * 170;
                 let y = this.historiesY + i * (this.historyFontSize + margin);
-                this.historyPoint.push(new Point(x, y));
+                if (j === 0) {
+                    this.levelTextPoints.push(new Point(x, y));
+                } else {
+                    this.historyPoint.push(new Point(x, y));
+                }
             }
         }
     }
-    // 移除事件
-    public bindEvent (): void {
-        let _this = this;
-        this.can.addEventListener('click', function () {
-            if (!_this.animationStep && _this.nameList.length > 0) {
-                _this.TreasureBoxMove();
-                _this.animationStep = animationStep.treasureBox;
-            }
-        }.bind(_this));
+
+    public createLevelText (): void {
+        for (let i = 0; i < this.levelTextPoints.length; i++) {
+            let options = {
+                x: this.levelTextPoints[i].x,
+                y: this.levelTextPoints[i].y,
+                text: '第' + (i+1) + '等奖',
+                fontSize: 40,
+                color: '#000000',
+            };
+
+            this.levelTexts.push(new SolidText(options));
+        }
     }
+
+    // 添加事件
+    public bindEvent (): void {
+        this.event = this.startShow.bind(this);
+        this.can.addEventListener('click', this.event);
+    }
+
     // 移除事件
     public removeEvent (): void {
-        let _this = this;
-        this.can.removeEventListener('click', _this.createText);// TODO BUG
+        this.can.removeEventListener('click', this.event);
+        this.event = null;
     }
+
+    // 开始动画显示
+    public startShow (): void {
+        if (!this.animationStep && this.nameList.length > 0) {
+            this.TreasureBoxMove();
+            this.animationStep = animationStep.treasureBox;
+        }
+    }
+
     // 实例化当前中奖人的名字
     public createText (): void {
         let options = {
@@ -302,7 +336,13 @@ export class NameBlink {
     }
 
     public renderHistories (ctx: any) {
-        this.histories.forEach( (item) => {
+        this.histories.forEach( (item: any) => {
+            item.render(ctx);
+        });
+    }
+
+    public renderLevelText (ctx: any) {
+        this.levelTexts.forEach( (item: any) => {
             item.render(ctx);
         });
     }

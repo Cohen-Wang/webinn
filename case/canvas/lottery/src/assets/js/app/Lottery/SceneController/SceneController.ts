@@ -1,5 +1,6 @@
 import CanvasFactory from "../Sence/CanvasFactory"
 import { PRIZE_LEVEL, NAME_LIST, RESOURCE_CONFIG } from "../../../config"
+import {RayLogo} from "../Sence/RayLogo";
 
 let Stats = require("Stats-js");
 
@@ -59,6 +60,9 @@ export class SceneController {
 
     public frame: number = 0;
     public timer: any;
+    //
+    public event: any = null;
+
 
     constructor (options: any) {
         let canvasFactory = new CanvasFactory();
@@ -96,7 +100,7 @@ export class SceneController {
             }
 
             // 分别初始化'过场场景'
-            _this.cutSceneInstance = new _this.CutScene({
+            _this.cutSceneInstance = new RayLogo({
                 can: _this.can,
                 oImg: resources.tiefan
             });
@@ -124,7 +128,10 @@ export class SceneController {
                 if (!flag) {
                     console.log('过场动画结束', 'timer:' + _this.timer);
                     // 通知观察者
+                    _this.can.style.cursor = 'pointer';
                     _this.bindEvent();
+                    //
+                    (document.getElementById('cut-scene') as any).play();
                     // 关闭当前
                     window.clearInterval(_this.timer);
                 }
@@ -152,58 +159,63 @@ export class SceneController {
         }
     };
 
-    public bindEvent () {
-        console.log('绑定点击事件');
+    // 添加事件
+    public bindEvent (): void {
+        this.event = this.startShow.bind(this);
+        this.can.addEventListener('click', this.startShow.bind(this));
+    }
+
+    // 移除事件
+    public removeEvent (): void {
+        this.can.removeEventListener('click', this.startShow.bind(this));
+        this.event = null;
+    }
+
+    // 管理抽奖动画界面
+    public startShow (): void {
+        (document.getElementById('cut-scene') as any).pause();
+        console.log('点击了点击事件');
 
         this.can.style.cursor = 'pointer';
 
-        this.can.addEventListener('click', fn);
+        this.lastOperationTime = new Date();
 
+        // 监听操作
+        this.checkOperation();
+
+        this.lotterySceneInstance = new this.LotteryScene({
+            can: this.can,
+            backgroundImg: this.resources.newYearBg,
+            lanternImg: this.resources.newYearLantern,
+        });
+
+        // 绑定点击事件 - 生成抽奖的人名
+        this.lotteryShowInstance.bindEvent();
+
+
+        (document.getElementById('new-year') as any).play();
 
         let _this = this;
-        function fn () {
-            console.log('点击了点击事件');
-
-            _this.can.style.cursor = 'pointer';
-
-            _this.lastOperationTime = new Date();
-
-            // 监听操作
-            _this.checkOperation();
-
-            _this.lotterySceneInstance = new _this.LotteryScene({
-                can: _this.can,
-                backgroundImg: _this.resources.newYearBg,
-                lanternImg: _this.resources.newYearLantern,
-            });
-
-            // 绑定点击事件 - 生成抽奖的人名
-            _this.lotteryShowInstance.bindEvent();
-
-
-            (document.getElementById('new-year') as any).play();
-            _this.timer = window.setInterval(function () {
-                _this.frame++;
-                // 测试开始
-                _this.isShowStats && _this.stats.begin();
-                // 抽奖的背景
-                _this.lotterySceneInstance.render();
-                _this.lotterySceneInstance.update();
-                // 抽奖的展示
-                _this.lotteryShowInstance.render(_this.ctx);
-                _this.lotteryShowInstance.update();
-                _this.lotteryShowInstance.renderHistories(_this.ctx);
-                // 测试关闭
-                _this.isShowStats && _this.stats.end();
-            }, 1000 / 60);
-
-
-            //  监听操作
-            _this.can.addEventListener('click', _this.changeLastOperationTime.bind(_this));
-            _this.can.addEventListener('mousemove', _this.changeLastOperationTime.bind(_this));
-
-            _this.can.removeEventListener('click', fn);// 取消绑定
-        }
+        this.timer = window.setInterval(function () {
+            _this.frame++;
+            // 测试开始
+            _this.isShowStats && _this.stats.begin();
+            // 抽奖的背景
+            _this.lotterySceneInstance.render();
+            _this.lotterySceneInstance.update();
+            // 抽奖的展示
+            _this.lotteryShowInstance.renderHistories(_this.ctx);
+            _this.lotteryShowInstance.renderLevelText(_this.ctx);
+            _this.lotteryShowInstance.render(_this.ctx);
+            _this.lotteryShowInstance.update();
+            // 测试关闭
+            _this.isShowStats && _this.stats.end();
+        }, 1000 / 60);
+        //  监听操作
+        this.can.addEventListener('click', _this.changeLastOperationTime.bind(_this));
+        this.can.addEventListener('mousemove', _this.changeLastOperationTime.bind(_this));
+        // 取消绑定
+        this.removeEvent();
     }
 
     // 当处于抽奖场景的时候，无任何操作超过n秒后，就会跳到过渡场景
@@ -218,12 +230,11 @@ export class SceneController {
                 _this.cutSceneInstance.render();
                 //
                 (document.getElementById('new-year') as any).pause();
-                (document.getElementById('a-ou') as any).play();
+                (document.getElementById('cut-scene') as any).play();
                 // 通知观察者
                 _this.bindEvent();
                 // 取消抽奖的点击事件
                 _this.lotteryShowInstance.removeEvent();
-
                 // 关闭检查
                 window.clearInterval(checkOperationTimer);
             }
