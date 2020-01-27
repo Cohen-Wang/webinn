@@ -5,7 +5,7 @@
 		$upload = new upload();
 		$upload -> upload_file();
 		/*$file = $_FILES["filefiled"];
-		$type_array = array("image/jpg","image/jpeg","image/png","image/pjpeg","image/gif");
+		$type_array = array("images/jpg","images/jpeg","images/png","images/pjpeg","images/gif");
 		$maxsize = 200000;
 		
 		$file_name = $file["name"];

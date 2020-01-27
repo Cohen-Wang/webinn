@@ -11,14 +11,18 @@
     </head>
     <body>
 
-        <canvas id="canvas" style="width: 100%; height: 100%; background-color: #8c8c8c;"></canvas>
+        <canvas id="canvas"></canvas>
 
         <script src="ballImpact.js"></script>
         <script>
+            //
             let can = document.getElementById('canvas');
             let ctx = can.getContext('2d');
-            can.width = can.clientWidth;
-            can.height = can.clientHeight;
+            //
+            can.width = window.innerWidth;
+            can.height = window.innerHeight;
+            can.style['backgroundColor'] = '#000';
+
 
             let ballImpact = new cyber.BallImpact({
                 width: can.width,

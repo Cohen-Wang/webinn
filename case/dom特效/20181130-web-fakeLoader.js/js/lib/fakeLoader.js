@@ -20,7 +20,7 @@
             zIndex: '999',  // Default zIndex 
             bgColor: '#2ecc71', // Default background color
             spinner:'spinner7', // Default Spinner
-            imagePath:'' // Default Path custom image
+            imagePath:'' // Default Path custom images
         }, options);
 
         //Customized Spinners
@@ -77,7 +77,7 @@
                         el.html(spinner01);
                     }
 
-                //Add customized loader image
+                //Add customized loader images
 
                 if (settings.imagePath !='') {
                     el.html('<div class="fl"><img src="'+settings.imagePath+'"></div>');

@@ -16,7 +16,7 @@ export class TextLoading extends Scene {
         this.text = new SolidText(loadingTextOptions);
     }
 
-    public show (loadedNumber: number, allNumber: number) {
+    public show (loadedNumber: number, allNumber: number): void {
         let text = '资源加载中...' + '  （' + loadedNumber + '/' + allNumber + '）';
         this.ctx.fillStyle = '#0f0f0f';
         this.ctx.fillRect(0, 0, this.can.width, this.can.height);

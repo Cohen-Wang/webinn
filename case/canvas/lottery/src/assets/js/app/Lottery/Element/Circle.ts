@@ -8,11 +8,11 @@ abstract class Circle {
     public color: string;
 
     protected constructor (options: any) {
-        this.x = options.x || 100;
-        this.y = options.y || 100;
-        this.radius = options.radius || 10;
-        this.opacity = options.opacity || 1;
-        this.color = options.color || '#ccc';
+        this.x = typeof options.x !== 'undefined' ? options.x : 0;
+        this.y = typeof options.y !== 'undefined' ? options.y : 0;
+        this.radius = typeof options.radius !== 'undefined' ? options.radius : 1;
+        this.opacity = typeof options.opacity !== 'undefined' ? options.opacity : 1;
+        this.color = options.color || '#f00';
     }
 }
 

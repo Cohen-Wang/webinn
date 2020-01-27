@@ -140,9 +140,9 @@ var caseShowData=[
 		dislike:5,
 	},
 	{
-		name:"image-upload",
+		name:"images-upload",
 		date:20170907,
-		images:"image-upload.jpg",
+		images:"images-upload.jpg",
 		title:"图片上传原理",
 		specialty:[
 			"要点一：for(var i=aDiv.length-1;i>0;i--)","要点二：后一个跟前一个"
@@ -660,9 +660,9 @@ var caseShowData=[
 		dislike:5,
 	},
 	{
-		name:"digital-clock-image",
+		name:"digital-clock-images",
 		date:20160823,
-		images:"digital-clock-image.jpg",
+		images:"digital-clock-images.jpg",
 		title:"图片数码时钟",
 		specialty:[
 			"数码时钟","无兼容问题"

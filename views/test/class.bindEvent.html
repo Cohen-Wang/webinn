@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <style>
+            #box{
+                width: 300px;
+                height: 300px;
+                background-color: #1b6d85;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="box">123</div>
+
+        <script>
+
+            if (!true) {
+                let oBox = document.getElementById('box');
+                oBox.addEventListener('click', fn);
+                function fn () {
+                    console.log('function click');
+                    oBox.removeEventListener('click', fn);
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            if (!true) {
+                function Person () {
+                    this.oBox = document.getElementById('box');
+                    this.name = '1223';
+                    this.bindEvent();
+                }
+                Person.prototype.bindEvent = function () {
+                    this.oBox.addEventListener('click', this.show.bind(this));
+                };
+                Person.prototype.removeEvent = function () {
+                    this.oBox.removeEventListener('click', this.show.bind(this));
+                };
+                Person.prototype.show = function () {
+                    console.log(this.name);
+                    this.removeEvent();
+                };
+
+                let p = new Person();
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            if (true) {
+                function Person () {
+                    this.oBox = document.getElementById('box');
+                    this.event = null;
+                    this.event = this.show.bind(this);
+                    this.bindEvent();
+                }
+                Person.prototype.bindEvent = function () {
+                    this.oBox.addEventListener('click', this.event);
+                };
+                Person.prototype.removeEvent = function () {
+                    this.oBox.removeEventListener('click', this.event);
+                };
+                Person.prototype.show = function () {
+                    console.log('class click');
+                    this.removeEvent();
+                };
+
+                let p = new Person();
+            }
+
+
+
+        </script>
+    </body>
+</html>

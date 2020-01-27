@@ -9,11 +9,11 @@ abstract class Rect {
     public color: string;
 
     protected constructor (options: any) {
-        this.x = options.x || 100;
-        this.y = options.y || 100;
-        this.width = options.width || 1;
-        this.height = options.height || 1;
-        this.opacity = options.opacity || 1;
+        this.x = typeof options.x !== 'undefined' ? options.x : 100;
+        this.y = typeof options.y !== 'undefined' ? options.y : 100;
+        this.width = typeof options.width !== 'undefined' ? options.width : 1;
+        this.height = typeof options.height !== 'undefined' ? options.height : 1;
+        this.opacity = options.opacity !== 'undefined' ? options.opacity : 1;
         this.color = options.color || '#ccc';
     }
 }

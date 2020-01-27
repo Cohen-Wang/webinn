@@ -181,6 +181,5 @@ namespace cyber {
                 item.render(ctx);
             })
         }
-
     }
 }

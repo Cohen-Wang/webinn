@@ -3,24 +3,24 @@
     <head>
         <meta charset="UTF-8">
         <title>canvas-贝塞尔曲线</title>
+        <style>
+            * {margin: 0; padding: 0}
+            html {height: 100%;}
+            body {height: 100%; overflow: hidden;}
+        </style>
     </head>
     <body>
 
-        <div class="container-fluid">
-            <div id="box" style="height:800px;">
-                <canvas id="canvas">您的浏览器不支持canvas</canvas>
-            </div>
-        </div>
-
         <script>
-            //
-            let can = document.getElementById('canvas');
+            // 创建canvas
+            let can = document.createElement('canvas');
             let ctx = can.getContext( '2d' );
-
-
-            can.width = can.parentNode.offsetWidth;
-            can.height = can.parentNode.offsetHeight;
+            // 设置设置
+            can.width = window.innerWidth;
+            can.height = window.innerHeight;
             can.style.backgroundColor = '#e8e8e8';
+            //
+            document.body.appendChild(can);
 
 
             let count = 80;
@@ -38,12 +38,14 @@
             }
             let percent = 0;
 
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 5;
 
             animate();
             function animate() {
+
                 ctx.clearRect( 0, 0, can.width, can.height );
                 let center = [ can.width/2, can.height/2 ];
+
                 let radius = 300;
                 for ( let i = 0; i < count; i++ ) {
                     let angle = Math.PI * 2 / count * i;
@@ -51,16 +53,10 @@
                     let y = center[ 1 ] + radius * Math.cos( angle );
                     ctx.strokeStyle = colors[ i ];
                     ctx.beginPath();
-                    drawCurvePath(
-                        ctx,
-                        center,
-                        [ x, y ],
-                        0.4,
-                        percent
-                    );
+                    drawCurvePath(ctx, center, [ x, y ], 0.4, percent);
                     ctx.stroke();
                 }
-                percent = ( percent + 1 ) % 100;
+                percent = ( percent + 0.1 ) % 100;
                 requestAnimationFrame( animate );
             }
 

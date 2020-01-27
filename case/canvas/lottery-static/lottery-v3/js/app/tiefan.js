@@ -1167,7 +1167,7 @@ var tiefan;
                 };
                 return NameBlink;
             }());
-            lotteryShow.NameBlink = NameBlink;
+            lotteryShow.TreasureBoxDown = NameBlink;
         })(lotteryShow = scene.lotteryShow || (scene.lotteryShow = {})); /** namespace lottery **/
     })(scene = tiefan.scene || (tiefan.scene = {})); /** namespace scene **/
     /**

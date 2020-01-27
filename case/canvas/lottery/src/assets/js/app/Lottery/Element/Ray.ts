@@ -35,11 +35,11 @@ export class Ray implements IElement {
     public c: number;
     public d: number;
 
-    constructor (x: number, y: number, width: number, height: number) {
-        this.x = x || 0;
-        this.y = y || 0;
-        this.width = width || 100;
-        this.height = height || 100;
+    constructor (x: number = 0, y: number = 0, width: number = 1, height: number = 1) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
 
         //  π”√÷µ
         this.o = Math.PI / 2 * (Math.random() * this.x - this.height / 2) / this.height;

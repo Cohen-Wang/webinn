@@ -16,7 +16,7 @@ var DEFAULT_BULLET_CONFIG = {
 	_effectIndex : -1,
 	_cycleID : 2,
 	
-	image : '',									//①炮弹图片②image❤无④无
+	image : '',									//①炮弹图片②images❤无④无
 	wake : '',									//尾焰
 	launchTime : 0,								//发射时间
 	speed : '',									//飞行速度

@@ -8,7 +8,7 @@
 		function __construct(){
 			$this -> upload_form_filed = "filefiled";
 			$this -> maxsize = "200000";
-			$this -> type_array = array("image/jpg","image/jpeg","image/png","image/pjpeg","image/gif");
+			$this -> type_array = array("images/jpg","images/jpeg","images/png","images/pjpeg","images/gif");
 			$this -> path = "upload/";
 		}
 		

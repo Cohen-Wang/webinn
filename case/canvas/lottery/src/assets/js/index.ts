@@ -1,4 +1,4 @@
-import { RESOURCE_CONFIG } from "./config"
+import { RESOURCE_CONFIG, CUT_SCENE_CONFGI } from "./config"
 import { SceneController } from "./app/Lottery/SceneController/SceneController"
 import { TextLoading } from "./app/Lottery/Sence/TextLoading"
 import { RayLogo, NewYear } from "./app/Lottery/Sence/RayLogo"
@@ -12,6 +12,6 @@ let sceneController: any = new SceneController({
     CutScene: RayLogo,
     LotteryScene: NewYear,
     LotteryShow: TreasureBoxDown,
-    allowOvertime: 10 * 1000,
+    allowOvertime: CUT_SCENE_CONFGI.allowOvertime,
     isShowStats: false,
 });

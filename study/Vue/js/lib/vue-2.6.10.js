@@ -1568,7 +1568,7 @@
   }
 
   /**
-   * Resolve an asset.
+   * Resolve an assets.
    * This function is used because child instances need access
    * to assets defined in its ancestor chain.
    */
@@ -5164,7 +5164,7 @@
       Sub.mixin = Super.mixin;
       Sub.use = Super.use;
 
-      // create asset registers, so extended classes
+      // create assets registers, so extended classes
       // can have their private assets too.
       ASSET_TYPES.forEach(function (type) {
         Sub[type] = Super[type];
@@ -5205,7 +5205,7 @@
 
   function initAssetRegisters (Vue) {
     /**
-     * Create asset registration methods.
+     * Create assets registration methods.
      */
     ASSET_TYPES.forEach(function (type) {
       Vue[type] = function (
@@ -5598,7 +5598,7 @@
   // contain child elements.
   var isSVG = makeMap(
     'svg,animate,circle,clippath,cursor,defs,desc,ellipse,filter,font-face,' +
-    'foreignObject,g,glyph,image,line,marker,mask,missing-glyph,path,pattern,' +
+    'foreignObject,g,glyph,images,line,marker,mask,missing-glyph,path,pattern,' +
     'polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,view',
     true
   );

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+
+        <script>
+
+            /**
+             * 延迟做事
+             */
+            if (!true) {
+                let timer = window.setTimeout(function () {
+                    console.log(1);
+                }, 2000);
+            }
+
+            /**
+             * 封装 - 不传参
+             */
+            if (!true) {
+                function debounce (fn, delay) {
+                    window.setTimeout(fn, delay);
+                }
+                function show () {
+                    console.log(123);
+                }
+                debounce(show, 2000);
+            }
+
+            /**
+             * 传参 就不知道怎么传了
+             */
+            if (true) {
+                function debounce (fn, delay) {
+                    window.setTimeout(function () {
+                        fn(name);
+                    }, delay);
+                }
+                function show (name) {
+                    console.log(name);
+                }
+                debounce(show, 2000);
+            }
+
+
+            if (!true) {
+                function debounce(fn, delay) {
+                    var timer = null;
+                    return function() {
+                        var context = this;
+                        var args = arguments;
+
+                        clearTimeout(timer);
+                        timer = setTimeout(function() {
+                            fn.apply(context, args);
+                        }, delay);
+                    };
+                }
+
+                function show (name) {
+                    console.log(name);
+                }
+
+                debounce(function () {
+                    show('cohen');
+                }, 2000)();
+            }
+
+        </script>
+    </body>
+</html>

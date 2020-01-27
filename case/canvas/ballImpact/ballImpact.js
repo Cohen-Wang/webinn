@@ -1,16 +1,9 @@
 var cyber;
 (function (cyber) {
-    function random(m, n) {
-        return Math.random() * (n - m) + m;
-    }
-    function randomRed() {
-        return 'rgb(255, ' + ~~random(0, 255) + ',' + ~~random(0, 255) + ')';
-    }
-    function randomGreen() {
-        return 'rgb(' + ~~random(0, 255) + ', 255, ' + ~~random(0, 255) + ')';
-    }
-    function randomBlue() {
-        return 'rgb(' + ~~random(0, 255) + ', ' + ~~random(0, 255) + ', 255)';
+    function _random(min, max) {
+        if (min === void 0) { min = 0; }
+        if (max === void 0) { max = 1; }
+        return Math.random() * (max - min) + min;
     }
     var Ball = /** @class */ (function () {
         function Ball(options) {
@@ -21,7 +14,7 @@ var cyber;
             this.speed = options.speed || 10;
             this.angle = options.angle || 0;
         }
-        Ball.prototype.draw = function (ctx) {
+        Ball.prototype.render = function (ctx) {
             ctx.save();
             ctx.fillStyle = this.color;
             ctx.beginPath();
@@ -78,14 +71,14 @@ var cyber;
         }
         BallImpact.prototype.init = function () {
             while (this.balls.length < this.num) {
-                var radius = random(this.radius - 3, this.radius + 3);
+                var radius = _random(this.radius - 3, this.radius + 3);
                 var options = {
                     radius: radius,
-                    x: random(radius, this.width - radius),
-                    y: random(radius, this.height - radius),
-                    color: randomGreen(),
-                    angle: random(0, 180),
-                    speed: random(this.speed - 1, this.speed + 1),
+                    x: _random(radius, this.width - radius),
+                    y: _random(radius, this.height - radius),
+                    color: '#ff0',
+                    angle: _random(0, 180),
+                    speed: _random(this.speed - 1, this.speed + 1)
                 };
                 // 判断（如果生成的时候，就重合，那么需要重来）
                 var flag = true;
@@ -135,7 +128,7 @@ var cyber;
         BallImpact.prototype.render = function (ctx) {
             this.balls.forEach(function (item) {
                 console.log(item.x, item.y);
-                item.draw(ctx);
+                item.render(ctx);
             });
         };
         return BallImpact;

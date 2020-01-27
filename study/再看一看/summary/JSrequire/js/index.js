@@ -195,7 +195,7 @@ function (Point, Line, Rect, Arc, Utils) {
     function saveCanvas () {
         let reg = canvas.toDataURL("image/png");//跳转页面手动保存
         console.log(reg);
-        //let reg=canvas.toDataURL("image/png").replace("image/png","image/octet-stream");// 直接自动保存下载
+        //let reg=canvas.toDataURL("images/png").replace("images/png","images/octet-stream");// 直接自动保存下载
         location.href = reg ;
     }
     

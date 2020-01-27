@@ -1,5 +1,5 @@
 import CanvasFactory from "../Sence/CanvasFactory"
-import { PRIZE_LEVEL, NAME_LIST, RESOURCE_CONFIG } from "../../../config"
+import { LOTTERY_SHOW_CONFIG } from "../../../config"
 import {RayLogo} from "../Sence/RayLogo";
 
 let Stats = require("Stats-js");
@@ -83,10 +83,16 @@ export class SceneController {
         this.allowOvertime = options.allowOvertime || 60 * 1000;
         this.lastOperationTime = null;
 
+
+
         let _this = this;
+
+
         let loadScene = new this.LoadScene({
             can: this.can,
         });
+
+
         this.loadAllResource(options.resConfig, function (loadedNumber: number) {
             /** 加载动画 **/
             loadScene.show(loadedNumber, options.resConfig.length);
@@ -108,15 +114,29 @@ export class SceneController {
             // 初始化 抽奖方式
             _this.lotteryShowInstance = new _this.LotteryShow({
                 can: _this.can,
-                historiesX: 200,
-                historiesY: 200,
-                prizeLevel: PRIZE_LEVEL,
-                nameList: NAME_LIST,
                 treasureBox: {
                     oImg: resources.treasureBox,
+                    width: LOTTERY_SHOW_CONFIG.treasureBox.width,
+                    height: LOTTERY_SHOW_CONFIG.treasureBox.height,
+                    duration: LOTTERY_SHOW_CONFIG.treasureBox.duration,
                 },
                 boom: {
                     oImg: resources.boom,
+                },
+                prizeLevel: LOTTERY_SHOW_CONFIG.prizeLevel,
+                nameList: LOTTERY_SHOW_CONFIG.nameList,
+                history: LOTTERY_SHOW_CONFIG.history,
+                text: LOTTERY_SHOW_CONFIG.text,
+                levelText: LOTTERY_SHOW_CONFIG.levelText,
+                nameBlink: LOTTERY_SHOW_CONFIG.nameBlink,
+                winnerList: {
+                    backgroundImg: resources.name_list_bg,
+                    titleImg: resources.name_list_title,
+                    levelImg: resources.prize_level_bg,
+                    x: _this.can.width - resources.name_list_bg.naturalWidth,
+                    y: 0,
+                    width: resources.name_list_bg.naturalWidth,
+                    height: _this.can.height,
                 }
             });
 
@@ -128,7 +148,6 @@ export class SceneController {
                 if (!flag) {
                     console.log('过场动画结束', 'timer:' + _this.timer);
                     // 通知观察者
-                    _this.can.style.cursor = 'pointer';
                     _this.bindEvent();
                     //
                     (document.getElementById('cut-scene') as any).play();
@@ -162,21 +181,20 @@ export class SceneController {
     // 添加事件
     public bindEvent (): void {
         this.event = this.startShow.bind(this);
-        this.can.addEventListener('click', this.startShow.bind(this));
+        this.can.addEventListener('click', this.event);
     }
 
     // 移除事件
     public removeEvent (): void {
-        this.can.removeEventListener('click', this.startShow.bind(this));
+        this.can.removeEventListener('click', this.event);
         this.event = null;
     }
 
     // 管理抽奖动画界面
     public startShow (): void {
         (document.getElementById('cut-scene') as any).pause();
+        (document.getElementById('cut-scene') as any).currentTime = 0;
         console.log('点击了点击事件');
-
-        this.can.style.cursor = 'pointer';
 
         this.lastOperationTime = new Date();
 
@@ -192,7 +210,6 @@ export class SceneController {
         // 绑定点击事件 - 生成抽奖的人名
         this.lotteryShowInstance.bindEvent();
 
-
         (document.getElementById('new-year') as any).play();
 
         let _this = this;
@@ -204,8 +221,6 @@ export class SceneController {
             _this.lotterySceneInstance.render();
             _this.lotterySceneInstance.update();
             // 抽奖的展示
-            _this.lotteryShowInstance.renderHistories(_this.ctx);
-            _this.lotteryShowInstance.renderLevelText(_this.ctx);
             _this.lotteryShowInstance.render(_this.ctx);
             _this.lotteryShowInstance.update();
             // 测试关闭
@@ -230,10 +245,12 @@ export class SceneController {
                 _this.cutSceneInstance.render();
                 //
                 (document.getElementById('new-year') as any).pause();
+                (document.getElementById('new-year') as any).currentTime = 0;
                 (document.getElementById('cut-scene') as any).play();
                 // 通知观察者
                 _this.bindEvent();
                 // 取消抽奖的点击事件
+                _this.lotteryShowInstance.animationStep = 0;
                 _this.lotteryShowInstance.removeEvent();
                 // 关闭检查
                 window.clearInterval(checkOperationTimer);
@@ -248,5 +265,4 @@ export class SceneController {
     public changeLastOperationTime (): void {
         this.lastOperationTime = new Date();
     }
-
 }

@@ -1,19 +1,8 @@
 namespace cyber {
 
-    function random (m, n) {
-        return Math.random() * (n - m) + m;
+    function _random (min: number = 0, max: number = 1) {
+        return Math.random() * (max - min) + min;
     }
-
-    function randomRed () {
-        return 'rgb(255, ' + ~~random(0, 255) + ',' + ~~random(0, 255) + ')';
-    }
-    function randomGreen () {
-        return 'rgb(' + ~~random(0, 255) + ', 255, ' + ~~random(0, 255) + ')';
-    }
-    function randomBlue () {
-        return 'rgb(' + ~~random(0, 255) + ', ' + ~~random(0, 255) + ', 255)';
-    }
-
 
 
     class Ball {
@@ -22,7 +11,8 @@ namespace cyber {
         public radius: number;
         public color: string;
         public speed: number;
-        public angle: string;// TODO 这个属性该写在哪里？
+        public angle: string;
+
         constructor (options: any) {
             this.x = options.x || 0;
             this.y = options.y || 0;
@@ -31,7 +21,8 @@ namespace cyber {
             this.speed = options.speed || 10;
             this.angle = options.angle || 0;
         }
-        public draw (ctx) {
+
+        public render (ctx:any): void {
             ctx.save();
             ctx.fillStyle = this.color;
             ctx.beginPath();
@@ -83,6 +74,7 @@ namespace cyber {
         public num: number;
         public speed: number;
         public balls: any = [];
+
         constructor (options) {
             this.width = options.width || 100;
             this.height = options.height || 100;
@@ -92,16 +84,17 @@ namespace cyber {
 
             this.init();
         }
+
         public init (): void {
             while (this.balls.length < this.num) {
-                let radius = random(this.radius - 3, this.radius + 3) ;
+                let radius = _random(this.radius - 3, this.radius + 3) ;
                 let options = {
                     radius: radius,
-                    x: random(radius, this.width - radius),
-                    y: random(radius, this.height - radius),
-                    color: randomGreen(),
-                    angle: random(0, 180),
-                    speed: random(this.speed - 1, this.speed + 1),
+                    x: _random(radius, this.width - radius),
+                    y: _random(radius, this.height - radius),
+                    color: '#ff0',
+                    angle: _random(0, 180),
+                    speed: _random(this.speed - 1, this.speed + 1),
                 };
 
                 // 判断（如果生成的时候，就重合，那么需要重来）
@@ -120,6 +113,7 @@ namespace cyber {
                 }
             }
         }
+
         public update (): void {
             for (let i = 0; i < this.balls.length; i++) {
                 // 判断撞壁
@@ -150,10 +144,11 @@ namespace cyber {
                 this.balls[i].flag = false;
             }
         }
+
         public render (ctx): void {
             this.balls.forEach(function (item) {
                 console.log(item.x, item.y);
-                item.draw(ctx);
+                item.render(ctx);
             });
         }
     }

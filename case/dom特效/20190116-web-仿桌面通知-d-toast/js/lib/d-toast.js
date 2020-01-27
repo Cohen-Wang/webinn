@@ -6,7 +6,7 @@
 
 
 function _d_toast_init_css() {
-    let d_toast_text_node = ".zoom-image{" +
+    let d_toast_text_node = ".zoom-images{" +
         "width:100%;" +
         "height:0;" +
         "padding-bottom: 100%;" +
@@ -151,7 +151,7 @@ class dToast {
         _div_li_3.innerHTML = date + "<span style='font-size:16px;font-weight:bold;'> · </span>" + document.domain;
 
         if (config.icon !== undefined && config.icon != null && config.icon !== "") {
-            _div_img.classList.add("zoom-image");
+            _div_img.classList.add("zoom-images");
             _div_img.style.backgroundImage = "url(" + config.icon + ")";_div_li_1.style.maxWidth = "260px";
             _div_li_2.style.maxWidth = "260px";_div_li_3.style.maxWidth = "260px";
         } else {

@@ -5,7 +5,7 @@
 	
 	//图片文件
 //	$file = $_FILES["userImage"];
-//	$type_array = array("image/jpg","image/jpeg","image/png","image/pjpeg","image/gif");
+//	$type_array = array("images/jpg","images/jpeg","images/png","images/pjpeg","images/gif");
 //	$maxsize = 200000;
 //	
 //	$file_name1 = $file["name"];
