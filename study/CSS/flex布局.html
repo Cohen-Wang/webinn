@@ -1,10 +1,488 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>flex</title>
+        <style>
+            * {margin: 0;padding: 0;}
+            html, body {height: 100%;}
+            /* 布局 */
+            .container {
+                width: 100%; height: 100%; background-color: #ddd; padding: 10px;box-sizing: border-box;
+                display: flex;
+                justify-content: space-evenly;
+            }
+            .container .col {width: 18%; height: 100%; background-color: #ccc;}
+            .title {font: bold 14px/1 "宋体";}
+            .box {width: 100%;height: 120px;background-color: #999;margin-bottom: 10px;}
+            .pox {width: 20%;height: 30%;}
+            .red {background-color: #c9302c;}
+            .yellow {background-color: #ffff00;}
+            .purple {background-color: purple;}
+            .pink {background-color: pink;}
+            .green {background-color: #00ff00;}
+            .blue {background-color: #0088CC;}
+
+            /* 学习重点 */
+            .flex{display: flex;}
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+
+            <div class="col">
+                <p class="title">默认</p>
+                <div class="box flex">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="justify-content: flex-start"</p>
+                <div class="box flex" style="justify-content: flex-start">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="justify-content: flex-end"</p>
+                <div class="box flex" style="justify-content: flex-end">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="justify-content: center"</p>
+                <div class="box flex" style="justify-content: center">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="justify-content: space-between"</p>
+                <div class="box flex" style="justify-content: space-between">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="justify-content: space-around"</p>
+                <div class="box flex" style="justify-content: space-around">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="justify-content: space-evenly"</p>
+                <div class="box flex" style="justify-content: space-evenly">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+            </div>
+
+            <div class="col">
+                <p class="title">默认</p>
+                <div class="box flex">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="align-items: flex-start"</p>
+                <div class="box flex" style="align-items: flex-start">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="align-items: flex-end"</p>
+                <div class="box flex" style="align-items: flex-end">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="align-items: center"</p>
+                <div class="box flex" style="align-items: center">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="align-items: stretch" 不能加高度</p>
+                <div class="box flex" style="align-items: stretch">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="align-items: baseline"</p>
+                <div class="box flex" style="align-items: baseline">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+            </div>
+
+            <div class="col">
+                <p class="title">默认</p>
+                <div class="box flex">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="flex-direction: row"</p>
+                <div class="box flex" style="flex-direction: row">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="flex-direction: row-reverse"</p>
+                <div class="box flex" style="flex-direction: row-reverse">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="flex-direction: column"</p>
+                <div class="box flex" style="flex-direction: column">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="flex-direction: column-reverse"</p>
+                <div class="box flex" style="flex-direction: column-reverse">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+            </div>
+
+            <div class="col">
+                <p class="title">默认</p>
+                <div class="box flex">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="flex-wrap: nowrap"</p>
+                <div class="box flex" style="flex-wrap: nowrap">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="flex-wrap: wrap"</p>
+                <div class="box flex" style="flex-wrap: wrap">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="flex-wrap: wrap-reverse"</p>
+                <div class="box flex" style="flex-wrap: wrap-reverse">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+            </div>
+            <div class="col">
+                <p class="title">默认</p>
+                <div class="box flex">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="flex-wrap: wrap;align-content: flex-start"</p>
+                <div class="box flex" style="flex-wrap: wrap;align-content: flex-start">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="align-content: flex-end"</p>
+                <div class="box flex" style="flex-wrap: wrap;align-content: flex-end">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="align-content: center"</p>
+                <div class="box flex" style="flex-wrap: wrap;align-content: center">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="align-content: space-between"</p>
+                <div class="box flex" style="flex-wrap: wrap;align-content: space-between">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="align-content: space-around"</p>
+                <div class="box flex" style="flex-wrap: wrap;align-content: space-around">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="align-content: space-evenly"</p>
+                <div class="box flex" style="flex-wrap: wrap;align-content: space-evenly">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        <hr>
+        <hr>
+        <hr>1
+        <hr>
+        <hr>
+
+
+
+        <div class="container">
+            <div class="col">
+                <p class="title">默认</p>
+                <div class="box flex">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="justify-content: flex-start"</p>
+                <div class="box flex" style="justify-content: flex-start">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="justify-content: flex-end"</p>
+                <div class="box flex" style="justify-content: flex-end">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="justify-content: center"</p>
+                <div class="box flex" style="justify-content: center">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="justify-content: space-between"</p>
+                <div class="box flex" style="justify-content: space-between">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="justify-content: space-around"</p>
+                <div class="box flex" style="justify-content: space-around">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="justify-content: space-evenly"</p>
+                <div class="box flex" style="justify-content: space-evenly">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+            </div>
+
+            <div class="col">
+                <p class="title">默认</p>
+                <div class="box flex">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="align-items: flex-start"</p>
+                <div class="box flex" style="align-items: flex-start">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="align-items: flex-end"</p>
+                <div class="box flex" style="align-items: flex-end">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="align-items: center"</p>
+                <div class="box flex" style="align-items: center">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="align-items: stretch" 不能加高度</p>
+                <div class="box flex" style="align-items: stretch">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="align-items: baseline"</p>
+                <div class="box flex" style="align-items: baseline">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+            </div>
+
+            <div class="col">
+                <p class="title">默认</p>
+                <div class="box flex">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="flex-direction: row"</p>
+                <div class="box flex" style="flex-direction: row">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="flex-direction: row-reverse"</p>
+                <div class="box flex" style="flex-direction: row-reverse">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="flex-direction: column"</p>
+                <div class="box flex" style="flex-direction: column">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+                <p class="title">style="flex-direction: column-reverse"</p>
+                <div class="box flex" style="flex-direction: column-reverse">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                </div>
+            </div>
+
+            <div class="col">
+                <p class="title">默认</p>
+                <div class="box flex">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="flex-wrap: nowrap"</p>
+                <div class="box flex" style="flex-wrap: nowrap">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="flex-wrap: wrap"</p>
+                <div class="box flex" style="flex-wrap: wrap">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="flex-wrap: wrap-reverse"</p>
+                <div class="box flex" style="flex-wrap: wrap-reverse">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+            </div>
+            <div class="col">
+                <p class="title">默认</p>
+                <div class="box flex">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="flex-wrap: wrap;align-content: flex-start"</p>
+                <div class="box flex" style="flex-wrap: wrap;align-content: flex-start">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="align-content: flex-end"</p>
+                <div class="box flex" style="flex-wrap: wrap;align-content: flex-end">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="align-content: center"</p>
+                <div class="box flex" style="flex-wrap: wrap;align-content: center">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="align-content: space-between"</p>
+                <div class="box flex" style="flex-wrap: wrap;align-content: space-between">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="align-content: space-around"</p>
+                <div class="box flex" style="flex-wrap: wrap;align-content: space-around">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+                <p class="title">style="align-content: space-evenly"</p>
+                <div class="box flex" style="flex-wrap: wrap;align-content: space-evenly">
+                    <div class="pox red">1</div>
+                    <div class="pox green">2</div>
+                    <div class="pox blue">3</div>
+                    <div class="pox yellow">4</div>
+                    <div class="pox purple">5</div>
+                    <div class="pox pink">6</div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
